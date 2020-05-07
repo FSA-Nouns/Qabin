@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
+const fileUpload = require('express-fileupload')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
@@ -62,6 +63,8 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+
+  app.use(fileUpload())
 
   // auth and api routes
   app.use('/auth', require('./auth'))
