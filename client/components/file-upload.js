@@ -15,16 +15,14 @@ class FileUpload extends React.Component {
     ev.preventDefault()
 
     const data = new FormData()
-    data.append('file', this.uploadInput.files[0])
+    data.append('files', this.uploadInput.files)
     data.append('filename', this.fileName.value)
 
-    fetch('http://localhost:8000/upload', {
+    fetch('http://localhost:8080/api/upload/', {
       method: 'POST',
       body: data
     }).then(response => {
-      response.json().then(body => {
-        this.setState({imageURL: `http://localhost:8000/${body.file}`})
-      })
+      response.json()
     })
   }
 
@@ -37,6 +35,7 @@ class FileUpload extends React.Component {
               this.uploadInput = ref
             }}
             type="file"
+            multiple
           />
         </div>
         <div>
@@ -52,7 +51,6 @@ class FileUpload extends React.Component {
         <div>
           <button>Upload</button>
         </div>
-        <img src={this.state.imageURL} alt="img" />
       </form>
     )
   }
