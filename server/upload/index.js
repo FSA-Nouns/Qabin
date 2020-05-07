@@ -7,7 +7,8 @@ router.use(fileUpload())
 
 router.post('/', (req, res, next) => {
   try {
-    console.log('THIS IS REQ.FILES', req.files)
+    console.log('REQ', req)
+    console.log('THIS IS REQ.DATA', req.data)
     console.log('THIS IS REQ.BODY', req.body)
     if (req.body.files === null) {
       return res.status(400).json({msg: 'No file uploaded'})
