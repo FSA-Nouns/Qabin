@@ -1,18 +1,20 @@
+import {connect} from 'react-redux'
 import React from 'react'
 import axios from 'axios'
+import {addFiles, parseFiles} from '../store/upload'
 
 class FileUpload extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      imageURL: ''
+      uploadedFiles: []
     }
 
     this.handleUploadImage = this.handleUploadImage.bind(this)
   }
 
-  async handleUploadImage(ev) {
+  handleUploadImage(ev) {
     ev.preventDefault()
 
     const data = new FormData()
@@ -22,20 +24,11 @@ class FileUpload extends React.Component {
     }
     // data.append('filename', this.fileName.value)
 
-    try {
-      const res = await axios.post('/api/upload', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
+    this.props.addFiles(data)
   }
 
   render() {
-    return (
+    return !this.props.files.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>
           <input
@@ -57,11 +50,35 @@ class FileUpload extends React.Component {
         </div>
         <br />
         <div>
-          <button>Upload</button>
+          <button type="submit">Upload</button>
         </div>
       </form>
+    ) : (
+      <div>
+        <h2>Files uploaded successfully</h2>
+        <button
+          type="button"
+          onClick={() =>
+            this.props.parseFiles(this.props.files, this.props.user)
+          }
+        >
+          Submit
+        </button>
+      </div>
     )
   }
 }
 
-export default FileUpload
+const mapStateToProps = state => ({
+  files: state.files,
+  user: state.user
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addFiles: files => dispatch(addFiles(files)),
+    parseFiles: (files, user) => dispatch(parseFiles(files, user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FileUpload)
