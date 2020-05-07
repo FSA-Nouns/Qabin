@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
       file.mv(`${__dirname}/uploads/${file.name}`)
       data.push({
         name: file.name,
-        path: `/server/upload/uploads/${file.name}` //absolute path to file
+        path: `server/upload/uploads/${file.name}` //absolute path to file
       })
     })
     res.status(201).json({data: data})
