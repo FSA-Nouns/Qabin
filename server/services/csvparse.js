@@ -5,7 +5,7 @@ const fastcsv = require('fast-csv')
 //table name will have our unique indentifier for user tables
 //pay attention to filepath, is it relational to where this is being called, or where this file is
 function parseCSVtoDB(table_name, filepath) {
-  let stream = fs.createReadStream(filepath + '.csv')
+  let stream = fs.createReadStream(filepath)
   let csvData = []
   let csvStream = fastcsv
     .parse()
