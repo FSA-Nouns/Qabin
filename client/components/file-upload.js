@@ -12,32 +12,26 @@ class FileUpload extends React.Component {
     this.handleUploadImage = this.handleUploadImage.bind(this)
   }
 
-  handleUploadImage(ev) {
+  async handleUploadImage(ev) {
     ev.preventDefault()
 
     const data = new FormData()
     for (var i = 0; i < this.uploadInput.files.length; i++) {
       let file = this.uploadInput.files[i]
-      data.append('files[]', file, file.name)
+      data.append('files[' + i + ']', file, file.name)
     }
-    //data.append('filename', this.fileName.value)
-    const sent = data.getAll('files[]')
-    console.log('DATA.GETALL', data.getAll('files[]'))
+    // data.append('filename', this.fileName.value)
 
-    axios({
-      method: 'post',
-      url: '/api/upload',
-      body: sent
-      // headers: {'Content-Type': 'multipart/form-data'},
-    })
-      .then(function(response) {
-        //handle success
-        console.log(response)
+    try {
+      const res = await axios.post('/api/upload', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
-      .catch(function(response) {
-        //handle error
-        console.log(response)
-      })
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
@@ -53,13 +47,13 @@ class FileUpload extends React.Component {
           />
         </div>
         <div>
-          <input
+          {/* <input
             ref={ref => {
               this.fileName = ref
             }}
             type="text"
             placeholder="Enter the desired name of file"
-          />
+          /> */}
         </div>
         <br />
         <div>
