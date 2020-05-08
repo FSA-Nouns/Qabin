@@ -15,7 +15,6 @@ function parseCSVtoDB(table_name, filepath) {
     .on('end', function() {
       // remove the first line: header
       const header = csvData.shift()
-      console.log(header)
       // create a new connection to the database
       const pool = new Pool({
         host: 'localhost',
@@ -38,7 +37,6 @@ function parseCSVtoDB(table_name, filepath) {
           return string
         }, `CREATE TABLE ${table_name} (`) + ')'
 
-      console.log(query1, 'qery1')
       // const query1 =
       //   'CREATE TABLE account (id serial PRIMARY KEY, first_name VARCHAR (50) NOT NULL, last_name VARCHAR (50) NOT NULL, email VARCHAR (355) UNIQUE NOT NULL, gender VARCHAR (50) NOT NULL, ip_address VARCHAR (50))'
 
@@ -59,8 +57,6 @@ function parseCSVtoDB(table_name, filepath) {
 
         return string
       }, `INSERT INTO ${table_name} (`)
-
-      console.log(query, 'query')
 
       pool.connect((err, client, done) => {
         if (err) throw err

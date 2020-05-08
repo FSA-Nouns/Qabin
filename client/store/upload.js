@@ -1,8 +1,12 @@
 import axios from 'axios'
 
-const initialState = []
+const initialState = {
+  files: [],
+  tables: []
+}
 
 const SET_FILES = 'SET_FILES'
+const SET_TABLES = 'SET_TABLES'
 
 //ACTION CREATORS
 const setFiles = files => ({
@@ -10,14 +14,21 @@ const setFiles = files => ({
   files
 })
 
+const setTables = tables => ({
+  type: SET_TABLES,
+  tables
+})
+
 export const parseFiles = (files, user) => {
   return async dispatch => {
     try {
-      let filePaths = files.map(file => file.path)
+      let filePaths = files.files.map(file => file.path)
 
-      const res = axios.post(`/api/parse/${user.id}`, {filepaths: filePaths})
+      const res = await axios.post(`/api/parse/${user.id}`, {
+        filepaths: filePaths
+      })
 
-      console.log('parsed', res.data)
+      dispatch(setTables(res.data.nameArr))
     } catch (error) {
       console.log(error)
     }
@@ -44,7 +55,9 @@ export const addFiles = files => {
 const fileReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_FILES:
-      return action.files
+      return {...state, files: action.files}
+    case SET_TABLES:
+      return {...state, tables: action.tables}
     default:
       return state
   }

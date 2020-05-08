@@ -2,6 +2,7 @@ import {connect} from 'react-redux'
 import React from 'react'
 import axios from 'axios'
 import {addFiles, parseFiles} from '../store/upload'
+import history from '../history'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class FileUpload extends React.Component {
   }
 
   render() {
-    return !this.props.files.length ? (
+    return !this.props.files.files.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>
           <input
@@ -77,7 +78,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     addFiles: files => dispatch(addFiles(files)),
-    parseFiles: (files, user) => dispatch(parseFiles(files, user))
+    parseFiles: async (files, user) => {
+      await dispatch(parseFiles(files, user))
+      history.push('/editData')
+    }
   }
 }
 
