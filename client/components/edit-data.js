@@ -9,13 +9,24 @@ export class EditData extends Component {
   //     super()
   // }
   async componentDidMount() {
-    console.log('TABLES IN COMPONENT', this.props.tableNames)
+    console.log(
+      'this.props.tableName in componentdidMount for EditData then sent to gotTables thunk',
+      this.props.tableNames
+    )
     await this.props.gotTables(this.props.user.id, this.props.tableNames)
-    console.log('TABLE DATA IN COMPONENT', this.props.tableData)
+    console.log(
+      'this.props.tableData in componentdidMount for EditData after running gotTables thunk',
+      this.props.tableData
+    )
   }
 
   render() {
-    console.log(this.props)
+    console.log('this.props in render of editData', this.props)
+    let name = this.props.tableNames[0]
+    console.log(
+      'this.props.tableData.name in render of editData',
+      this.props.tableData.name
+    )
     return (
       <div>
         <div className="big-container">
@@ -23,9 +34,9 @@ export class EditData extends Component {
         </div>
         <div className="table-extract-container">
           {this.props.tableData.length ? (
-            this.props.tableData.map((element, index) => (
+            this.props.tableData.map((table, index) => (
               <TableExtract
-                tableData={element}
+                tableData={table}
                 tableName={this.props.tableNames[index]}
                 key={index}
               />
