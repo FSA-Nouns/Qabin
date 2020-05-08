@@ -13,15 +13,15 @@ const pool = new Pool({
   idleTimeoutMillis: 0
 })
 //queries/query/1
-router.get('/query/', async (req, res, next) => {
+router.put('/query', async (req, res, next) => {
   try {
     const allTables = []
-    const tables = Object.keys(req.body.userTables)
+    const tables = Object.keys(req.body.queryBundle)
 
     for (let i = 0; i < tables.length; i++) {
       let table = tables[i]
 
-      let query = queryParser(table, req.body.userTables[table])
+      let query = queryParser(table, req.body.queryBundle[table])
 
       let {rows} = await pool.query(query)
 

@@ -25,16 +25,11 @@ class FileUpload extends React.Component {
       data.append('files[' + i + ']', file, file.name)
     }
     // data.append('filename', this.fileName.value)
-    console.log(
-      'data passed in add files thunk in handleUploadImage method',
-      data
-    )
+
     this.props.addFiles(data)
   }
 
   render() {
-    console.log('this.uploadInput in file-upload render', this.uploadInput)
-    console.log('this.props in file-upload render', this.props)
     return !this.props.files.files.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>

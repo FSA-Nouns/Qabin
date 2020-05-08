@@ -1,11 +1,6 @@
 import React from 'react'
 
 export default function TableExtract(props) {
-  console.log(props.tableData, 'this.tableData as received in TableExtract')
-  // console.log(props.tableData.rows, 'this.tableData.rows as received in TableExtract')
-  console.log(props.tableName, 'this.tableNames as received in TableExtract')
-  // const {data} = props.tableData
-  // console.log(data, 'DATAAAAAAAAAA')
   return (
     <div>
       <table className="table-Extract">

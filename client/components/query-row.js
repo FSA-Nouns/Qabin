@@ -8,7 +8,7 @@ import {
 
 let options = []
 
-export class QueryRow extends Component {
+class QueryRow extends Component {
   constructor() {
     super()
     this.state = {
@@ -22,8 +22,8 @@ export class QueryRow extends Component {
     event.preventDefault()
     let filterArray = [
       this.props.field,
-      event.operator.value,
-      event.target.value
+      event.target.operator.value,
+      event.target.condition.value
     ]
     this.props.addFilterElement(this.props.tableName, filterArray)
   }
@@ -45,7 +45,7 @@ export class QueryRow extends Component {
           <input
             name={this.props.field}
             type="checkbox"
-            onChange={toggleField}
+            onChange={this.toggleField}
           />
         </td>
         <td>
