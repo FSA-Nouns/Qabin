@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import files from './upload'
+import tableData from './editData'
 
-const reducer = combineReducers({user, files})
+const reducer = combineReducers({user, files, tableData})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

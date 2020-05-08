@@ -2,6 +2,8 @@ import {connect} from 'react-redux'
 import React from 'react'
 import axios from 'axios'
 import {addFiles, parseFiles} from '../store/upload'
+import history from '../history'
+import {Link} from 'react-router-dom'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -23,12 +25,17 @@ class FileUpload extends React.Component {
       data.append('files[' + i + ']', file, file.name)
     }
     // data.append('filename', this.fileName.value)
-
+    console.log(
+      'data passed in add files thunk in handleUploadImage method',
+      data
+    )
     this.props.addFiles(data)
   }
 
   render() {
-    return !this.props.files.length ? (
+    console.log('this.uploadInput in file-upload render', this.uploadInput)
+    console.log('this.props in file-upload render', this.props)
+    return !this.props.files.files.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>
           <input
@@ -64,6 +71,7 @@ class FileUpload extends React.Component {
         >
           Submit
         </button>
+        <Link to="/editData">To Edit Data </Link>
       </div>
     )
   }
@@ -77,7 +85,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     addFiles: files => dispatch(addFiles(files)),
-    parseFiles: (files, user) => dispatch(parseFiles(files, user))
+    parseFiles: (files, user) => {
+      dispatch(parseFiles(files, user))
+      // setTimeout(history.push('/editData'),10000)
+    }
   }
 }
 
