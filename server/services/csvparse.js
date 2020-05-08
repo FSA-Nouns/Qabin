@@ -12,7 +12,7 @@ function parseCSVtoDB(table_name, filepath) {
     .on('data', function(data) {
       csvData.push(data)
     })
-    .on('end', function() {
+    .on('end', async function() {
       // remove the first line: header
       const header = csvData.shift()
       // create a new connection to the database
@@ -58,7 +58,7 @@ function parseCSVtoDB(table_name, filepath) {
         return string
       }, `INSERT INTO ${table_name} (`)
 
-      pool.connect((err, client, done) => {
+      await pool.connect((err, client, done) => {
         if (err) throw err
         try {
           client.query(query1, (err1, res) => {

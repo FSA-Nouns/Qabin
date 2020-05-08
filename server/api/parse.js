@@ -12,11 +12,11 @@ module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
 
-router.post('/:userId', (req, res, next) => {
+router.post('/:userId', async (req, res, next) => {
   try {
     const getFile = req.body.filepaths
     let nameArr = []
-    getFile.forEach(async file => {
+    await getFile.forEach(async file => {
       // console.log(file, 'file')
       let fileName = file.split('/') // to get the file name for the table name
       fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
