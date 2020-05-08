@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
+import AllTableView from './AllTableView'
 
 export class EditData extends Component {
   // constructor() {
@@ -30,7 +31,22 @@ export class EditData extends Component {
     return (
       <div>
         <div className="big-container">
-          <div className="border" />
+          <div>
+            {this.props.tableData.length ? (
+              this.props.tableData.map((table, index) => (
+                <div className="single-table" key={index}>
+                  <AllTableView
+                    tableData={table}
+                    tableName={this.props.tableNames[index]}
+                    key={index}
+                  />
+                </div>
+              ))
+            ) : (
+              <p>No tables to display</p>
+            )}
+            {/* <TableExtract tableData={this.props.tableData[0]} /> */}
+          </div>
         </div>
         <div className="table-extract-container">
           {this.props.tableData.length ? (

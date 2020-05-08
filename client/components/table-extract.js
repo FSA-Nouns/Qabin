@@ -31,7 +31,6 @@ export default function TableExtract(props) {
           })}
         </tbody>
       </table>
-      TESTING
     </div>
   )
 }
