@@ -8,14 +8,11 @@ export class EditData extends Component {
   // constructor() {
   //     super()
   // }
-  async componentDidMount() {
-    console.log('TABLES IN COMPONENT', this.props.tableNames)
-    await this.props.gotTables(this.props.user.id, this.props.tableNames)
-    console.log('TABLE DATA IN COMPONENT', this.props.tableData)
+  componentDidMount() {
+    this.props.gotTables(this.props.user.id, this.props.tableNames)
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className="big-container">
@@ -47,8 +44,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: async (userId, tables) => {
-    await dispatch(gotTables(userId, tables))
+  gotTables: (userId, tables) => {
+    dispatch(gotTables(userId, tables))
   }
 })
 

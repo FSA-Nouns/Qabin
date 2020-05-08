@@ -65,6 +65,17 @@ class FileUpload extends React.Component {
         >
           Submit
         </button>
+        <div>
+          {this.props.tableNames.length && (
+            <button
+              type="button"
+              onClick={() => this.props.history.push('/editData')}
+            >
+              {' '}
+              Continue{' '}
+            </button>
+          )}
+        </div>
       </div>
     )
   }
@@ -72,15 +83,15 @@ class FileUpload extends React.Component {
 
 const mapStateToProps = state => ({
   files: state.files,
-  user: state.user
+  user: state.user,
+  tableNames: state.files.tables
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     addFiles: files => dispatch(addFiles(files)),
-    parseFiles: async (files, user) => {
-      await dispatch(parseFiles(files, user))
-      history.push('/editData')
+    parseFiles: (files, user) => {
+      dispatch(parseFiles(files, user))
     }
   }
 }
