@@ -3,7 +3,25 @@ import {connect} from 'react-redux'
 
 export class QueryRow extends Component {
   render() {
-    return <div />
+    return (
+      <li className="query-row">
+        <input name={this.props.field} type="checkbox" />
+        <span>{this.props.field}</span>
+        <button
+          className="filter-toggle"
+          onClick={e => e.target.focus()}
+          type="button"
+        >
+          Filter
+        </button>
+        <form className="filter-form">
+          <select>
+            <option>{`>`}></option>
+          </select>
+          <input />
+        </form>
+      </li>
+    )
   }
 }
 

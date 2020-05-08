@@ -15,6 +15,9 @@ export class EditData extends Component {
   render() {
     return (
       <div>
+        <button onClick={() => this.props.history.push('/queryBuilder')}>
+          Continue
+        </button>
         <div className="big-container">
           <div className="border" />
         </div>

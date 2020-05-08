@@ -19,3 +19,12 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.filter-form {
+  display: none;
+}
+
+.query-row:focus-within > .filter-form {
+  display: inline;
+  position: absolute;
+}
