@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
-import AllTableView from './AllTableView'
+import SingleTable from './single-table'
 
 export class EditData extends Component {
   // constructor() {
@@ -23,7 +23,6 @@ export class EditData extends Component {
 
   render() {
     console.log('this.props in render of editData', this.props)
-    let name = this.props.tableNames[0]
     console.log(
       'this.props.tableData.name in render of editData',
       this.props.tableData.name
@@ -35,7 +34,7 @@ export class EditData extends Component {
             {this.props.tableData.length ? (
               this.props.tableData.map((table, index) => (
                 <div className="single-table" key={index}>
-                  <AllTableView
+                  <SingleTable
                     tableData={table}
                     tableName={this.props.tableNames[index]}
                     key={index}
@@ -45,7 +44,6 @@ export class EditData extends Component {
             ) : (
               <p>No tables to display</p>
             )}
-            {/* <TableExtract tableData={this.props.tableData[0]} /> */}
           </div>
         </div>
         <div className="table-extract-container">
@@ -60,7 +58,6 @@ export class EditData extends Component {
           ) : (
             <p>No tables to display</p>
           )}
-          {/* <TableExtract tableData={this.props.tableData[0]} /> */}
         </div>
       </div>
     )
