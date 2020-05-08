@@ -41,13 +41,13 @@ class FileUpload extends React.Component {
           />
         </div>
         <div>
-          {/* <input
+          <input
             ref={ref => {
               this.fileName = ref
             }}
             type="text"
             placeholder="Enter the desired name of file"
-          /> */}
+          />
         </div>
         <br />
         <div>
