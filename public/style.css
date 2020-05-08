@@ -24,7 +24,7 @@ form div {
   display: none;
 }
 
-.query-row:focus-within > .filter-form {
+.query-row:focus-within > td > .filter-form {
   display: inline;
   position: absolute;
 }

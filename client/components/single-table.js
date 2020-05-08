@@ -20,7 +20,13 @@ export default function SingleTable(props) {
           {Object.keys(props.tableData[props.tableName].rows[0]).map(
             (element, index) => {
               if (props.location.pathname === '/queryBuilder') {
-                return <QueryRow key={index} field={element} />
+                return (
+                  <QueryRow
+                    tableName={props.tableName}
+                    key={index}
+                    field={element}
+                  />
+                )
               } else {
                 return (
                   <tr key={index}>
