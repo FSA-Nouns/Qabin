@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
 import QueryRow from './query-row'
+import SingleTable from './single-table'
 
 export class QueryData extends Component {
   componentDidMount() {
@@ -14,20 +15,15 @@ export class QueryData extends Component {
     return (
       <div>
         {this.props.tableData.map((table, index) => {
-          let tableHeaders = Object.keys(table[Object.keys(table)[0]][0])
           return (
-            <ul key={table}>
-              <h2>{this.props.tableName}</h2>
-              {tableHeaders.map((header, index) => {
-                return (
-                  <QueryRow
-                    key={index}
-                    tableName={Object.keys(table)[0]}
-                    field={header}
-                  />
-                )
-              })}
-            </ul>
+            <div className="single-table" key={index}>
+              <SingleTable
+                tableData={table}
+                tableName={this.props.tableNames[index]}
+                key={index}
+                location={this.props.location}
+              />
+            </div>
           )
         })}
       </div>

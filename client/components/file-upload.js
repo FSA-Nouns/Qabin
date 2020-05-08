@@ -3,6 +3,7 @@ import React from 'react'
 import axios from 'axios'
 import {addFiles, parseFiles} from '../store/upload'
 import history from '../history'
+import {Link} from 'react-router-dom'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -24,11 +25,16 @@ class FileUpload extends React.Component {
       data.append('files[' + i + ']', file, file.name)
     }
     // data.append('filename', this.fileName.value)
-
+    console.log(
+      'data passed in add files thunk in handleUploadImage method',
+      data
+    )
     this.props.addFiles(data)
   }
 
   render() {
+    console.log('this.uploadInput in file-upload render', this.uploadInput)
+    console.log('this.props in file-upload render', this.props)
     return !this.props.files.files.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>
@@ -65,17 +71,7 @@ class FileUpload extends React.Component {
         >
           Submit
         </button>
-        <div>
-          {this.props.tableNames.length && (
-            <button
-              type="button"
-              onClick={() => this.props.history.push('/editData')}
-            >
-              {' '}
-              Continue{' '}
-            </button>
-          )}
-        </div>
+        <Link to="/editData">To Edit Data </Link>
       </div>
     )
   }

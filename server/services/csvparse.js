@@ -1,6 +1,7 @@
 const fs = require('fs')
 const Pool = require('pg').Pool
 const fastcsv = require('fast-csv')
+// const pool =require('./../api/parse')
 
 //table name will have our unique indentifier for user tables
 //pay attention to filepath, is it relational to where this is being called, or where this file is
@@ -25,7 +26,7 @@ function parseCSVtoDB(table_name, filepath) {
       })
 
       const query1 =
-        header.reduce((string, h, index) => {
+        (await header.reduce((string, h, index) => {
           if (index === 0) {
             string += `${h} serial PRIMARY KEY, `
           } else if (index === header.length - 1) {
@@ -35,14 +36,14 @@ function parseCSVtoDB(table_name, filepath) {
           }
 
           return string
-        }, `CREATE TABLE ${table_name} (`) + ')'
+        }, `CREATE TABLE ${table_name} (`)) + ')'
 
       // const query1 =
       //   'CREATE TABLE account (id serial PRIMARY KEY, first_name VARCHAR (50) NOT NULL, last_name VARCHAR (50) NOT NULL, email VARCHAR (355) UNIQUE NOT NULL, gender VARCHAR (50) NOT NULL, ip_address VARCHAR (50))'
 
       let values = ``
 
-      const query = header.reduce((string, h, index) => {
+      const query = await header.reduce((string, h, index) => {
         if (index === header.length - 1) {
           string += `${h}) VALUES (`
         } else {
@@ -58,10 +59,10 @@ function parseCSVtoDB(table_name, filepath) {
         return string
       }, `INSERT INTO ${table_name} (`)
 
-      await pool.connect((err, client, done) => {
+      await pool.connect(async (err, client, done) => {
         if (err) throw err
         try {
-          client.query(query1, (err1, res) => {
+          client.query(query1, async (err1, res) => {
             if (err1) {
               console.log(err1.stack)
             } else {
@@ -74,7 +75,7 @@ function parseCSVtoDB(table_name, filepath) {
 
         try {
           csvData.forEach(row => {
-            client.query(query, row, (err2, res) => {
+            client.query(query, row, async (err2, res) => {
               if (err2) {
                 console.log(err2.stack)
               } else {
