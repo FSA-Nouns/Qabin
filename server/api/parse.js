@@ -33,9 +33,9 @@ router.post('/:userId', (req, res, next) => {
 router.get('/:tableNames', async (req, res, next) => {
   try {
     const allTables = []
-    console.log('---------REQPARAMS', req.params.tableNames)
+    // console.log('---------REQPARAMS', req.params.tableNames)
     const tables = req.params.tableNames.split(',')
-    console.log('----------TABLES', tables)
+    // console.log('----------TABLES', tables)
     for (let i = 0; i < tables.length; i++) {
       let table = tables[i]
       let query = `SELECT * FROM ${table}`
