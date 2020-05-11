@@ -61,12 +61,8 @@ export const parseFiles = (files, user) => {
 const fileReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_FILE_NAMES:
-      console.log('state in file reducer in SET_FILES', state)
-      console.log('action in file reducer in SET_FILES', action)
       return {...state, fileNames: action.fileNames}
     case SET_TABLE_NAMES:
-      console.log('state in file reducer in SET_TABLES', state)
-      console.log('action in file reducer in SET_TABLES', action)
       return {...state, tableNames: action.tableNames}
     default:
       return state
