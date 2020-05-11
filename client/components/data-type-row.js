@@ -1,15 +1,21 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {addHeaderType} from '../store/editData'
 
 export const DataTypeRow = props => {
   return (
     <tr>
       <td>{props.element}</td>
       <td>
-        <select className="dropdown">
+        <select
+          onChange={e =>
+            props.addHeaderType(props.element, e.target.value, props.tableName)
+          }
+          className="dropdown"
+        >
+          <option value="">Choose Type</option>
           <option value="integer">Integer</option>
-          <option value="float">Float</option>
-          <option value="string">String</option>
+          <option value="double precision">Float</option>
           <option value="text">Text</option>
           <option value="boolean">Boolean</option>
           <option value="date">Date</option>
@@ -21,6 +27,11 @@ export const DataTypeRow = props => {
 
 const mapStateToProps = state => ({})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = dispatch => {
+  return {
+    addHeaderType: (header, type, table) =>
+      dispatch(addHeaderType(header, type, table))
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTypeRow)

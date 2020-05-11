@@ -24,7 +24,13 @@ export default function SingleTable(props) {
                   />
                 )
               } else {
-                return <DataTypeRow key={index} element={element} />
+                return (
+                  <DataTypeRow
+                    tableName={props.tableName}
+                    key={index}
+                    element={element}
+                  />
+                )
               }
             }
           )}

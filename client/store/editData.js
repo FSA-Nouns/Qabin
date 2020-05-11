@@ -3,11 +3,19 @@ import axios from 'axios'
 const initialState = []
 
 const GET_TABLES = 'GET_TABLES'
+const ADDED_HEADER_TYPE = 'ADDED_HEADER_TYPE'
 
 //ACTION CREATORS
 const getTables = tables => ({
   type: GET_TABLES,
   tables
+})
+
+export const addHeaderType = (header, dataType, tableName) => ({
+  type: ADDED_HEADER_TYPE,
+  header,
+  dataType,
+  tableName
 })
 
 //THUNKS
@@ -26,7 +34,19 @@ export const gotTables = (userId, tableNames) => {
 const tableReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TABLES:
-      return action.tables
+      return action.tables.map(table => {
+        let tableName = Object.keys(table)[0]
+        table[tableName].headers = {}
+        return table
+      })
+    case ADDED_HEADER_TYPE:
+      return state.map(table => {
+        if (table.hasOwnProperty(action.tableName)) {
+          table[action.tableName].headers[action.header] = action.dataType
+        }
+
+        return table
+      })
     default:
       return state
   }
