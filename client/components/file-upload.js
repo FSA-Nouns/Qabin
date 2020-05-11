@@ -13,10 +13,10 @@ class FileUpload extends React.Component {
       uploadedFiles: []
     }
 
-    this.handleUploadImage = this.handleUploadImage.bind(this)
+    this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
-  handleUploadImage(ev) {
+  handleUploadFiles(ev) {
     ev.preventDefault()
 
     const data = new FormData()
@@ -31,7 +31,7 @@ class FileUpload extends React.Component {
 
   render() {
     return !this.props.files.fileNames.length ? (
-      <form onSubmit={this.handleUploadImage}>
+      <form onSubmit={this.handleUploadFiles}>
         <div>
           <input
             ref={ref => {
