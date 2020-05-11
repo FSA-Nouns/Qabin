@@ -23,7 +23,7 @@ router.put('/query', async (req, res, next) => {
 
       let query = queryParser(table, req.body.queryBundle[table])
 
-      let {rows} = await pool.query(query)
+      let rows = await pool.query(query)
 
       allTables.push({[table]: rows})
     }

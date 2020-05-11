@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, FileUpload, EditData} from './components'
 import {me} from './store'
 import QueryData from './components/query-data'
+import QueryResult from './components/query-result'
 
 /**
  * COMPONENT
@@ -28,6 +29,7 @@ class Routes extends Component {
             <Route path="/home" component={FileUpload} />
             <Route path="/editData" component={EditData} />
             <Route path="/queryBuilder" component={QueryData} />
+            <Route path="/results" component={QueryResult} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
