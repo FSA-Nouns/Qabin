@@ -6,8 +6,15 @@ import user from './user'
 import files from './upload'
 import tableData from './editData'
 import query from './query'
+import resultQueryReducer from './result'
 
-const reducer = combineReducers({user, files, tableData, queryBundle: query})
+const reducer = combineReducers({
+  user,
+  files,
+  tableData,
+  queryBundle: query,
+  result: resultQueryReducer
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

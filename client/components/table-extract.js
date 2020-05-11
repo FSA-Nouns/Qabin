@@ -3,6 +3,7 @@ import React from 'react'
 export default function TableExtract(props) {
   return (
     <div>
+      <h2>{props.tableName}</h2>
       <table className="table-Extract">
         <thead>
           <tr>

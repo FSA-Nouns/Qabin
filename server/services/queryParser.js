@@ -11,6 +11,7 @@ function queryParser(table, queryObj) {
     }
   })
 
+  console.log(query)
   return query
 }
 
@@ -31,7 +32,7 @@ function parseWhere(table, whereArr) {
     return string
   }, ' ')
 
-  return query
+  return whereArr.length ? query : ''
 }
 
 function parseFields(table, fieldsArr) {
