@@ -2,8 +2,6 @@ function queryParser(table, queryObj) {
   let query = 'SELECT '
 
   Object.keys(queryObj).forEach(parameter => {
-    // let [parameter] = Object.keys(parameterObj)
-    console.log(parameter, 'param')
     if (parameter === 'fields') {
       query += parseFields(table, queryObj[parameter])
     } else if (parameter === 'where') {
