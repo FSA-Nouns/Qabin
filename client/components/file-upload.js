@@ -1,22 +1,15 @@
 import {connect} from 'react-redux'
 import React from 'react'
-import axios from 'axios'
 import {addFiles, parseFiles} from '../store/upload'
-import history from '../history'
 import {Link} from 'react-router-dom'
 
 class FileUpload extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      uploadedFiles: []
-    }
-
-    this.handleUploadImage = this.handleUploadImage.bind(this)
+    this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
-  handleUploadImage(ev) {
+  handleUploadFiles(ev) {
     ev.preventDefault()
 
     const data = new FormData()
@@ -31,7 +24,7 @@ class FileUpload extends React.Component {
 
   render() {
     return !this.props.files.fileNames.length ? (
-      <form onSubmit={this.handleUploadImage}>
+      <form onSubmit={this.handleUploadFiles}>
         <div>
           <input
             ref={ref => {

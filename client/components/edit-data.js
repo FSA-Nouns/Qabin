@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
@@ -14,16 +13,18 @@ export class EditData extends Component {
   }
 
   render() {
-    console.log('this.props', this.props)
     return (
       <div>
-        <button onClick={() => this.props.history.push('/queryBuilder')}>
+        <button
+          type="button"
+          onClick={() => this.props.history.push('/queryBuilder')}
+        >
           Continue
         </button>
-        <div className="big-container">
+        {this.props.tableData.length ? (
           <div>
-            {this.props.tableData.length ? (
-              this.props.tableData.map((table, index) => (
+            <div className="big-container">
+              {this.props.tableData.map((table, index) => (
                 <div className="single-table" key={index}>
                   <SingleTable
                     tableData={table}
@@ -32,25 +33,23 @@ export class EditData extends Component {
                     location={this.props.location}
                   />
                 </div>
-              ))
-            ) : (
-              <p>No tables to display</p>
-            )}
+              ))}
+            </div>
+            <div className="table-extract-container">
+              {this.props.tableData.map((table, index) => (
+                <div className="single-table-extract" key={index}>
+                  <TableExtract
+                    tableData={table}
+                    tableName={this.props.tableNames[index]}
+                    key={index}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="table-extract-container">
-          {this.props.tableData.length ? (
-            this.props.tableData.map((table, index) => (
-              <TableExtract
-                tableData={table}
-                tableName={this.props.tableNames[index]}
-                key={index}
-              />
-            ))
-          ) : (
-            <p>No tables to display</p>
-          )}
-        </div>
+        ) : (
+          <p>No tables to display</p>
+        )}
       </div>
     )
   }

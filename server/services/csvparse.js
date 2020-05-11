@@ -25,7 +25,7 @@ function parseCSVtoDB(table_name, filepath) {
         port: 5432
       })
 
-      const query1 =
+      const createTable =
         (await header.reduce((string, h, index) => {
           if (index === 0) {
             string += `${h} serial PRIMARY KEY, `
@@ -38,12 +38,12 @@ function parseCSVtoDB(table_name, filepath) {
           return string
         }, `CREATE TABLE ${table_name} (`)) + ')'
 
-      // const query1 =
+      // const createTable =
       //   'CREATE TABLE account (id serial PRIMARY KEY, first_name VARCHAR (50) NOT NULL, last_name VARCHAR (50) NOT NULL, email VARCHAR (355) UNIQUE NOT NULL, gender VARCHAR (50) NOT NULL, ip_address VARCHAR (50))'
 
       let values = ``
 
-      const query = await header.reduce((string, h, index) => {
+      const populateTable = await header.reduce((string, h, index) => {
         if (index === header.length - 1) {
           string += `${h}) VALUES (`
         } else {
@@ -62,7 +62,7 @@ function parseCSVtoDB(table_name, filepath) {
       await pool.connect(async (err, client, done) => {
         if (err) throw err
         try {
-          client.query(query1, async (err1, res) => {
+          client.query(createTable, async (err1, res) => {
             if (err1) {
               console.log(err1.stack)
             } else {
@@ -75,7 +75,7 @@ function parseCSVtoDB(table_name, filepath) {
 
         try {
           csvData.forEach(row => {
-            client.query(query, row, async (err2, res) => {
+            client.query(populateTable, row, async (err2, res) => {
               if (err2) {
                 console.log(err2.stack)
               } else {
