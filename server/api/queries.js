@@ -27,8 +27,6 @@ router.put('/query', async (req, res, next) => {
 
       allTables.push({[table]: rows})
     }
-
-    console.log(allTables, 'allltabes')
     res.send(allTables)
   } catch (err) {
     next(err)
@@ -49,8 +47,6 @@ router.get('/query/sample', async (req, res, next) => {
 
       allTables.push({[table]: rows})
     }
-
-    console.log(allTables, 'allltabes')
     res.send(allTables)
   } catch (err) {
     next(err)

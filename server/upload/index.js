@@ -7,10 +7,6 @@ router.post('/', (req, res, next) => {
     if (req.files === null) {
       return res.status(400).json({msg: 'No file uploaded'})
     }
-    console.log(
-      '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Req.files in upload post route',
-      req.files
-    )
     const files = req.files
     let data = []
     //loop all files
@@ -23,10 +19,6 @@ router.post('/', (req, res, next) => {
         path: `server/upload/uploads/${file.name}` //absolute path to file
       })
     })
-    console.log(
-      'data after movign files to desired directory in uploads post route',
-      data
-    )
     res.status(201).json({data: data})
   } catch (error) {
     next(error)
