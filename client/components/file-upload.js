@@ -1,18 +1,11 @@
 import {connect} from 'react-redux'
 import React from 'react'
-import axios from 'axios'
 import {addFiles, parseFiles} from '../store/upload'
-import history from '../history'
 import {Link} from 'react-router-dom'
 
 class FileUpload extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      uploadedFiles: []
-    }
-
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
