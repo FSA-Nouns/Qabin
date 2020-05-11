@@ -1,29 +1,48 @@
 import axios from 'axios'
 
 const initialState = {
-  files: [],
-  tables: []
+  fileNames: [],
+  tableNames: []
 }
 
-const SET_FILES = 'SET_FILES'
-const SET_TABLES = 'SET_TABLES'
+const SET_FILE_NAMES = 'SET_FILE_NAMES'
+const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
 
 //ACTION CREATORS
-const setFiles = files => ({
-  type: SET_FILES,
-  files
+const setFiles = fileNames => ({
+  type: SET_FILE_NAMES,
+  fileNames
 })
 
-const setTables = tables => ({
-  type: SET_TABLES,
-  tables
+const setTables = tableNames => ({
+  type: SET_TABLE_NAMES,
+  tableNames
 })
+
+//THUNKS
+export const addFiles = fileNames => {
+  return async dispatch => {
+    try {
+      console.log('files as req.body in addFiles thunk', fileNames)
+      const res = await axios.post('/api/upload', fileNames, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      console.log('res from axios.post in addFiles Thunk', res)
+      const uploadedFiles = res.data.data
+      dispatch(setFiles(uploadedFiles))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 export const parseFiles = (files, user) => {
   return async dispatch => {
     try {
-      console.log('files of file.files.map', files)
-      let filePaths = files.files.map(file => file.path)
+      console.log('files of file.files.map', files.fileNames)
+      let filePaths = files.fileNames.map(file => file.path)
 
       const res = await axios.post(`/api/parse/${user.id}`, {
         filepaths: filePaths
@@ -39,35 +58,16 @@ export const parseFiles = (files, user) => {
   }
 }
 
-//THUNKS
-export const addFiles = files => {
-  return async dispatch => {
-    try {
-      console.log('files as req.body in addFiles thunk', files)
-      const res = await axios.post('/api/upload', files, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      console.log('res from axios.post in addFiles Thunk', res)
-      const uploadedFiles = res.data.data
-      dispatch(setFiles(uploadedFiles))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 const fileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_FILES:
+    case SET_FILE_NAMES:
       console.log('state in file reducer in SET_FILES', state)
       console.log('action in file reducer in SET_FILES', action)
-      return {...state, files: action.files}
-    case SET_TABLES:
+      return {...state, fileNames: action.fileNames}
+    case SET_TABLE_NAMES:
       console.log('state in file reducer in SET_TABLES', state)
       console.log('action in file reducer in SET_TABLES', action)
-      return {...state, tables: action.tables}
+      return {...state, tableNames: action.tableNames}
     default:
       return state
   }

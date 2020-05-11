@@ -33,7 +33,7 @@ export class QueryData extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  tableNames: state.files.tables,
+  tableNames: state.files.tableNames,
   tableData: state.tableData,
   queryBundle: state.queryBundle
 })

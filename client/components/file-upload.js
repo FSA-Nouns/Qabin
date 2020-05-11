@@ -30,7 +30,7 @@ class FileUpload extends React.Component {
   }
 
   render() {
-    return !this.props.files.files.length ? (
+    return !this.props.files.fileNames.length ? (
       <form onSubmit={this.handleUploadImage}>
         <div>
           <input
@@ -75,7 +75,7 @@ class FileUpload extends React.Component {
 const mapStateToProps = state => ({
   files: state.files,
   user: state.user,
-  tableNames: state.files.tables
+  tableNames: state.files.tableNames
 })
 
 const mapDispatchToProps = dispatch => {

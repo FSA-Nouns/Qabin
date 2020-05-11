@@ -14,6 +14,7 @@ export class EditData extends Component {
   }
 
   render() {
+    console.log('this.props', this.props)
     return (
       <div>
         <button onClick={() => this.props.history.push('/queryBuilder')}>
@@ -57,7 +58,7 @@ export class EditData extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  tableNames: state.files.tables,
+  tableNames: state.files.tableNames,
   tableData: state.tableData
 })
 
