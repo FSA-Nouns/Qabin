@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, FileUpload, EditData} from './components'
 import {me} from './store'
+import QueryData from './components/query-data'
 
 /**
  * COMPONENT
@@ -26,6 +27,7 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={FileUpload} />
             <Route path="/editData" component={EditData} />
+            <Route path="/queryBuilder" component={QueryData} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

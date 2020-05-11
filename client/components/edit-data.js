@@ -9,26 +9,16 @@ export class EditData extends Component {
   // constructor() {
   //     super()
   // }
-  async componentDidMount() {
-    console.log(
-      'this.props.tableName in componentdidMount for EditData then sent to gotTables thunk',
-      this.props.tableNames
-    )
-    await this.props.gotTables(this.props.user.id, this.props.tableNames)
-    console.log(
-      'this.props.tableData in componentdidMount for EditData after running gotTables thunk',
-      this.props.tableData
-    )
+  componentDidMount() {
+    this.props.gotTables(this.props.user.id, this.props.tableNames)
   }
 
   render() {
-    console.log('this.props in render of editData', this.props)
-    console.log(
-      'this.props.tableData.name in render of editData',
-      this.props.tableData.name
-    )
     return (
       <div>
+        <button onClick={() => this.props.history.push('/queryBuilder')}>
+          Continue
+        </button>
         <div className="big-container">
           <div>
             {this.props.tableData.length ? (
@@ -38,6 +28,7 @@ export class EditData extends Component {
                     tableData={table}
                     tableName={this.props.tableNames[index]}
                     key={index}
+                    location={this.props.location}
                   />
                 </div>
               ))
@@ -71,8 +62,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: async (userId, tables) => {
-    await dispatch(gotTables(userId, tables))
+  gotTables: (userId, tables) => {
+    dispatch(gotTables(userId, tables))
   }
 })
 

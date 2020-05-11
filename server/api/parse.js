@@ -13,7 +13,7 @@ module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
 
-router.post('/:userId', async (req, res, next) => {
+router.post('/:userId', (req, res, next) => {
   try {
     console.log(
       'in parse post route sent req.body as filepaths: filepaths',
@@ -21,11 +21,8 @@ router.post('/:userId', async (req, res, next) => {
     )
     const getFile = req.body.filepaths
     let nameArr = []
-    await getFile.forEach(file => {
-      console.log(
-        file,
-        'file in parse post route in forEach which is then sent for parsing after setting table names'
-      )
+    getFile.forEach(file => {
+      // console.log(file, 'file')
       let fileName = file.split('/') // to get the file name for the table name
       fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
       console.log(
