@@ -9,7 +9,11 @@ export class EditData extends Component {
   //     super()
   // }
   componentDidMount() {
-    this.props.gotTables(this.props.user.id, this.props.tableNames)
+    this.props.gotTables(
+      this.props.user.id,
+      this.props.tableNames,
+      this.props.files
+    )
   }
 
   render() {
@@ -58,12 +62,13 @@ export class EditData extends Component {
 const mapStateToProps = state => ({
   user: state.user,
   tableNames: state.files.tableNames,
+  files: state.files,
   tableData: state.tableData
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: (userId, tables) => {
-    dispatch(gotTables(userId, tables))
+  gotTables: (userId, tables, files) => {
+    dispatch(gotTables(userId, tables, files))
   }
 })
 
