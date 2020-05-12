@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../history'
 
 const initialState = {
   fileNames: [],
@@ -41,11 +42,11 @@ export const addFiles = (fileNames, user) => {
 export const parseFilesWithDataType = (user, tableData) => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/parse/${user.id}/parse`, {
+      const res = await axios.post(`/api/parse/${user.id}/parse`, {
         tableData
       })
 
-      dispatch(parsedTables(data))
+      history.push('/queryBuilder')
     } catch (error) {
       console.log(error)
     }

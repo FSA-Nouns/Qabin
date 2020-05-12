@@ -90,8 +90,6 @@ function parseCSVtoDB(table_name, filepath, headers) {
       })
     })
   stream.pipe(csvStream)
-
-  return pool.query(`SELECT * FROM ${table_name} LIMIT 1`)
 }
 
 module.exports = parseCSVtoDB
