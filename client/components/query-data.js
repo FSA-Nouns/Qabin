@@ -52,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
   gotTables: (userId, tables) => {
     dispatch(gotTables(userId, tables))
   },
-  submitQuery: query => dispatch(submitQuery(query))
+  submitQuery: (query, user) => dispatch(submitQuery(query, user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryData)
