@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const initialState = {}
 
-const SET_TABLES = 'SET_TABLES'
+const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
 
 const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
 
@@ -42,9 +42,11 @@ export const submitQuery = query => {
 
 const query = (state = initialState, action) => {
   switch (action.type) {
-    case SET_TABLES:
+    case SET_TABLE_NAMES:
       let newState = {...state}
-      action.tables.forEach(name => (newState[name] = {fields: [], where: []}))
+      action.tableNames.forEach(
+        name => (newState[name] = {fields: [], where: []})
+      )
       return newState
 
     case ADD_FIELD_ELEMENT:
