@@ -1,8 +1,9 @@
 const router = require('express').Router()
+const isUserMiddleware = require('../auth/isUser')
 const _ = require('lodash')
 module.exports = router
 
-router.post('/', (req, res, next) => {
+router.post('/:userId', isUserMiddleware, (req, res, next) => {
   try {
     if (req.files === null) {
       return res.status(400).json({msg: 'No file uploaded'})

@@ -14,7 +14,7 @@ const getTables = tables => ({
 export const gotTables = (userId, tableNames) => {
   return async dispatch => {
     try {
-      const res = await axios.get(`/api/parse/${tableNames}`)
+      const res = await axios.get(`/api/parse/${userId}/${tableNames}`)
 
       dispatch(getTables(res.data))
     } catch (error) {

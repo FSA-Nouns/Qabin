@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Pool = require('pg').Pool
 const queryParser = require('../services/queryParser')
+const isUserMiddleware = require('../auth/isUser')
 
 const pool = new Pool({
   host: 'localhost',
@@ -13,7 +14,7 @@ const pool = new Pool({
   idleTimeoutMillis: 0
 })
 //queries/query/1
-router.put('/query', async (req, res, next) => {
+router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
   try {
     const allTables = []
     const tables = Object.keys(req.body.queryBundle)
@@ -33,7 +34,7 @@ router.put('/query', async (req, res, next) => {
   }
 })
 
-router.get('/query/sample', async (req, res, next) => {
+router.get('/query/sample', isUserMiddleware, async (req, res, next) => {
   try {
     const allTables = []
     const tables = Object.keys(req.body.userTables)

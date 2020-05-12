@@ -19,7 +19,7 @@ class FileUpload extends React.Component {
     }
     // data.append('filename', this.fileName.value)
 
-    this.props.addFiles(data)
+    this.props.addFiles(data, this.props.user)
   }
 
   render() {
@@ -73,7 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addFiles: files => dispatch(addFiles(files)),
+    addFiles: (files, user) => dispatch(addFiles(files, user)),
     parseFiles: (files, user) => {
       dispatch(parseFiles(files, user))
     }
