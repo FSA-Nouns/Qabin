@@ -19,10 +19,13 @@ export const addHeaderType = (header, dataType, tableName) => ({
 })
 
 //THUNKS
-export const gotTables = (userId, tableNames) => {
+export const gotTables = (userId, tableNames, files) => {
   return async dispatch => {
     try {
-      const res = await axios.get(`/api/parse/${userId}/${tableNames}`)
+      let filePaths = files.fileNames.map(file => file.path)
+      const res = await axios.put(`/api/parse/${userId}/${tableNames}`, {
+        filepaths: filePaths
+      })
 
       dispatch(getTables(res.data))
     } catch (error) {
