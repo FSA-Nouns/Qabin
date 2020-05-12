@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
-import TableExtract from './table-extract'
-import QueryRow from './query-row'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 

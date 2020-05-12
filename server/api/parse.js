@@ -14,6 +14,23 @@ module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
 
+router.post('/:userId/parse', isUserMiddleware, (req, res, next) => {
+  try {
+    const tables = req.body.tableData
+    let parsedTablesArr = []
+    tables.forEach(async table => {
+      let [tableName] = Object.keys(table) // to get the file name for the table obj
+      let {filepath, headers} = table[tableName]
+      let {fields} = await parse(tableName, filepath, headers) //getting the fields property that contains the headers of the table along with the datatype
+      console.log(fields)
+      parsedTablesArr.push({tableName: fields})
+    })
+    res.status(201).send(parsedTablesArr)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 router.post('/:userId', isUserMiddleware, (req, res, next) => {
   try {
     const getFile = req.body.filepaths

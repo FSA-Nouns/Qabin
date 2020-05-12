@@ -38,6 +38,20 @@ export const addFiles = (fileNames, user) => {
   }
 }
 
+export const parseFilesWithDataType = (user, tableData) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post(`/api/parse/${user.id}/parse`, {
+        tableData
+      })
+
+      dispatch(parsedTables(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const parseFiles = (files, user) => {
   return async dispatch => {
     try {
