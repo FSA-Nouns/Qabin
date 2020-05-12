@@ -17,7 +17,9 @@ export class QueryData extends Component {
       <div>
         <button
           type="button"
-          onClick={() => this.props.submitQuery(this.props.queryBundle)}
+          onClick={() =>
+            this.props.submitQuery(this.props.queryBundle, this.props.user)
+          }
         >
           Query
         </button>

@@ -10,10 +10,12 @@ const queriedTables = tables => {
   }
 }
 
-export const submitQuery = query => {
+export const submitQuery = (query, user) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put('/api/queries/query', {queryBundle: query})
+      const {data} = await axios.put(`/api/queries/${user.id}/query`, {
+        queryBundle: query
+      })
 
       dispatch(queriedTables(data))
       history.push('/results')

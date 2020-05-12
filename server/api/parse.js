@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const parse = require('./../services/csvparse')
+const isUserMiddleware = require('../auth/isUser')
 const Pool = require('pg').Pool
 
 const pool = new Pool({
@@ -13,7 +14,7 @@ module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
 
-router.post('/:userId', (req, res, next) => {
+router.post('/:userId', isUserMiddleware, (req, res, next) => {
   try {
     const getFile = req.body.filepaths
     let nameArr = []
@@ -29,7 +30,7 @@ router.post('/:userId', (req, res, next) => {
   }
 })
 
-router.get('/:tableNames', async (req, res, next) => {
+router.get('/:userId/:tableNames', isUserMiddleware, async (req, res, next) => {
   try {
     const hold = () => {
       return 'Loading'

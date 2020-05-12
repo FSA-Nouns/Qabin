@@ -20,11 +20,11 @@ const setTables = tableNames => ({
 })
 
 //THUNKS
-export const addFiles = fileNames => {
+export const addFiles = (fileNames, user) => {
   return async dispatch => {
     try {
       console.log('files as req.body in addFiles thunk', fileNames)
-      const res = await axios.post('/api/upload', fileNames, {
+      const res = await axios.post(`/api/upload/${user.id}`, fileNames, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
