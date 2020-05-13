@@ -82,6 +82,7 @@ router.put('/:userId/:tableNames', isUserMiddleware, async (req, res, next) => {
 
       // let query = `SELECT * FROM ${table}`
       // let rows = await pool.query(query)
+      // fs.close(csv, () => console.log('file closed'))
       allTables.push({[table]: tableData})
     }
     res.send(allTables)

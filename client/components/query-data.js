@@ -5,14 +5,6 @@ import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 
 export class QueryData extends Component {
-  componentDidMount() {
-    this.props.gotTables(
-      this.props.user.id,
-      this.props.tableNames,
-      this.props.files
-    )
-  }
-
   render() {
     return (
       <div>
@@ -51,9 +43,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: (userId, tables, files) => {
-    dispatch(gotTables(userId, tables, files))
-  },
   submitQuery: (query, user) => dispatch(submitQuery(query, user))
 })
 
