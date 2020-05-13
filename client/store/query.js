@@ -4,17 +4,15 @@ const initialState = {}
 
 const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
 
-const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
-
 const ADD_FIELD_ELEMENT = 'ADD_FIELD_ELEMENT'
 
 const REMOVE_FIELD_ELEMENT = 'REMOVE_FIELD_ELEMENT'
 
-export const addFilterElement = (tableName, filterArray) => ({
-  type: ADD_FILTER_ELEMENT,
-  tableName,
-  filterArray
-})
+const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
+
+const ORDER_BY = 'ORDER_BY'
+
+const LIMIT_TO = 'LIMIT_TO'
 
 export const addFieldElement = (tableName, field) => ({
   type: ADD_FIELD_ELEMENT,
@@ -28,14 +26,31 @@ export const removeFieldElement = (tableName, field) => ({
   field
 })
 
+export const addFilterElement = (tableName, filterArray) => ({
+  type: ADD_FILTER_ELEMENT,
+  tableName,
+  filterArray
+})
+
+export const orderBy = (tableName, orderByArray) => ({
+  type: ORDER_BY,
+  tableName,
+  orderByArray
+})
+
+export const limitTo = (tableName, limit) => ({
+  type: LIMIT_TO,
+  tableName,
+  limit
+})
+
 export const submitQuery = (query, user) => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/queries/${user.id}/query`, {
         queryBundle: query
       })
-
-      dispatch(queriedTables(data))
+      dispatch(queriedTables(data)) //does queriedTables need to be imported?
     } catch (error) {
       console.log(error)
     }
@@ -53,30 +68,38 @@ const query = (state = initialState, action) => {
 
     case ADD_FIELD_ELEMENT:
       let newState1 = {...state}
-
       newState1[action.tableName].fields = [
         ...newState1[action.tableName].fields,
         action.field
       ]
-
       return newState1
-    case ADD_FILTER_ELEMENT:
-      let newState2 = {...state}
 
-      newState2[action.tableName].where = [
-        ...newState2[action.tableName].where,
-        action.filterArray
-      ]
-
-      return newState2
     case REMOVE_FIELD_ELEMENT:
-      let newState3 = {...state}
-
-      newState3[action.tableName].fields = newState3[
+      let newState2 = {...state}
+      newState2[action.tableName].fields = newState2[
         action.tableName
       ].fields.filter(field => field !== action.field)
+      return newState2
 
+    case ADD_FILTER_ELEMENT:
+      let newState3 = {...state}
+      newState3[action.tableName].where = [
+        ...newState3[action.tableName].where,
+        action.filterArray
+      ]
       return newState3
+
+    case ORDER_BY:
+      let newState4 = {...state}
+      newState4[action.tableName].orderBy = [
+        ...newState4[action.tableName].orderBy,
+        action.orderByArray
+      ]
+      return newState4
+    case LIMIT_TO:
+      let newState5 = {...state}
+      newState5[action.tableName].limit = [action.limit]
+      return newState5
     default:
       return state
   }

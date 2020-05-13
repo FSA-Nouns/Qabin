@@ -14,7 +14,7 @@ const pool = new Pool({
   idleTimeoutMillis: 0
 })
 //queries/query/1
-router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
+router.put('/:userId/query', async (req, res, next) => {
   try {
     const allTables = []
     const tables = Object.keys(req.body.queryBundle)
