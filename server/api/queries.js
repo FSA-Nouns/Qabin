@@ -25,7 +25,7 @@ router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
       let query = queryParser(table, req.body.queryBundle[table])
 
       let rows = await pool.query(query)
-
+      rows.query = query
       allTables.push({[table]: rows})
     }
     res.send(allTables)
