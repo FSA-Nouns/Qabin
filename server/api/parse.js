@@ -16,6 +16,26 @@ module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
 
+router.post('/:userId/parse', isUserMiddleware, (req, res, next) => {
+  try {
+    const tables = req.body.tableData
+    let parsedTablesArr = []
+
+    for (let i = 0; i < tables.length; i++) {
+      let table = tables[i]
+
+      let [tableName] = Object.keys(table) // to get the file name for the table obj
+      let {filepath, headers} = table[tableName]
+
+      parse(tableName, filepath, headers) //getting the fields property that contains the headers of the table along with the datatype
+    }
+
+    res.sendStatus(201)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 router.post('/:userId', isUserMiddleware, (req, res, next) => {
   try {
     const getFile = req.body.filepaths
@@ -32,7 +52,7 @@ router.post('/:userId', isUserMiddleware, (req, res, next) => {
   }
 })
 
-// was a GET route before switching to PUT for partial parse
+// was a GET route before switching to Phttps://github.com/bradtraversy/design-resources-for-developersUT for partial parse
 router.put('/:userId/:tableNames', isUserMiddleware, async (req, res, next) => {
   try {
     const hold = () => {

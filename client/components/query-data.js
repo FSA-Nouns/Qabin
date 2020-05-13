@@ -1,15 +1,16 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
-import TableExtract from './table-extract'
-import QueryRow from './query-row'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 
 export class QueryData extends Component {
   componentDidMount() {
-    this.props.gotTables(this.props.user.id, this.props.tableNames)
+    this.props.gotTables(
+      this.props.user.id,
+      this.props.tableNames,
+      this.props.files
+    )
   }
 
   render() {
@@ -45,12 +46,13 @@ const mapStateToProps = state => ({
   tableNames: state.files.tableNames,
   tableData: state.tableData,
   queryBundle: state.queryBundle,
-  result: state.result
+  result: state.result,
+  files: state.files
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: (userId, tables) => {
-    dispatch(gotTables(userId, tables))
+  gotTables: (userId, tables, files) => {
+    dispatch(gotTables(userId, tables, files))
   },
   submitQuery: (query, user) => dispatch(submitQuery(query, user))
 })

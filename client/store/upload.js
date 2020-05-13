@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../history'
 
 const initialState = {
   fileNames: [],
@@ -32,6 +33,20 @@ export const addFiles = (fileNames, user) => {
       console.log('res from axios.post in addFiles Thunk', res)
       const uploadedFiles = res.data.data
       dispatch(setFiles(uploadedFiles))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const parseFilesWithDataType = (user, tableData) => {
+  return async dispatch => {
+    try {
+      const res = await axios.post(`/api/parse/${user.id}/parse`, {
+        tableData
+      })
+
+      history.push('/queryBuilder')
     } catch (error) {
       console.log(error)
     }

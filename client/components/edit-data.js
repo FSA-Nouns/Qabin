@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
 import SingleTable from './single-table'
+import {parseFilesWithDataType} from './../store/upload'
 
 export class EditData extends Component {
   // constructor() {
@@ -21,7 +22,12 @@ export class EditData extends Component {
       <div>
         <button
           type="button"
-          onClick={() => this.props.history.push('/queryBuilder')}
+          onClick={() =>
+            this.props.parseTablesWithDataTypes(
+              this.props.user,
+              this.props.tableData
+            )
+          }
         >
           Continue
         </button>
@@ -69,7 +75,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   gotTables: (userId, tables, files) => {
     dispatch(gotTables(userId, tables, files))
-  }
+  },
+  parseTablesWithDataTypes: (user, tableData) =>
+    dispatch(parseFilesWithDataType(user, tableData))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditData)
