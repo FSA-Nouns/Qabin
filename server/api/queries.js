@@ -34,24 +34,4 @@ router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
   }
 })
 
-router.get('/query/sample', isUserMiddleware, async (req, res, next) => {
-  try {
-    const allTables = []
-    const tables = Object.keys(req.body.userTables)
-
-    for (let i = 0; i < tables.length; i++) {
-      let table = tables[i]
-
-      let query = `SELECT * FROM ${table}`
-
-      let {rows} = await pool.query(query)
-
-      allTables.push({[table]: rows})
-    }
-    res.send(allTables)
-  } catch (err) {
-    next(err)
-  }
-})
-
 module.exports = router

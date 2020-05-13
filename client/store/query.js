@@ -28,20 +28,6 @@ export const removeFieldElement = (tableName, field) => ({
   field
 })
 
-export const submitQuery = (query, user) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.put(`/api/queries/${user.id}/query`, {
-        queryBundle: query
-      })
-
-      dispatch(queriedTables(data))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 const query = (state = initialState, action) => {
   switch (action.type) {
     case SET_TABLE_NAMES:
