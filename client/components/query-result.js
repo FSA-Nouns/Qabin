@@ -4,11 +4,6 @@ import TableExtract from './table-extract'
 
 export class QueryResult extends Component {
   render() {
-    console.log(
-      this.props.resultTables.length
-        ? Object.keys(this.props.resultTables[0])
-        : ''
-    )
     return (
       <div>
         <div className="table-extract-container">

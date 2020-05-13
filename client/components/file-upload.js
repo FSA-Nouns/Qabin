@@ -2,6 +2,7 @@ import {connect} from 'react-redux'
 import React from 'react'
 import {addFiles, parseFiles} from '../store/upload'
 import {Link} from 'react-router-dom'
+import history from '../history'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -53,13 +54,12 @@ class FileUpload extends React.Component {
         <h2>Files uploaded successfully</h2>
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
             this.props.parseFiles(this.props.files, this.props.user)
-          }
+          }}
         >
           Submit
         </button>
-        <Link to="/editData">To Edit Data </Link>
       </div>
     )
   }
