@@ -1,15 +1,4 @@
 function queryParser(table, queryObj) {
-  /* queryParser receives a table (the table to be queried) and queryObj 
-(in which queries are stored as key-value pairs in a 'filter: [array of fields] format).
-The function begins by looping through the keys to determine the nature of the clause
-to be converted according to the key (parameter) - 'fields' indicated the FROM clause, 
-'where' indicates a WHERE clause etc. The format of the array of fields varies by clause,
-as defined in client/store/query.js on the front-end.
-queryParser then calls the appropriate parsing function, passing in the table and current
-parameter: [array of fields] value pair, and appending the resultant string to the
-'query' string variable. 
- */
-
   let query = 'SELECT '
 
   Object.keys(queryObj).forEach(parameter => {
@@ -70,7 +59,7 @@ function parseOrderBy(table, orderByArray) {
   let query = ' ORDER BY'
   query += orderByArray.reduce((string, index) => {
     console.log(index)
-    string += ` ${Object.keys(index)[0]}`
+    string += ` ${table}.${Object.keys(index)[0]}`
     string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
     if (index < orderByArray.length - 1) {
       string += ','
@@ -81,20 +70,20 @@ function parseOrderBy(table, orderByArray) {
   return query
 }
 
-function parseGroupBy(table, orderByArray) {
-  let query = ' ORDER BY'
-  query += orderByArray.reduce((string, index) => {
-    console.log(index)
-    string += ` ${Object.keys(index)[0]}`
-    string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
-    if (index < orderByArray.length - 1) {
-      string += ','
-    }
-    console.log('FINAL STRING', string)
-    return string
-  }, '')
-  return query
-}
+// function parseGroupBy(table, orderByArray) {
+//   let query = ' ORDER BY'
+//   query += orderByArray.reduce((string, index) => {
+//     console.log(index)
+//     string += ` ${Object.keys(index)[0]}`
+//     string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
+//     if (index < orderByArray.length - 1) {
+//       string += ','
+//     }
+//     console.log('FINAL STRING', string)
+//     return string
+//   }, '')
+//   return query
+// }
 
 // the limit parameter stores a 1-element array with the desired limit as it's value
 function parseLimit(table, limitArr) {
