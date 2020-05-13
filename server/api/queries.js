@@ -25,27 +25,7 @@ router.put('/:userId/query', async (req, res, next) => {
       let query = queryParser(table, req.body.queryBundle[table])
 
       let rows = await pool.query(query)
-
-      allTables.push({[table]: rows})
-    }
-    res.send(allTables)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/query/sample', isUserMiddleware, async (req, res, next) => {
-  try {
-    const allTables = []
-    const tables = Object.keys(req.body.userTables)
-
-    for (let i = 0; i < tables.length; i++) {
-      let table = tables[i]
-
-      let query = `SELECT * FROM ${table}`
-
-      let {rows} = await pool.query(query)
-
+      rows.query = query
       allTables.push({[table]: rows})
     }
     res.send(allTables)

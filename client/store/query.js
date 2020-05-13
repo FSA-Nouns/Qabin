@@ -26,6 +26,7 @@ export const removeFieldElement = (tableName, field) => ({
   field
 })
 
+
 export const addFilterElement = (tableName, filterArray) => ({
   type: ADD_FILTER_ELEMENT,
   tableName,
@@ -43,19 +44,6 @@ export const limitTo = (tableName, limit) => ({
   tableName,
   limit
 })
-
-export const submitQuery = (query, user) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.put(`/api/queries/${user.id}/query`, {
-        queryBundle: query
-      })
-      dispatch(queriedTables(data)) //does queriedTables need to be imported?
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
 
 const query = (state = initialState, action) => {
   switch (action.type) {
