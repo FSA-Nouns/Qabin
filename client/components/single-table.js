@@ -1,6 +1,9 @@
 import React from 'react'
 import QueryRow from './query-row'
 import DataTypeRow from './data-type-row'
+import AggregateSelector from './aggregate-selector'
+
+let aggArr = ['AVG', 'SUM']
 
 export default function SingleTable(props) {
   return (
@@ -36,6 +39,17 @@ export default function SingleTable(props) {
           )}
         </tbody>
       </table>
+      {props.location.pathname === '/queryBuilder' ? (
+        <div>
+          <AggregateSelector
+            index={props.index}
+            tableData={props.tableData}
+            tableName={props.tableName}
+          />
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   )
 }
