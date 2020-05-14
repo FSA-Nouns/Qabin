@@ -1,11 +1,13 @@
 import React, {Component, Fragment, useState} from 'react'
 import {connect} from 'react-redux'
 import TableExtract from './table-extract'
-
 export class QueryResult extends Component {
   render() {
     return (
       <div>
+        <button onClick={() => this.props.history.push('/queryBuilder')}>
+          New Query
+        </button>
         <div className="table-extract-container">
           {this.props.resultTables.length ? (
             this.props.resultTables.map((table, index) => (
@@ -15,10 +17,15 @@ export class QueryResult extends Component {
                     table[Object.keys(this.props.resultTables[index])[0]].query
                   }
                 />
-                <TableExtract
-                  tableData={table}
-                  tableName={Object.keys(this.props.resultTables[index])}
-                />
+                {table[Object.keys(this.props.resultTables[index])[0]].rows
+                  .length ? (
+                  <TableExtract
+                    tableData={table}
+                    tableName={Object.keys(this.props.resultTables[index])}
+                  />
+                ) : (
+                  <p>No Results</p>
+                )}
               </Fragment>
             ))
           ) : (

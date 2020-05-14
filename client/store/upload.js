@@ -15,7 +15,7 @@ const setFiles = fileNames => ({
   fileNames
 })
 
-const setTables = tableNames => ({
+export const setTables = tableNames => ({
   type: SET_TABLE_NAMES,
   tableNames
 })
