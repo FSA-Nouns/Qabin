@@ -6,7 +6,7 @@ const isUserMiddleware = require('../auth/isUser')
 const pool = new Pool({
   host: 'localhost',
   user: 'postgres',
-  database: 'dummy-qbp',
+  database: 'dummy1-qbp',
   //   password: "123",
   port: 5432,
   max: 20,

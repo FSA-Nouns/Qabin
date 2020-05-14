@@ -28,10 +28,12 @@ export class QueryData extends Component {
           return (
             <div className="single-table" key={index}>
               <SingleTable
-                tableData={table}
+                tableData={this.props.tableData}
+                index={index}
                 tableName={this.props.tableNames[index]}
                 key={index}
                 location={this.props.location}
+                // allTables={this.props}
               />
             </div>
           )

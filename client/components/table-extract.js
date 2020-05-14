@@ -8,19 +8,19 @@ export default function TableExtract(props) {
         <thead>
           <tr>
             {Object.keys(props.tableData[props.tableName].rows[0]).map(
-              (h, i) => <th key={i}>{h}</th>
+              (column, index) => <th key={index}>{column}</th>
             )}
           </tr>
         </thead>
 
         <tbody>
-          {props.tableData[props.tableName].rows.map((k, i) => {
-            let data = props.tableData[props.tableName].rows[i]
-            let values = Object.values(k)
+          {props.tableData[props.tableName].rows.map((rows, index) => {
+            let data = props.tableData[props.tableName].rows[index]
+            let values = Object.values(rows)
             return (
-              <tr key={i}>
-                {values.map((el, index) => {
-                  return <td key={index}>{el}</td>
+              <tr key={index}>
+                {values.map((element, indexA) => {
+                  return <td key={indexA}>{element}</td>
                 })}
               </tr>
             )
