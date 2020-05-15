@@ -19,7 +19,7 @@ export default function SingleTable(props) {
 
             <td>
               {props.location.pathname === '/queryBuilder' ? (
-                <Join data={props} />
+                <Join data={props} index={0} />
               ) : (
                 ''
               )}

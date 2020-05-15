@@ -23,7 +23,7 @@ class Join extends React.Component {
 
   toggleJoin() {
     if (this.state.join === true) {
-      this.props.removeJoinElement(this.props.data.tableName)
+      this.props.removeJoinElement(this.props.data.tableName, this.props.index)
       return this.setState({join: false})
     } else {
       this.setState({join: true})
@@ -40,8 +40,8 @@ class Join extends React.Component {
     let joinArray = event.target.value
     let table = this.props.data.tableName
     if (this.state.join === true) {
-      this.props.removeJoinElement(table, 0)
-      this.props.addJoinElement(table, joinArray, joinType)
+      this.props.removeJoinElement(table, this.props.index)
+      this.props.addJoinElement(table, joinArray, joinType, this.props.index)
       return this.setState({table1: table, table2: joinArray})
     }
   }
@@ -49,7 +49,7 @@ class Join extends React.Component {
   handleColumnElement(table1, table2, event, index) {
     event.preventDefault()
     let joinArray = `${table2}.${event.target.value}`
-    this.props.setJoinColumnElement(table1, joinArray, index)
+    this.props.setJoinColumnElement(table1, joinArray, index, this.props.index)
   }
 
   render() {
@@ -161,12 +161,12 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => {
   return {
-    addJoinElement: (tableName, joinArray, joinType) =>
-      dispatch(addJoinElement(tableName, joinArray, joinType)),
-    removeJoinElement: (tableName, joinArray) =>
-      dispatch(removeJoinElement(tableName, joinArray)),
-    setJoinColumnElement: (tableName, joinArray, index) =>
-      dispatch(setJoinColumnElement(tableName, joinArray, index))
+    addJoinElement: (tableName, joinArray, joinType, joinId) =>
+      dispatch(addJoinElement(tableName, joinArray, joinType, joinId)),
+    removeJoinElement: (tableName, joinId) =>
+      dispatch(removeJoinElement(tableName, joinId)),
+    setJoinColumnElement: (tableName, joinArray, index, joinId) =>
+      dispatch(setJoinColumnElement(tableName, joinArray, index, joinId))
   }
 }
 
