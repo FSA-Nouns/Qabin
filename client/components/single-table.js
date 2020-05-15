@@ -1,8 +1,12 @@
 import React from 'react'
 import QueryRow from './query-row'
+import QuerySort from './query-sort'
 import DataTypeRow from './data-type-row'
 import Join from './query-join'
 import {useState} from 'react'
+import AggregateSelector from './aggregate-selector'
+
+let aggArr = ['AVG', 'SUM']
 
 export default function SingleTable(props) {
   let tableData = props.tableData[props.index]
@@ -32,6 +36,7 @@ export default function SingleTable(props) {
                     tableName={props.tableName}
                     key={index}
                     field={element}
+                    tableData={props.tableData[props.tableName]}
                   />
                 )
               } else {
@@ -47,29 +52,20 @@ export default function SingleTable(props) {
           )}
         </tbody>
       </table>
+      {props.location.pathname === '/queryBuilder' ? (
+        <div>
+          <div>
+            <AggregateSelector
+              index={props.index}
+              tableData={props.tableData}
+              tableName={props.tableName}
+            />
+          </div>
+          <QuerySort tableName={props.tableName} />
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   )
 }
-
-// function Join(props) {
-//   const [addJoin, removeJoin] = useState(false)
-//   return (
-//     <div className="add-join">
-//       <button
-//         onClick={() => removeJoin(!addJoin)}
-//         className="add-join"
-//         type="button"
-//       >
-//         {addJoin ? 'Make Join' : 'Remove Join'}
-//       </button>
-//       {/* {addJoin && (
-//         // <p id="join" className="join-string">
-//         //   {props.join}
-//         // </p>
-
-//       )} */}
-//       <button>Table link</button>
-//       <p>YAY!</p>
-//     </div>
-//   )
-// }

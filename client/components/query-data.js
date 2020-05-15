@@ -3,14 +3,11 @@ import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
+import {setTables} from '../store/upload'
 
 export class QueryData extends Component {
   componentDidMount() {
-    this.props.gotTables(
-      this.props.user.id,
-      this.props.tableNames,
-      this.props.files
-    )
+    this.props.setTables(this.props.tableNames)
   }
 
   render() {
@@ -31,7 +28,7 @@ export class QueryData extends Component {
                 tableData={this.props.tableData}
                 index={index}
                 tableName={this.props.tableNames[index]}
-                key={index}
+                index={index}
                 location={this.props.location}
                 // allTables={this.props}
               />
@@ -53,10 +50,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  gotTables: (userId, tables, files) => {
-    dispatch(gotTables(userId, tables, files))
-  },
-  submitQuery: (query, user) => dispatch(submitQuery(query, user))
+  submitQuery: (query, user) => dispatch(submitQuery(query, user)),
+  setTables: tableNames => dispatch(setTables(tableNames))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryData)

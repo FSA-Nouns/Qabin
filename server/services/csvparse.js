@@ -85,6 +85,13 @@ function parseCSVtoDB(table_name, filepath, headers) {
             })
           })
         } finally {
+          fs.unlink(filepath, err => {
+            if (err) {
+              console.error(err)
+            } else {
+              console.log(`${filepath} removed`)
+            }
+          })
           done()
         }
       })

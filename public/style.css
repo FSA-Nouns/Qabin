@@ -20,11 +20,11 @@ form div {
   display: inline-block;
 }
 
-.filter-form {
+.direction-select {
   display: none;
 }
 
-.query-row:focus-within > td > .filter-form {
+.Order-by:focus-within > .direction-select {
   display: inline;
   position: absolute;
 }

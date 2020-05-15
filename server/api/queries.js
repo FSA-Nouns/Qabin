@@ -14,7 +14,7 @@ const pool = new Pool({
   idleTimeoutMillis: 0
 })
 //queries/query/1
-router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
+router.put('/:userId/query', async (req, res, next) => {
   try {
     const allTables = []
     const tables = Object.keys(req.body.queryBundle)
@@ -27,29 +27,9 @@ router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
         req.body.queryBundle[table],
         req.body.queryBundle
       )
-
       let rows = await pool.query(query)
-
-      allTables.push({[table]: rows})
-    }
-    res.send(allTables)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/query/sample', isUserMiddleware, async (req, res, next) => {
-  try {
-    const allTables = []
-    const tables = Object.keys(req.body.userTables)
-
-    for (let i = 0; i < tables.length; i++) {
-      let table = tables[i]
-
-      let query = `SELECT * FROM ${table}`
-
-      let {rows} = await pool.query(query)
-
+     
+      rows.query = query
       allTables.push({[table]: rows})
     }
     res.send(allTables)
