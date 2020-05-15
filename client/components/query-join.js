@@ -44,8 +44,6 @@ class Join extends React.Component {
       this.props.addJoinElement(table, joinArray, joinType)
       return this.setState({table1: table, table2: joinArray})
     }
-
-    console.log('exited if in handle join element')
   }
 
   handleColumnElement(table1, table2, event, index) {
