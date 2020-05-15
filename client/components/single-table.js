@@ -26,7 +26,7 @@ export default function SingleTable(props) {
             </td>
           </tr>
         </thead>
-
+        {console.log('IN SINGLE TABLE', props)}
         <tbody>
           {Object.keys(tableData[props.tableName].rows[0]).map(
             (element, index) => {

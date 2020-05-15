@@ -21,11 +21,13 @@ export class QueryData extends Component {
         >
           Query
         </button>
+        {console.log('IN QUERY_DATA', this.props)}
         {this.props.tableData.map((table, index) => {
           return (
             <div className="single-table" key={index}>
               <SingleTable
-                tableData={this.props.tableData}
+                tableData={table[this.props.tableNames[index]]}
+                tableDatas={this.props.tableData}
                 index={index}
                 tableName={this.props.tableNames[index]}
                 index={index}

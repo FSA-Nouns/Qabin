@@ -94,6 +94,7 @@ class QueryRow extends Component {
         <td>
           <span>{this.props.field}</span>
         </td>
+        {console.log('IN QUERY ROW', this.props)}
         <FilterForm
           filterElement={this.filterElement}
           dataType={this.props.tableData.headers[this.props.field]}
