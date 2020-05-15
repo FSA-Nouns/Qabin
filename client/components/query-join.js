@@ -86,6 +86,19 @@ class Join extends React.Component {
     }
   }
 
+  //   handleConfirmJoin(table1, table2, event) {
+  //     let index = 5
+  //     let joinArray = `${table2}.${event.target.value}`
+  //     if (this.state.column2 === true) {
+  //       this.props.setJoinColumn2Element(table1, joinArray)
+  //       return this.setState({column2: true})
+  //     } else {
+  //       this.props.removeJoinColumnElement(table1, index)
+  //       this.props.setJoinColumn2Element(table1, joinArray)
+  //       // return this.setState({column1: true})
+  //     }
+  //   }
+
   render() {
     let table1 = this.state.table1
     let table2 = this.state.table2
@@ -178,6 +191,8 @@ class Join extends React.Component {
               )}
               Table 2 Column Selection
             </select>
+
+            {/* <button onClick={this.handleConfirmJoin} >Confirm Join</button> */}
           </span>
         ) : (
           ''
