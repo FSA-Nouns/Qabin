@@ -19,17 +19,6 @@ function queryParser(table, queryObj) {
   return query
 }
 
-function parseFields(table, fieldsArr) {
-  return fieldsArr.reduce((string, field, index) => {
-    if (index === fieldsArr.length - 1) {
-      string += `${field} FROM ${table}`
-    } else {
-      string += `${field}, `
-    }
-    return string
-  }, '')
-}
-
 function parseWhere(table, whereArr) {
   let query = ' WHERE'
 
@@ -50,6 +39,47 @@ function parseWhere(table, whereArr) {
   return whereArr.length ? query : ''
 }
 
+function parseAggregate(field, tableName) {
+  let split = field.split('(')
+  let queryStr = split[0] + '(' + tableName + '.' + split[1]
+  return `${queryStr} AS ${split[0].toLowerCase()}Of${split[1].slice(0, -1)}`
+}
+
+function parseFields(table, fieldsArr) {
+  // eslint-disable-next-line complexity
+  console.log('fieldsArr', fieldsArr)
+  console.log('fieldsArr length', fieldsArr.length)
+  // eslint-disable-next-line complexity
+  return fieldsArr.reduce((string, field, index) => {
+    console.log('index', index)
+    console.log('field', field)
+    console.log('string', string)
+    console.log('eval:', index === fieldsArr.length - 1)
+    if (
+      (field.includes('COUNT') ||
+        field.includes('SUM') ||
+        field.includes('AVG') ||
+        field.includes('MIN') ||
+        field.includes('MAX')) &&
+      index === fieldsArr.length - 1
+    ) {
+      string += `${parseAggregate(field, table)} FROM ${table}`
+    } else if (
+      field.includes('COUNT') ||
+      field.includes('SUM') ||
+      field.includes('AVG') ||
+      field.includes('MIN') ||
+      field.includes('MAX')
+    ) {
+      string += `${parseAggregate(field, table)}, `
+    } else if (index === fieldsArr.length - 1) {
+      string += `${table}.${field} FROM ${table}`
+    } else {
+      string += ` ${table}.${field},`
+    }
+    return string
+  }, '')
+}
 function parseGroupBy(table, groupByArray) {
   let query = ' GROUP BY'
   query += groupByArray.reduce((string, field, index) => {

@@ -61,7 +61,7 @@ class QueryRow extends Component {
           </button>{' '}
           <form className="filter-form" onSubmit={this.filterElement}>
             <select name="operator">
-              <option>{`>`}></option>
+              <option>{`>`}</option>
               <option value="LIKE">equal to</option>
               <option value=">">greater than</option>
               <option value=">=">at least</option>

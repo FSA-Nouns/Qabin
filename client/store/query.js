@@ -86,17 +86,11 @@ const query = (state = initialState, action) => {
 
     case ORDER_BY:
       let newState4 = {...state}
-      newState4[action.tableName].orderBy = [
-        ...newState4[action.tableName].orderBy,
-        action.orderByArray
-      ]
+      newState4[action.tableName].orderBy = [...action.orderByArray]
       return newState4
     case GROUP_BY:
       let newState5 = {...state}
-      newState5[action.tableName].groupBy = [
-        ...newState5[action.tableName].groupBy,
-        action.groupByArray
-      ]
+      newState5[action.tableName].groupBy = [...action.groupByArray]
       return newState5
     case LIMIT_TO:
       let newState6 = {...state}
