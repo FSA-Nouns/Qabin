@@ -10,7 +10,7 @@ function parseCSVtoDB(table_name, filepath, headers) {
   const pool = new Pool({
     host: 'localhost',
     user: 'postgres',
-    database: 'dummy1-qbp',
+    database: 'dummy-qbp',
     //   password: "123",
     port: 5432
   })

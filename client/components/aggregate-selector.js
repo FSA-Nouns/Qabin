@@ -19,8 +19,7 @@ class AggregateSelector extends Component {
     evt.preventDefault()
     let aggType = evt.target.agg.value
     let column = evt.target.selector.value
-    console.log(aggType)
-    console.log(column)
+
     let q = `${aggType}(${column})`
     Object.keys(this.state).forEach(agg => {
       if (aggType === agg && !this.state[agg].includes(column)) {
@@ -36,24 +35,15 @@ class AggregateSelector extends Component {
   }
 
   render() {
-    console.log('this.props', this.props)
-    console.log('index', this.props.index)
-    console.log(
-      'keys',
-      Object.keys(this.props.tableData[this.props.tableName].headers)
+    let numericFields = Object.keys(this.props.tableData.headers).filter(
+      field => {
+        if (
+          this.props.tableData.headers[field] === 'integer' ||
+          this.props.tableData.headers[field] === 'double precision'
+        )
+          return true
+      }
     )
-
-    let numericFields = Object.keys(
-      this.props.tableData[this.props.tableName].headers
-    ).filter(field => {
-      if (
-        this.props.tableData[this.props.tableName].headers[field] ===
-          'integer' ||
-        this.props.tableData[this.props.tableName].headers[field] ===
-          'double precision'
-      )
-        return true
-    })
     numericFields.push('*')
     return (
       <div>

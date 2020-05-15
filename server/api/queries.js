@@ -6,7 +6,7 @@ const isUserMiddleware = require('../auth/isUser')
 const pool = new Pool({
   host: 'localhost',
   user: 'postgres',
-  database: 'dummy1-qbp',
+  database: 'dummy-qbp',
   //   password: "123",
   port: 5432,
   max: 20,
@@ -28,7 +28,7 @@ router.put('/:userId/query', async (req, res, next) => {
         req.body.queryBundle
       )
       let rows = await pool.query(query)
-     
+
       rows.query = query
       allTables.push({[table]: rows})
     }

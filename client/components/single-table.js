@@ -9,7 +9,7 @@ import AggregateSelector from './aggregate-selector'
 let aggArr = ['AVG', 'SUM']
 
 export default function SingleTable(props) {
-  let tableData = props.tableData[props.index]
+  let tableDatas = props.tableDatas
   return (
     <div>
       <table className="single-table-view">
@@ -26,30 +26,27 @@ export default function SingleTable(props) {
             </td>
           </tr>
         </thead>
-        {console.log('IN SINGLE TABLE', props)}
         <tbody>
-          {Object.keys(tableData[props.tableName].rows[0]).map(
-            (element, index) => {
-              if (props.location.pathname === '/queryBuilder') {
-                return (
-                  <QueryRow
-                    tableName={props.tableName}
-                    key={index}
-                    field={element}
-                    tableData={props.tableData[props.tableName]}
-                  />
-                )
-              } else {
-                return (
-                  <DataTypeRow
-                    tableName={props.tableName}
-                    key={index}
-                    element={element}
-                  />
-                )
-              }
+          {Object.keys(props.tableData.rows[0]).map((element, index) => {
+            if (props.location.pathname === '/queryBuilder') {
+              return (
+                <QueryRow
+                  tableName={props.tableName}
+                  key={index}
+                  field={element}
+                  tableData={props.tableData}
+                />
+              )
+            } else {
+              return (
+                <DataTypeRow
+                  tableName={props.tableName}
+                  key={index}
+                  element={element}
+                />
+              )
             }
-          )}
+          })}
         </tbody>
       </table>
       {props.location.pathname === '/queryBuilder' ? (
