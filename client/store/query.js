@@ -40,6 +40,7 @@ export const orderBy = (tableName, orderByArray) => ({
   orderByArray
 })
 
+
 export const groupBy = (tableName, groupByArray) => ({
   type: GROUP_BY,
   tableName,

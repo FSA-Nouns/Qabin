@@ -20,15 +20,6 @@ form div {
   display: inline-block;
 }
 
-.filter-form {
-  display: none;
-}
-
-.query-row:focus-within > td > .filter-form {
-  display: inline;
-  position: absolute;
-}
-
 .direction-select {
   display: none;
 }
