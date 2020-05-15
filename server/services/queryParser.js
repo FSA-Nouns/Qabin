@@ -37,7 +37,9 @@ function parseWhere(table, whereArr) {
     let field = criteria[0]
     let operator = criteria[1]
     let value =
-      typeof criteria[2] !== 'string' ? criteria[2] : `'${criteria[2]}'`
+      typeof criteria[2] !== 'string' || criteria[2] === 'IS NOT NULL'
+        ? criteria[2]
+        : `'${criteria[2]}'`
 
     if (index === whereArr.length - 1) {
       string += `${table}.${field} ${operator} ${value}` //Why are we appending table.field?
