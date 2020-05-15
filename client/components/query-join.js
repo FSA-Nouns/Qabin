@@ -5,7 +5,7 @@ import {
   addJoinElement,
   removeJoinElement,
   setJoinColumn1Element,
-  setJoinColumn2Element,
+  setJoinColumnElement,
   removeJoinColumnElement
 } from '../store/query'
 
@@ -16,14 +16,13 @@ class Join extends React.Component {
     this.state = {
       join: false,
       table1: '',
-      table2: '',
-      column1: false,
-      column2: false
+      table2: ''
+      // column1: false,
+      // column2: false
     }
     this.toggleJoin = this.toggleJoin.bind(this)
     this.handleJoinElement = this.handleJoinElement.bind(this)
-    this.handleColumn1Element = this.handleColumn1Element.bind(this)
-    this.handleColumn2Element = this.handleColumn2Element.bind(this)
+    this.handleColumnElement = this.handleColumnElement.bind(this)
   }
 
   toggleJoin() {
@@ -58,32 +57,16 @@ class Join extends React.Component {
     console.log('exited if in handle join element')
   }
 
-  handleColumn1Element(table, event) {
+  handleColumnElement(table1, table2, event, index) {
     event.preventDefault()
-    let index = 2
-    let joinArray = `${table}.${event.target.value}`
-    if (this.state.column1 === false) {
-      this.props.setJoinColumn1Element(table, joinArray)
-      return this.setState({column1: true})
-    } else {
-      this.props.removeJoinColumnElement(table, index)
-      this.props.setJoinColumn1Element(table, joinArray)
-      // return this.setState({column1: true})
-    }
-  }
-
-  handleColumn2Element(table1, table2, event) {
-    event.preventDefault()
-    let index = 3
     let joinArray = `${table2}.${event.target.value}`
-    if (this.state.column2 === false) {
-      this.props.setJoinColumn2Element(table1, joinArray)
-      return this.setState({column2: true})
-    } else {
-      this.props.removeJoinColumnElement(table1, index)
-      this.props.setJoinColumn2Element(table1, joinArray)
-      // return this.setState({column1: true})
-    }
+    // if (this.state.column2 === false) {
+    this.props.setJoinColumnElement(table1, joinArray, index)
+    //   return this.setState({column2: true})
+    // } else {
+    //   // this.props.removeJoinColumnElement(table1, index)
+    //   this.props.setJoinColumnElement(table1, joinArray, index)
+    // return this.setState({column1: true})
   }
 
   //   handleConfirmJoin(table1, table2, event) {
@@ -140,7 +123,9 @@ class Join extends React.Component {
 
             <select
               name="element1"
-              onChange={event => this.handleColumn1Element(table1, event)}
+              onChange={event =>
+                this.handleColumnElement(table1, table1, event, 2)
+              }
               className="dropdown"
             >
               <option>Column from this table</option>
@@ -167,7 +152,7 @@ class Join extends React.Component {
             <select
               name="element2"
               onChange={event =>
-                this.handleColumn2Element(table1, table2, event)
+                this.handleColumnElement(table1, table2, event, 3)
               }
               className="dropdown"
             >
@@ -210,12 +195,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(addJoinElement(tableName, joinArray, joinType)),
     removeJoinElement: (tableName, joinArray) =>
       dispatch(removeJoinElement(tableName, joinArray)),
-    setJoinColumn1Element: (tableName, joinArray) =>
-      dispatch(setJoinColumn1Element(tableName, joinArray)),
-    setJoinColumn2Element: (tableName, joinArray) =>
-      dispatch(setJoinColumn2Element(tableName, joinArray)),
-    removeJoinColumnElement: (table1, index) =>
-      dispatch(removeJoinColumnElement(table1, index))
+    setJoinColumnElement: (tableName, joinArray, index) =>
+      dispatch(setJoinColumnElement(tableName, joinArray, index))
   }
 }
 
