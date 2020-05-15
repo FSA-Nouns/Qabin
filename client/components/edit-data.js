@@ -37,7 +37,7 @@ export class EditData extends Component {
               {this.props.tableData.map((table, index) => (
                 <div className="single-table" key={index}>
                   <SingleTable
-                    tableData={this.props.tableData}
+                    tableData={table[Object.keys(table)[0]]}
                     index={index}
                     tableName={this.props.tableNames[index]}
                     key={index}
