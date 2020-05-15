@@ -38,7 +38,7 @@ class Join extends React.Component {
     event.preventDefault()
     joinType = event.target.value
   }
-
+  //
   handleJoinElement(event) {
     event.preventDefault()
     let joinArray = event.target.value
