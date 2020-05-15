@@ -31,7 +31,7 @@ class Join extends React.Component {
       this.props.removeJoinElement(this.props.data.tableName)
       return this.setState({join: false})
     } else {
-      this.props.addJoinElement(this.props.data.tableName)
+      //   this.props.addJoinElement(this.props.data.tableName)
       this.setState({join: true})
     }
   }

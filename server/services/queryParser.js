@@ -38,7 +38,7 @@ function parseWhere(table, whereArr) {
 function parseFields(table, fieldsArr) {
   return fieldsArr.reduce((string, field, index) => {
     if (index === fieldsArr.length - 1) {
-      string += `${table}.${field} FROM ${table}`
+      string += `${table}.${field} FROM ${table} `
     } else {
       string += `${table}.${field}, `
     }
@@ -51,10 +51,16 @@ function parseFields(table, fieldsArr) {
 //add select fields appended to the select from for the to be joined table - array at 4th index and call parseFields on it
 //<---add reducer ann action creators to include the last leg of the select clauses.
 function parseJoin(table, joinArr) {
-  let query = ` ${joinArr[1]} JOIN ${joinArr[0]} ON ${joinArr[2]} = ${
-    joinArr[3]
-  } `
-  return joinArr.length ? query : ''
+  let query = ''
+  joinArr.map(join => {
+    if (join.length !== 0) {
+      return (query += ` ${join[1]} JOIN ${join[0]} ON ${join[2]} = ${
+        join[3]
+      } `)
+    } else return 100
+  })
+  console.log(query, 'query in parseJoin')
+  return joinArr.length !== 0 && query !== undefined ? query : ''
 }
 
 module.exports = queryParser

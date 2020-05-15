@@ -22,7 +22,11 @@ router.put('/:userId/query', isUserMiddleware, async (req, res, next) => {
     for (let i = 0; i < tables.length; i++) {
       let table = tables[i]
 
-      let query = queryParser(table, req.body.queryBundle[table])
+      let query = queryParser(
+        table,
+        req.body.queryBundle[table],
+        req.body.queryBundle
+      )
 
       let rows = await pool.query(query)
 

@@ -38,10 +38,11 @@ export const removeJoinElement = (tableName, joinId) => ({
   joinId: 0
 })
 
-export const setJoinColumn1Element = (tableName, joinArray, joinId) => ({
+export const setJoinColumn1Element = (tableName, joinArray, index, joinId) => ({
   type: SET_JOIN_COLUMN1_ELEMENT,
   tableName,
   joinArray,
+  index: 2,
   joinId: 0
 })
 
@@ -59,10 +60,11 @@ export const removeJoinColumnElement = (tableName, index, joinId) => ({
   joinId: 0
 })
 
-export const confirmJoinElement = (tableName, index, joinId) => ({
+export const confirmJoinElement = (tableName, joinArray, joinId) => ({
   type: CONFIRM_JOIN,
   tableName,
-  index,
+  joinArray,
+  index: 4,
   joinId: 0
 })
 
@@ -126,9 +128,9 @@ const query = (state = initialState, action) => {
 
     case ADD_JOIN_ELEMENT:
       let newStateA = {...state}
-
-      newStateA[action.tableName].join[action.joinId] = [
-        ...newStateA[action.tableName].join[action.joinId],
+      //.splice(action.joinId, 0
+      newStateA[action.tableName].join = [
+        ...newStateA[action.tableName].join,
         [action.joinArray, action.joinType]
       ]
 
@@ -136,21 +138,26 @@ const query = (state = initialState, action) => {
 
     case REMOVE_JOIN_ELEMENT:
       let newStateB = {...state}
-
-      // newStateB[action.tableName].join = []
-      newStateB[action.tableName].join = newStateB[
-        action.tableName
-      ].join.filter((join, index) => index !== action.joinId)
+      // let B = newStateB[action.tableName].join
+      // newStateB[action.tableName].join = [[],[]]
+      newStateB[action.tableName].join !== []
+        ? (newStateB[action.tableName].join = newStateB[
+            action.tableName
+          ].join.filter(join => {
+            return !join[action.joinId]
+          }))
+        : (newStateB[action.tableName].join = [])
 
       return newStateB
 
     case SET_JOIN_COLUMN1_ELEMENT:
       let newStateC = {...state}
-
-      newStateC[action.tableName].join[action.joinId] = [
-        ...newStateC[action.tableName].join[action.joinId],
-        action.joinArray
-      ]
+      let currJoinStateC = newStateC[action.tableName].join[action.joinId]
+      let newJoinStateC
+      currJoinStateC.length - 1 < action.index
+        ? (newJoinStateC = [...currJoinStateC, action.joinArray])
+        : (newJoinStateC = [currJoinStateC.splice(2, 0, action.joinArray)])
+      newStateC[action.tableName].join[action.joinId] = newJoinStateC
 
       return newStateC
 
@@ -178,11 +185,18 @@ const query = (state = initialState, action) => {
 
     case CONFIRM_JOIN:
       let newStateF = {...state}
-
-      newStateF[action.tableName].join[action.joinId] = [
-        ...newStateF[action.tableName].join[action.joinId].splice(
-          action.index,
-          1
+      let currJoinStateF = newStateF[action.tableName].join[action.joinId]
+      let newJoinStateF = [
+        ...currJoinStateF.splice(action.index, 0, [
+          action.joinArray,
+          action.joinType
+        ])
+      ]
+      newStateF[action.tableName].join = [
+        ...newStateF[action.tableName].join.splice(
+          action.joinId,
+          0,
+          newJoinStateF
         )
       ]
 
