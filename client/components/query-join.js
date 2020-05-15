@@ -30,7 +30,6 @@ class Join extends React.Component {
       this.props.removeJoinElement(this.props.data.tableName)
       return this.setState({join: false})
     } else {
-      //   this.props.addJoinElement(this.props.data.tableName)
       this.setState({join: true})
     }
   }
@@ -42,16 +41,12 @@ class Join extends React.Component {
 
   handleJoinElement(event) {
     event.preventDefault()
-    // console.log(typeof this.props.data.tableName, 'this.props in handle join element method')
-    // console.log(this.state.join, 'this.state.join in handle join element method')
     let joinArray = event.target.value
     let table = this.props.data.tableName
     if (this.state.join === true) {
       this.props.removeJoinElement(table, 0)
       this.props.addJoinElement(table, joinArray, joinType)
       return this.setState({table1: table, table2: joinArray})
-      // , table2: joinArray
-      // console.log('this.state in handle join element after setstate of table1', this.state)
     }
 
     console.log('exited if in handle join element')
@@ -60,27 +55,8 @@ class Join extends React.Component {
   handleColumnElement(table1, table2, event, index) {
     event.preventDefault()
     let joinArray = `${table2}.${event.target.value}`
-    // if (this.state.column2 === false) {
     this.props.setJoinColumnElement(table1, joinArray, index)
-    //   return this.setState({column2: true})
-    // } else {
-    //   // this.props.removeJoinColumnElement(table1, index)
-    //   this.props.setJoinColumnElement(table1, joinArray, index)
-    // return this.setState({column1: true})
   }
-
-  //   handleConfirmJoin(table1, table2, event) {
-  //     let index = 5
-  //     let joinArray = `${table2}.${event.target.value}`
-  //     if (this.state.column2 === true) {
-  //       this.props.setJoinColumn2Element(table1, joinArray)
-  //       return this.setState({column2: true})
-  //     } else {
-  //       this.props.removeJoinColumnElement(table1, index)
-  //       this.props.setJoinColumn2Element(table1, joinArray)
-  //       // return this.setState({column1: true})
-  //     }
-  //   }
 
   render() {
     let table1 = this.state.table1
