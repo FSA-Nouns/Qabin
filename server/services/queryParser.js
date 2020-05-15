@@ -7,7 +7,7 @@ function queryParser(table, queryObj, queryBundle) {
   let groupBy = ''
   let orderBy = ''
   let limit = ''
-  
+
   Object.keys(queryObj).forEach(parameter => {
     if (parameter === 'fields') {
       fields += parseFields(table, queryObj[parameter])
@@ -23,12 +23,12 @@ function queryParser(table, queryObj, queryBundle) {
       limit += parseLimit(table, queryObj[parameter])
     }
   })
-  
+
   query += `${fields} ${appendJoinedFields(
     table,
     queryBundle
   )} FROM ${table} ${join} ${where} ${groupBy} ${orderBy} ${limit}`
-  
+
   console.log(query)
   return query
 }
@@ -114,6 +114,7 @@ function appendJoinedFields(table, queryBundle) {
   })
   console.log('APPENDFILEDS IN FUNCTION', appendFields)
   return appendFields
+}
 
 function parseGroupBy(table, groupByArray) {
   let query = ' GROUP BY'

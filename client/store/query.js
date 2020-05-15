@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import axios from 'axios'
 
 const initialState = {}
@@ -62,7 +63,6 @@ const GROUP_BY = 'GROUP_BY'
 
 const LIMIT_TO = 'LIMIT_TO'
 
-
 export const addFieldElement = (tableName, field) => ({
   type: ADD_FIELD_ELEMENT,
   tableName,
@@ -75,18 +75,11 @@ export const removeFieldElement = (tableName, field) => ({
   field
 })
 
-export const addFilterElement = (tableName, filterArray) => ({
-  type: ADD_FILTER_ELEMENT,
-  tableName,
-  filterArray
-})
-
 export const orderBy = (tableName, orderByArray) => ({
   type: ORDER_BY,
   tableName,
   orderByArray
 })
-
 
 export const groupBy = (tableName, groupByArray) => ({
   type: GROUP_BY,
@@ -116,16 +109,6 @@ const query = (state = initialState, action) => {
         action.field
       ]
       return newState1
-      
-    case ADD_FILTER_ELEMENT:
-      let newState2 = {...state}
-
-      newState2[action.tableName].where = [
-        ...newState2[action.tableName].where,
-        action.filterArray
-      ]
-
-      return newState2
 
     case REMOVE_FIELD_ELEMENT:
       let newState2 = {...state}
