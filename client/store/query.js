@@ -153,10 +153,14 @@ const query = (state = initialState, action) => {
     case SET_JOIN_COLUMN1_ELEMENT:
       let newStateC = {...state}
       let currJoinStateC = newStateC[action.tableName].join[action.joinId]
+      console.log(currJoinStateC, 'currJoinStateC')
       let newJoinStateC
       currJoinStateC.length - 1 < action.index
         ? (newJoinStateC = [...currJoinStateC, action.joinArray])
         : (newJoinStateC = [currJoinStateC.splice(2, 0, action.joinArray)])
+      // let A = [...newStateC[action.tableName].join]
+      // console.log(A,"AAAAA")
+      console.log(newJoinStateC, 'newJoinStateC')
       newStateC[action.tableName].join[action.joinId] = newJoinStateC
 
       return newStateC
