@@ -36,7 +36,7 @@ class QuerySort extends Component {
   toggleOrderBy(ev) {
     let modified = []
     let order = this.state.orderByArray.map(x => Object.keys(x))
-    console.log('ORDER KEYS', order)
+
     if (order.includes(ev.target.value)) {
       modified = this.state.orderByArray.filter(
         obj => Object.keys(obj) !== ev.target.value
@@ -49,11 +49,16 @@ class QuerySort extends Component {
     this.props.orderBy(this.props.tableName, modified)
   }
 
-  toggleDirection(ev) {
-    console.log('EVENT.TARGET', ev.target)
-    console.log('EVENT.TARGET.NAME', ev.target.name)
-    console.log('EVENT.TARGET.NAME.VALUE', ev.target.name.value)
-    //console.log('EVENT.TARGET.DIRECTION.VALUE', ev.target.direction.value) THROWS ERROR
+  toggleDirection(ev, field) {
+    let modified = [...this.state.orderByArray]
+
+    modified.map(fieldObj => {
+      if (fieldObj.hasOwnProperty(field)) {
+        return {[field]: ev.target.value}
+      }
+    })
+
+    this.props.orderBy(this.props.tableName, modified)
   }
 
   setLimit(ev) {
@@ -98,9 +103,9 @@ class QuerySort extends Component {
                 <select
                   className="direction-select"
                   name="direction"
-                  onChange={this.toggleDirection}
+                  onChange={ev => this.toggleDirection(ev, selected)}
                 >
-                  <option value="ASC"></option>
+                  <option value="ASC" />
                   <option value="ASC">ascending</option>
                   <option value="ASC">alphabetical</option>
                   <option value="DESC">descending</option>
