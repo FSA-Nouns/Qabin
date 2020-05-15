@@ -4,9 +4,7 @@ import {connect} from 'react-redux'
 import {
   addJoinElement,
   removeJoinElement,
-  setJoinColumn1Element,
-  setJoinColumnElement,
-  removeJoinColumnElement
+  setJoinColumnElement
 } from '../store/query'
 
 let joinType
@@ -17,8 +15,6 @@ class Join extends React.Component {
       join: false,
       table1: '',
       table2: ''
-      // column1: false,
-      // column2: false
     }
     this.toggleJoin = this.toggleJoin.bind(this)
     this.handleJoinElement = this.handleJoinElement.bind(this)
@@ -38,7 +34,7 @@ class Join extends React.Component {
     event.preventDefault()
     joinType = event.target.value
   }
-  //
+
   handleJoinElement(event) {
     event.preventDefault()
     let joinArray = event.target.value
