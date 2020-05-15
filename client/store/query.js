@@ -12,6 +12,8 @@ const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
 
 const ORDER_BY = 'ORDER_BY'
 
+const GROUP_BY = 'GROUP_BY'
+
 const LIMIT_TO = 'LIMIT_TO'
 
 export const addFieldElement = (tableName, field) => ({
@@ -26,7 +28,6 @@ export const removeFieldElement = (tableName, field) => ({
   field
 })
 
-
 export const addFilterElement = (tableName, filterArray) => ({
   type: ADD_FILTER_ELEMENT,
   tableName,
@@ -37,6 +38,13 @@ export const orderBy = (tableName, orderByArray) => ({
   type: ORDER_BY,
   tableName,
   orderByArray
+})
+
+
+export const groupBy = (tableName, groupByArray) => ({
+  type: GROUP_BY,
+  tableName,
+  groupByArray
 })
 
 export const limitTo = (tableName, limit) => ({
@@ -79,15 +87,16 @@ const query = (state = initialState, action) => {
 
     case ORDER_BY:
       let newState4 = {...state}
-      newState4[action.tableName].orderBy = [
-        ...newState4[action.tableName].orderBy,
-        action.orderByArray
-      ]
+      newState4[action.tableName].orderBy = [...action.orderByArray]
       return newState4
-    case LIMIT_TO:
+    case GROUP_BY:
       let newState5 = {...state}
-      newState5[action.tableName].limit = [action.limit]
+      newState5[action.tableName].groupBy = [...action.groupByArray]
       return newState5
+    case LIMIT_TO:
+      let newState6 = {...state}
+      newState6[action.tableName].limit = [action.limit]
+      return newState6
     default:
       return state
   }

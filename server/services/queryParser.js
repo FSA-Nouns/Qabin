@@ -6,12 +6,12 @@ function queryParser(table, queryObj) {
       query += parseFields(table, queryObj[parameter])
     } else if (parameter === 'where') {
       query += parseWhere(table, queryObj[parameter])
-    } else if (parameter === 'limit') {
-      query += parseLimit(table, queryObj[parameter])
+    } else if (parameter === 'groupBy') {
+      query += parseGroupBy(table, queryObj[parameter])
     } else if (parameter === 'orderBy') {
       query += parseOrderBy(table, queryObj[parameter])
-    } else if (parameter === 'groupBy') {
-      query += parseOrderBy(table, queryObj[parameter])
+    } else if (parameter === 'limit') {
+      query += parseLimit(table, queryObj[parameter])
     }
   })
 
@@ -71,10 +71,25 @@ function parseFields(table, fieldsArr) {
     } else if (index === fieldsArr.length - 1) {
       string += `${table}.${field} FROM ${table}`
     } else {
-      string += `${table}.${field}, `
+      string += ` ${table}.${field},`
     }
-  })}
 
+    return string
+  }, '')
+}
+function parseGroupBy(table, groupByArray) {
+  let query = ' GROUP BY'
+  query += groupByArray.reduce((string, field, index) => {
+    if (index === groupByArray.length - 1) {
+      string += ` ${table}.${field}`
+    } else {
+      string += ` ${table}.${field},`
+    }
+    return string
+  }, '')
+  console.log('GROUP BY', query)
+  return query
+}
 /* the orderBy parameter stores the orderByArray, which holds objects where the
 key-value pairs are of format {field: direction}. If direction is null, append nothing;
 SQL defaults to ASC/alphabetical order
@@ -83,32 +98,15 @@ SQL defaults to ASC/alphabetical order
 function parseOrderBy(table, orderByArray) {
   let query = ' ORDER BY'
   query += orderByArray.reduce((string, index) => {
-    console.log(index)
     string += ` ${table}.${Object.keys(index)[0]}`
     string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
     if (index < orderByArray.length - 1) {
       string += ','
     }
-    console.log('FINAL STRING', string)
     return string
   }, '')
   return query
 }
-
-// function parseGroupBy(table, orderByArray) {
-//   let query = ' ORDER BY'
-//   query += orderByArray.reduce((string, index) => {
-//     console.log(index)
-//     string += ` ${Object.keys(index)[0]}`
-//     string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
-//     if (index < orderByArray.length - 1) {
-//       string += ','
-//     }
-//     console.log('FINAL STRING', string)
-//     return string
-//   }, '')
-//   return query
-// }
 
 // the limit parameter stores a 1-element array with the desired limit as it's value
 function parseLimit(table, limitArr) {

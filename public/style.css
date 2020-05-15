@@ -19,3 +19,12 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.direction-select {
+  display: none;
+}
+
+.Order-by:focus-within > .direction-select {
+  display: inline;
+  position: absolute;
+}

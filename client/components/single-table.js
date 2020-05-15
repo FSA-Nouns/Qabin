@@ -1,5 +1,6 @@
 import React from 'react'
 import QueryRow from './query-row'
+import QuerySort from './query-sort'
 import DataTypeRow from './data-type-row'
 import AggregateSelector from './aggregate-selector'
 
@@ -42,11 +43,14 @@ export default function SingleTable(props) {
       </table>
       {props.location.pathname === '/queryBuilder' ? (
         <div>
-          <AggregateSelector
-            index={props.index}
-            tableData={props.tableData}
-            tableName={props.tableName}
-          />
+          <div>
+            <AggregateSelector
+              index={props.index}
+              tableData={props.tableData}
+              tableName={props.tableName}
+            />
+          </div>
+          <QuerySort tableName={props.tableName} />
         </div>
       ) : (
         <div />
