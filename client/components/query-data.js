@@ -3,8 +3,13 @@ import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
+import {setTables} from '../store/upload'
 
 export class QueryData extends Component {
+  componentDidMount() {
+    this.props.setTables(this.props.tableNames)
+  }
+
   render() {
     return (
       <div>
@@ -43,7 +48,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitQuery: (query, user) => dispatch(submitQuery(query, user))
+  submitQuery: (query, user) => dispatch(submitQuery(query, user)),
+  setTables: tableNames => dispatch(setTables(tableNames))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryData)

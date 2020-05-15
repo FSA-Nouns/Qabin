@@ -24,6 +24,7 @@ export default function SingleTable(props) {
                     tableName={props.tableName}
                     key={index}
                     field={element}
+                    tableData={props.tableData[props.tableName]}
                   />
                 )
               } else {
