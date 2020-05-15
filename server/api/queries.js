@@ -6,7 +6,7 @@ const isUserMiddleware = require('../auth/isUser')
 const pool = new Pool({
   host: 'localhost',
   user: 'postgres',
-  database: 'dummy-qbp',
+  database: 'dummy1-qbp',
   //   password: "123",
   port: 5432,
   max: 20,
@@ -22,10 +22,13 @@ router.put('/:userId/query', async (req, res, next) => {
     for (let i = 0; i < tables.length; i++) {
       let table = tables[i]
 
-      let query = queryParser(table, req.body.queryBundle[table])
-      console.log('THE QUERY', query)
+      let query = queryParser(
+        table,
+        req.body.queryBundle[table],
+        req.body.queryBundle
+      )
       let rows = await pool.query(query)
-      console.log('ROWS', rows)
+     
       rows.query = query
       allTables.push({[table]: rows})
     }
