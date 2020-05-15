@@ -1,5 +1,6 @@
 import React from 'react'
 import QueryRow from './query-row'
+import QuerySort from './query-sort'
 import DataTypeRow from './data-type-row'
 
 export default function SingleTable(props) {
@@ -36,6 +37,11 @@ export default function SingleTable(props) {
           )}
         </tbody>
       </table>
+      {props.location.pathname === '/queryBuilder' ? (
+        <QuerySort tableName={props.tableName} />
+      ) : (
+        <div />
+      )}
     </div>
   )
 }
