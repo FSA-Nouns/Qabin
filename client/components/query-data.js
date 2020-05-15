@@ -27,7 +27,7 @@ export class QueryData extends Component {
               <SingleTable
                 tableData={table}
                 tableName={this.props.tableNames[index]}
-                key={index}
+                index={index}
                 location={this.props.location}
               />
             </div>
