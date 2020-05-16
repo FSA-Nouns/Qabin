@@ -38,8 +38,8 @@ class AggregateSelector extends Component {
     let numericFields = Object.keys(this.props.tableData.headers).filter(
       field => {
         if (
-          this.props.tableData.headers[field] === 'integer' ||
-          this.props.tableData.headers[field] === 'double precision'
+          this.props.tableData.headers[field] === 'int' ||
+          this.props.tableData.headers[field] === 'float'
         )
           return true
       }

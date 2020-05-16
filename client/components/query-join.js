@@ -101,12 +101,6 @@ class Join extends React.Component {
               className="dropdown"
             >
               <option>Column from this table</option>
-              {console.log(
-                'this.props element1 dropdown',
-                this.props.data.tableDatas
-              )}
-              {console.log('this.props element1 dropdown table1', table1)}
-              {console.log('this.props element1 dropdown table1', this.state)}
               {table1 !== undefined ? (
                 this.props.data.tableDatas.map(table => {
                   if (table[table1] !== undefined) {
@@ -129,12 +123,6 @@ class Join extends React.Component {
               className="dropdown"
             >
               <option>Column from table to be joined</option>
-              {console.log(
-                'this.props element2 dropdown',
-                this.props.data.tableDatas
-              )}
-              {console.log('this.props element2 dropdown table1', table2)}
-              {console.log('this.props element2 dropdown table1', this.state)}
               {table2 !== undefined ? (
                 this.props.data.tableDatas.map(table => {
                   if (table[table2] !== undefined) {

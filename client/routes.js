@@ -6,6 +6,7 @@ import {Login, Signup, UserHome, FileUpload, EditData} from './components'
 import {me} from './store'
 import QueryData from './components/query-data'
 import QueryResult from './components/query-result'
+import Home from './components/home'
 
 /**
  * COMPONENT
@@ -26,7 +27,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={FileUpload} />
+            <Route path="/home" component={Home} />
             <Route path="/editData" component={EditData} />
             <Route path="/queryBuilder" component={QueryData} />
             <Route path="/results" component={QueryResult} />

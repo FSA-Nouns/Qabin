@@ -54,8 +54,10 @@ export const parseFilesWithDataType = (user, tableData) => {
 export const parseFiles = (files, user) => {
   return async dispatch => {
     try {
-      let filePaths = files.fileNames.map(file => file.path)
-
+      let filePaths = files.fileNames.map(file => {
+        return file.path
+      })
+      console.log(filePaths, 'filepatsh')
       const res = await axios.post(`/api/parse/${user.id}`, {
         filepaths: filePaths
       })
@@ -72,7 +74,20 @@ const fileReducer = (state = initialState, action) => {
     case SET_FILE_NAMES:
       return {...state, fileNames: action.fileNames}
     case SET_TABLE_NAMES:
-      return {...state, tableNames: action.tableNames}
+      console.log(state)
+
+      return {
+        ...state,
+        tableNames: [...state.tableNames, ...action.tableNames].reduce(
+          (uniques, tableName) => {
+            if (!uniques.includes(tableName)) {
+              uniques.push(tableName)
+            }
+            return uniques
+          },
+          []
+        )
+      }
     default:
       return state
   }

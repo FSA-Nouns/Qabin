@@ -131,7 +131,6 @@ function parseGroupBy(table, groupByArray) {
     }
     return string
   }, '')
-  console.log('GROUP BY', query)
   return query
 }
 /* the orderBy parameter stores the orderByArray, which holds objects where the

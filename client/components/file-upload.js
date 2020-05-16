@@ -18,7 +18,6 @@ class FileUpload extends React.Component {
       let file = this.uploadInput.files[i]
       data.append('files[' + i + ']', file, file.name)
     }
-    // data.append('filename', this.fileName.value)
 
     this.props.addFiles(data, this.props.user)
   }
