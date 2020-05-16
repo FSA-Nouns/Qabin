@@ -34,7 +34,7 @@ class QuerySort extends Component {
 
   //this needs to be re-worked to preserve order
   toggleOrderBy(ev) {
-    let modified = []
+    let modified = this.state.orderByArray
     let order = this.state.orderByArray.map(x => Object.keys(x)[0])
 
     if (order.includes(ev.target.value)) {
@@ -43,20 +43,21 @@ class QuerySort extends Component {
       )
       this.setState({orderByArray: modified})
     } else {
-      console.log('THIS.STATE.ORDERBYARRAY', this.state.orderByArray)
-      modified = [{[ev.target.value]: 'ASC'}, ...this.state.orderByArray]
+      modified.push({[ev.target.value]: 'ASC'})
       this.setState({orderByArray: modified})
     }
     this.props.orderBy(this.props.tableName, modified)
   }
 
   toggleDirection(ev, field) {
-    let modified = [...this.state.orderByArray]
+    let modified = this.state.orderByArray
 
     modified = modified.map(header => {
       if (Object.keys(header)[0] === field) {
         return {[field]: ev.target.value}
       }
+
+      return header
     })
 
     this.setState({orderByArray: modified})
