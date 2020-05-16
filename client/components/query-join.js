@@ -35,12 +35,12 @@ class Join extends React.Component {
     joinType = event.target.value
   }
 
-  handleJoinElement(event) {
+  handleJoinElement(event, index) {
     event.preventDefault()
     let joinArray = event.target.value
     let table = this.props.data.tableName
     if (this.state.join === true) {
-      this.props.removeJoinElement(table, this.props.index)
+      this.props.removeJoinElement(table, index)
       this.props.addJoinElement(table, joinArray, joinType, this.props.index)
       return this.setState({table1: table, table2: joinArray})
     }
@@ -77,7 +77,9 @@ class Join extends React.Component {
 
             <select
               name="table"
-              onChange={this.handleJoinElement}
+              onChange={event =>
+                this.handleJoinElement(event, this.props.index)
+              }
               className="dropdown"
             >
               <option>Table to Join</option>

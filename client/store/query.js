@@ -125,12 +125,30 @@ const query = (state = initialState, action) => {
 
     case REMOVE_JOIN_ELEMENT:
       let newStateB = {...state}
+      console.log(
+        newStateB[action.tableName].join,
+        'in removejoin reducer - newStateB[action.tableName].join'
+      )
+      console.log(
+        !newStateB[action.tableName].join,
+        'in removejoin reducer - join'
+      )
+      console.log(
+        newStateB[action.tableName].join.filter(join => {
+          return !join[1]
+        }),
+        'in removejoin reducer - in if statement true'
+      )
       newStateB[action.tableName].join !== []
         ? (newStateB[action.tableName].join = newStateB[
             action.tableName
-          ].join.filter(join => {
-            return !join[action.joinId]
-          }))
+          ].join.filter(
+            (join, index) =>
+              // console.log(!join[action.joinId], '!join[action.joinId]')
+              // console.log(join[action.joinId], 'join[action.joinId]')
+              index !== action.joinId ? join : ''
+              // !join[action.joinId]
+          ))
         : (newStateB[action.tableName].join = [])
       return newStateB
 
