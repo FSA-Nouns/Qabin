@@ -50,25 +50,16 @@ class QuerySort extends Component {
   }
 
   toggleDirection(ev, field) {
-    console.log('TARGET.VALUE', ev.target.value)
-    console.log('FIELD', field)
-    console.log('this.state.orderByArray', this.state.orderByArray)
-    let modified = this.state.orderByArray.map(
-      obj => Object.keys(obj) === field //WHY AREN'T THE FIELDS MATCHING
-    )
-    console.log('modified state array', modified)
-    let str = /.*/
-    let order = this.state.orderByArray
-    let hits = this.state.orderByArray.indexOf({[field]: str})
-    console.log(hits)
-    if (hits >= 0) {
-      order[hits] = {[field]: ev.target.value}
-      this.setState({orderByArray: [...order]})
-    } else if (order.length > 0) {
-      order = [...order, {[field]: ev.target.value}]
-      this.setState({orderByArray: [...order]})
-    }
-    this.props.orderBy(this.props.tableName, order)
+    let modified = [...this.state.orderByArray]
+
+    modified = modified.map(header => {
+      if (Object.keys(header)[0] === field) {
+        return {[field]: ev.target.value}
+      }
+    })
+
+    this.setState({orderByArray: modified})
+    this.props.orderBy(this.props.tableName, modified)
   }
 
   setLimit(ev) {
