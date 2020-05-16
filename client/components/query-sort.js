@@ -35,14 +35,15 @@ class QuerySort extends Component {
   //this needs to be re-worked to preserve order
   toggleOrderBy(ev) {
     let modified = []
-    let order = this.state.orderByArray.map(x => Object.keys(x))
+    let order = this.state.orderByArray.map(x => Object.keys(x)[0])
 
     if (order.includes(ev.target.value)) {
       modified = this.state.orderByArray.filter(
-        obj => Object.keys(obj) !== ev.target.value
+        obj => Object.keys(obj)[0] !== ev.target.value
       )
       this.setState({orderByArray: modified})
     } else {
+      console.log('THIS.STATE.ORDERBYARRAY', this.state.orderByArray)
       modified = [{[ev.target.value]: 'ASC'}, ...this.state.orderByArray]
       this.setState({orderByArray: modified})
     }
@@ -145,19 +146,23 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(QuerySort)
 
 /*
-<Form>
-          Group By
-          {this.props.queryBundle[this.props.tableName].fields.map(
-            (selected) => (
-              <Form.Check
-                inline
-                key={`inline-${selected}`}
-                type="checkbox"
-                value={selected}
-                label={selected}
-                onChange={this.toggleGroupBy}
-              />
-            )
-          )}
-        </Form>
+
+    toggleDirection(ev, field) {
+    let modified = [...this.state.orderByArray]
+    let preExisting = false
+    for (let i = 0; i <= modified.length; i++) {
+      if (Object.keys(modified)[0] === field) {
+        preExisting = true
+      }
+    }
+    if (preExisting) {
+      modified = modified.map((header) => {
+        if (Object.keys(header)[0] === field) {
+          return {[field]: ev.target.value}
+        }
+      })
+    } else {
+      modified = [...modified, ]
+    }
+
  */
