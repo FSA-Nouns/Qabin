@@ -112,7 +112,11 @@ function appendJoinedFields(table, queryBundle) {
   queryBundle[table].join.map(join => joinedTableNames.push(join[0]))
 
   const appendFields = joinedTableNames.map(tables => {
-    return ',' + parseFields(tables, queryBundle[tables].fields)
+    if (parseFields(tables, queryBundle[tables].fields) !== '') {
+      return ',' + parseFields(tables, queryBundle[tables].fields)
+    } else {
+      return ''
+    }
   })
   console.log('APPENDFILEDS IN FUNCTION', appendFields)
   return appendFields
