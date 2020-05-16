@@ -17,44 +17,6 @@ const SET_JOIN_COLUMN_ELEMENT = 'SET_JOIN_COLUMN_ELEMENT'
 
 const REMOVE_COLUMN_ELEMENT = 'REMOVE_COLUMN_ELEMENT'
 
-const CONFIRM_JOIN = 'CONFIRM_JOIN'
-
-export const addJoinElement = (tableName, joinArray, joinType, joinId) => ({
-  type: ADD_JOIN_ELEMENT,
-  tableName,
-  joinArray,
-  joinType,
-  joinId: 0
-})
-
-//dont need joinArray as an arg as it will wipe out the array
-export const removeJoinElement = (tableName, joinId) => ({
-  type: REMOVE_JOIN_ELEMENT,
-  tableName,
-  joinId: 0
-})
-
-export const setJoinColumnElement = (tableName, joinArray, index, joinId) => ({
-  type: SET_JOIN_COLUMN_ELEMENT,
-  tableName,
-  joinArray,
-  index,
-  joinId: 0
-})
-
-export const removeJoinColumnElement = (tableName, index, joinId) => ({
-  type: REMOVE_COLUMN_ELEMENT,
-  tableName,
-  index,
-  joinId: 0
-})
-
-export const addFilterElement = (tableName, filterArray) => ({
-  type: ADD_FILTER_ELEMENT,
-  tableName,
-  filterArray
-})
-
 const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
 
 const ORDER_BY = 'ORDER_BY'
@@ -62,6 +24,35 @@ const ORDER_BY = 'ORDER_BY'
 const GROUP_BY = 'GROUP_BY'
 
 const LIMIT_TO = 'LIMIT_TO'
+
+export const addJoinElement = (tableName, joinArray, joinType, joinId) => ({
+  type: ADD_JOIN_ELEMENT,
+  tableName,
+  joinArray,
+  joinType,
+  joinId
+})
+
+//dont need joinArray as an arg as it will wipe out the array
+export const removeJoinElement = (tableName, joinId) => ({
+  type: REMOVE_JOIN_ELEMENT,
+  tableName,
+  joinId
+})
+
+export const setJoinColumnElement = (tableName, joinArray, index, joinId) => ({
+  type: SET_JOIN_COLUMN_ELEMENT,
+  tableName,
+  joinArray,
+  index,
+  joinId
+})
+
+export const addFilterElement = (tableName, filterArray) => ({
+  type: ADD_FILTER_ELEMENT,
+  tableName,
+  filterArray
+})
 
 export const addFieldElement = (tableName, field) => ({
   type: ADD_FIELD_ELEMENT,
@@ -134,12 +125,30 @@ const query = (state = initialState, action) => {
 
     case REMOVE_JOIN_ELEMENT:
       let newStateB = {...state}
+      console.log(
+        newStateB[action.tableName].join,
+        'in removejoin reducer - newStateB[action.tableName].join'
+      )
+      console.log(
+        !newStateB[action.tableName].join,
+        'in removejoin reducer - join'
+      )
+      console.log(
+        newStateB[action.tableName].join.filter(join => {
+          return !join[1]
+        }),
+        'in removejoin reducer - in if statement true'
+      )
       newStateB[action.tableName].join !== []
         ? (newStateB[action.tableName].join = newStateB[
             action.tableName
-          ].join.filter(join => {
-            return !join[action.joinId]
-          }))
+          ].join.filter(
+            (join, index) =>
+              // console.log(!join[action.joinId], '!join[action.joinId]')
+              // console.log(join[action.joinId], 'join[action.joinId]')
+              index !== action.joinId ? join : ''
+              // !join[action.joinId]
+          ))
         : (newStateB[action.tableName].join = [])
       return newStateB
 
@@ -148,14 +157,17 @@ const query = (state = initialState, action) => {
       newStateD[action.tableName].join[action.joinId][action.index] =
         action.joinArray
       return newStateD
+
     case ORDER_BY:
       let newState4 = {...state}
       newState4[action.tableName].orderBy = [...action.orderByArray]
       return newState4
+
     case GROUP_BY:
       let newState5 = {...state}
       newState5[action.tableName].groupBy = [...action.groupByArray]
       return newState5
+
     case LIMIT_TO:
       let newState6 = {...state}
       newState6[action.tableName].limit = [action.limit]

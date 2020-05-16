@@ -86,6 +86,7 @@ function parseFields(table, fieldsArr) {
     } else {
       string += ` ${table}.${field},`
     }
+    console.log(string, 'return from the parse fields fucntion')
     return string
   }, '')
 }
@@ -102,8 +103,6 @@ function parseJoin(table, joinArr, queryBundle) {
       } `)
     } else return 100
   })
-  console.log(query, 'query in parseJoin')
-
   return joinArr.length !== 0 && query !== undefined ? query : ''
 }
 
@@ -111,10 +110,14 @@ function appendJoinedFields(table, queryBundle) {
   let joinedTableNames = []
   queryBundle[table].join.map(join => joinedTableNames.push(join[0]))
 
-  const appendFields = joinedTableNames.map(tables => {
-    return ', ' + parseFields(tables, queryBundle[tables].fields)
-  })
-  console.log('APPENDFILEDS IN FUNCTION', appendFields)
+  let appendFields = joinedTableNames
+    .map(tables => {
+      if (parseFields(tables, queryBundle[tables].fields) !== '') {
+        return ',' + parseFields(tables, queryBundle[tables].fields)
+      }
+    })
+    .join('')
+
   return appendFields
 }
 
