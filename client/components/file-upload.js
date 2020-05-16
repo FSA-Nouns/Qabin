@@ -3,6 +3,7 @@ import React from 'react'
 import {addFiles, parseFiles} from '../store/upload'
 import {Link} from 'react-router-dom'
 import history from '../history'
+import Button from '@material-ui/core/Button'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -45,7 +46,9 @@ class FileUpload extends React.Component {
         </div>
         <br />
         <div>
-          <button type="submit">Upload</button>
+          <Button type="submit" variant="contained" color="primary">
+            Upload
+          </Button>
         </div>
       </form>
     ) : (
