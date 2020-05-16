@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FileUpload from './file-upload'
-import {getUserTableNames} from '../store/upload'
+import {getUserTables} from '../store/tables'
 import Bouncer from 'react-data-bouncer'
 import history from '../history'
+
 export class Home extends Component {
   componentDidMount() {
     this.props.getUserTables(this.props.user)
@@ -36,7 +37,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUserTables: user => dispatch(getUserTableNames(user))
+    getUserTables: user => dispatch(getUserTables(user))
   }
 }
 

@@ -67,7 +67,13 @@ class QueryRow extends Component {
             event.target.operator.value
           )
 
-    let filterArray = [this.props.field, operator, value]
+    let filterArray = [
+      this.props.tableData.headers[this.props.field] === 'date'
+        ? `trunc(${this.props.field})`
+        : this.props.field,
+      operator,
+      value
+    ]
     this.props.addFilterElement(this.props.tableName, filterArray)
   }
 
@@ -143,9 +149,9 @@ function FilterForm(props) {
 // date upto from before after
 //component to display filter operators accordingly to dataType of the field
 function FilterFormDataSelect(props) {
-  return props.dataType === 'integer' ||
-    props.dataType === 'serial' ||
-    props.dataType === 'double precision' ? (
+  return props.dataType === 'int' ||
+    props.dataType === 'int' ||
+    props.dataType === 'float' ? (
     <select name="operator">
       <option value="null">Option</option>
       <option value="=">equal to</option>
@@ -166,7 +172,7 @@ function FilterFormDataSelect(props) {
       <option value="ends-with">ends with</option>
       <option value="IS NOT NULL">Not Empty</option>
     </select>
-  ) : props.dataType === 'boolean' ? (
+  ) : props.dataType === 'bool' ? (
     <select name="operator">
       <option value="null">Option</option>
       <option value="=">IS</option>
@@ -188,7 +194,7 @@ function FilterFormDataSelect(props) {
 }
 
 function FilterFormInput(props) {
-  return props.dataType === 'boolean' ? (
+  return props.dataType === 'bool' ? (
     <select name="condition">
       <option value="true">TRUE</option>
       <option value="false">FALSE</option>

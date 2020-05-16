@@ -19,11 +19,16 @@ export const addHeaderType = (header, dataType, tableName) => ({
 })
 
 //THUNKS
-export const gotTables = (userId, tableNames, files) => {
+export const gotTables = (userId, tableData, files) => {
   return async dispatch => {
     try {
+      let newFileNames = files.tableNames.filter(
+        file =>
+          !tableData.filter(table => Object.keys(table)[0] === file).length
+      )
+
       let filePaths = files.fileNames.map(file => file.path)
-      const res = await axios.put(`/api/parse/${userId}/${tableNames}`, {
+      const res = await axios.put(`/api/parse/${userId}/${newFileNames}`, {
         filepaths: filePaths
       })
 
@@ -37,11 +42,30 @@ export const gotTables = (userId, tableNames, files) => {
 const tableReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TABLES:
-      return action.tables.map(table => {
-        let tableName = Object.keys(table)[0]
-        table[tableName].headers = {}
-        return table
-      })
+      let newState = state.length ? state : []
+
+      newState = [
+        ...newState,
+        ...action.tables.map(table => {
+          let tableName = Object.keys(table)[0]
+
+          if (!table[tableName].headers) {
+            table[tableName].headers = {}
+          }
+
+          return table
+        })
+      ].reduce((uniques, table) => {
+        if (
+          !uniques.find(tab => Object.keys(tab)[0] === Object.keys(table)[0])
+        ) {
+          console.log('arepushing?')
+          uniques.push(table)
+        }
+        return uniques
+      }, [])
+
+      return newState
     case ADDED_HEADER_TYPE:
       return state.map(table => {
         if (table.hasOwnProperty(action.tableName)) {

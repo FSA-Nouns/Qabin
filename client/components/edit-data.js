@@ -12,7 +12,7 @@ export class EditData extends Component {
   componentDidMount() {
     this.props.gotTables(
       this.props.user.id,
-      this.props.tableNames,
+      this.props.tableData,
       this.props.files
     )
   }
@@ -25,7 +25,9 @@ export class EditData extends Component {
           onClick={() =>
             this.props.parseTablesWithDataTypes(
               this.props.user,
-              this.props.tableData
+              this.props.tableData.filter(
+                table => !table[Object.keys(table)[0]].old
+              )
             )
           }
         >
@@ -34,28 +36,32 @@ export class EditData extends Component {
         {this.props.tableData.length ? (
           <div>
             <div className="big-container">
-              {this.props.tableData.map((table, index) => (
-                <div className="single-table" key={index}>
-                  <SingleTable
-                    tableData={table[Object.keys(table)[0]]}
-                    index={index}
-                    tableName={this.props.tableNames[index]}
-                    key={index}
-                    location={this.props.location}
-                  />
-                </div>
-              ))}
+              {this.props.tableData
+                .filter(table => !table[Object.keys(table)[0]].old)
+                .map((table, index) => (
+                  <div className="single-table" key={index}>
+                    <SingleTable
+                      tableData={table[Object.keys(table)[0]]}
+                      index={index}
+                      tableName={Object.keys(table)[0]}
+                      key={index}
+                      location={this.props.location}
+                    />
+                  </div>
+                ))}
             </div>
             <div className="table-extract-container">
-              {this.props.tableData.map((table, index) => (
-                <div className="single-table-extract" key={index}>
-                  <TableExtract
-                    tableData={table}
-                    tableName={this.props.tableNames[index]}
-                    key={index}
-                  />
-                </div>
-              ))}
+              {this.props.tableData
+                .filter(table => !table[Object.keys(table)[0]].old)
+                .map((table, index) => (
+                  <div className="single-table-extract" key={index}>
+                    <TableExtract
+                      tableData={table}
+                      tableName={Object.keys(table)[0]}
+                      key={index}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         ) : (
