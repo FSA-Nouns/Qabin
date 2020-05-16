@@ -15,7 +15,7 @@ export default function SingleTable(props) {
       <table className="single-table-view">
         <thead>
           <tr>
-            <th>{props.tableName}</th>
+            <th>{props.tableName.slice(props.tableName.indexOf('_') + 1)}</th>
 
             <td>
               {props.location.pathname === '/queryBuilder' ? (
