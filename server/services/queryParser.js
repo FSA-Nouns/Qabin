@@ -56,7 +56,7 @@ function parseAggregate(field, tableName) {
   let split = field.split('(')
   let queryStr = split[0] + '(' + tableName + '.' + split[1]
   return `${queryStr} AS ${split[0].toLowerCase()}Of${
-    split[1][0] === '*' ? `${tableName}` : split[1].slice(0, -1)
+    split[1][0] === '*' ? tableName : split[1].slice(0, -1)
   }`
 }
 
@@ -117,8 +117,7 @@ function appendJoinedFields(table, queryBundle) {
       }
     })
     .join('')
-  // appendFields.join(',')
-  console.log('APPENDFILEDS IN FUNCTION', appendFields)
+
   return appendFields
 }
 
