@@ -7,7 +7,6 @@ const App = () => {
   return (
     <ThemeProvider>
       <div>
-        <Navbar />
         <Routes />
       </div>
     </ThemeProvider>
