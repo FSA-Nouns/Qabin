@@ -12,7 +12,7 @@ class FileUpload extends React.Component {
     super(props)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
-  //
+
   handleUploadFiles(ev) {
     ev.preventDefault()
 
