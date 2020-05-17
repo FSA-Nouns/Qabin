@@ -5,7 +5,7 @@ import DataTypeRow from './data-type-row'
 import Join from './query-join'
 import {useState} from 'react'
 import AggregateSelector from './aggregate-selector'
-
+//
 export default function TableData(props) {
   return (
     <div>
