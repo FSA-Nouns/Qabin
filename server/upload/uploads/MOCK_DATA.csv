@@ -1,0 +1,6 @@
+id,first_name,last_name,email,gender,date,floats,bool,int
+1,Solly,Buckner,sbuckner0@phpbb.com,Male,1998-05-19,1.2,true,1
+2,Cassandra,Bushel,cbushel1@goodreads.com,Female,1998-05-19,1.2,true,2
+3,Cynthie,Trembey,ctrembey2@biblegateway.com,Female,1998-05-19,1.2,true,3
+4,Lowe,Ebdon,lebdon3@addthis.com,Male,1998-05-19,1.2,true,4
+5,Lurleen,Kyd,lkyd4@hc360.com,Female,1998-05-19,1.2,true,5

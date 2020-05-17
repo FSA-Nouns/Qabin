@@ -3,7 +3,9 @@ import React from 'react'
 import {addFiles, parseFiles} from '../store/upload'
 import {Link} from 'react-router-dom'
 import history from '../history'
-import Button from '@material-ui/core/Button'
+import {Button, Grid, Typography, IconButton} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
+import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded'
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -26,43 +28,28 @@ class FileUpload extends React.Component {
   render() {
     return !this.props.files.fileNames.length ? (
       <form onSubmit={this.handleUploadFiles}>
-        <div>
-          <input
-            ref={ref => {
-              this.uploadInput = ref
-            }}
-            type="file"
-            multiple
-          />
-        </div>
-        <div>
-          {/* <input
-            ref={ref => {
-              this.fileName = ref
-            }}
-            type="text"
-            placeholder="Enter the desired name of file"
-          /> */}
-        </div>
-        <br />
-        <div>
-          <Button type="submit" variant="contained" color="primary">
-            Upload
-          </Button>
-        </div>
+        <Grid container direction="column" spacing={2}>
+          <Typography variant="h5">Upload Tables (.csv)</Typography>
+          <Grid item>
+            <input
+              ref={ref => {
+                this.uploadInput = ref
+              }}
+              type="file"
+              multiple
+            />
+          </Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="secondary">
+              Upload
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     ) : (
-      <div>
-        <h2>Files uploaded successfully</h2>
-        <button
-          type="button"
-          onClick={() => {
-            this.props.parseFiles(this.props.files, this.props.user)
-          }}
-        >
-          Submit
-        </button>
-      </div>
+      <Grid container direction="column">
+        <Typography variant="h5">Files uploaded successfully</Typography>
+      </Grid>
     )
   }
 }
@@ -75,10 +62,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addFiles: (files, user) => dispatch(addFiles(files, user)),
-    parseFiles: (files, user) => {
-      dispatch(parseFiles(files, user))
-    }
+    addFiles: (files, user) => dispatch(addFiles(files, user))
   }
 }
 
