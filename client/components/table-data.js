@@ -6,10 +6,7 @@ import Join from './query-join'
 import {useState} from 'react'
 import AggregateSelector from './aggregate-selector'
 
-let aggArr = ['AVG', 'SUM']
-
-export default function SingleTable(props) {
-  let tableDatas = props.tableDatas
+export default function TableData(props) {
   return (
     <div>
       <table className="single-table-view">
@@ -33,29 +30,18 @@ export default function SingleTable(props) {
             </td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="query-table">
           {Object.keys(props.tableData.rows[0]).map((element, index) => {
             return (
-              <QueryRow
+              <DataTypeRow
                 tableName={props.tableName}
                 key={index}
-                field={element}
-                tableData={props.tableData}
+                element={element}
               />
             )
           })}
         </tbody>
       </table>
-      <div>
-        <div>
-          <AggregateSelector
-            index={props.index}
-            tableData={props.tableData}
-            tableName={props.tableName}
-          />
-        </div>
-        <QuerySort tableName={props.tableName} className="query-sort" />
-      </div>
     </div>
   )
 }

@@ -26,12 +26,38 @@ form div {
   margin: 1em;
   display: inline-block;
 }
-/* 
-.direction-select {
-  display: none;
+
+.big-container {
+  display: flex;
+  flex-flow: row;
+}
+.single-table-view {
+  display: flex;
+  flex-flow: column wrap;
+  background-color: antiquewhite;
+  flex-basis: 50%;
+}
+.query-table {
 }
 
-.Order-by:focus-within > .direction-select {
-  display: inline;
-  position: absolute;
-} */
+.query-row {
+}
+.filter-toggle {
+}
+.filter-form {
+}
+.aggregate-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.sorts {
+}
+.order-by-form {
+}
+.group-by-form {
+}
+.sort-checkbox {
+}
+.direction-select {
+}
