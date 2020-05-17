@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import TableExtract from './table-extract'
+
 import SingleTable from './single-table'
+import TableData from './table-data'
 import {parseFilesWithDataType} from './../store/upload'
 
 export class EditData extends Component {
@@ -40,7 +42,7 @@ export class EditData extends Component {
                 .filter(table => !table[Object.keys(table)[0]].old)
                 .map((table, index) => (
                   <div className="single-table" key={index}>
-                    <SingleTable
+                    <TableData
                       tableData={table[Object.keys(table)[0]]}
                       index={index}
                       tableName={Object.keys(table)[0]}

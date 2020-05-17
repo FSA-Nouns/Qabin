@@ -3,11 +3,11 @@ import {ThemeProvider} from '@material-ui/core/styles'
 import {Navbar} from './components'
 import Routes from './routes'
 import theme from './theme'
+
 const App = () => {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <div>
-        <Navbar />
         <Routes />
       </div>
     </ThemeProvider>

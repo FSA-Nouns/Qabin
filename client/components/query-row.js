@@ -91,15 +91,16 @@ class QueryRow extends Component {
     return (
       <tr className="query-row">
         <td>
+          <span>{this.props.field}</span>
+        </td>
+        <td>
           <input
             name={this.props.field}
             type="checkbox"
             onChange={this.toggleField}
           />
         </td>
-        <td>
-          <span>{this.props.field}</span>
-        </td>
+
         <FilterForm
           filterElement={this.filterElement}
           dataType={this.props.tableData.headers[this.props.field]}

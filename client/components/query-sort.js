@@ -2,6 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {orderBy, groupBy, limitTo} from '../store/query'
 import Form from 'react-bootstrap/Form'
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  FormLabel,
+  Input,
+  InputLabel,
+  Select,
+  TextField
+} from '@material-ui/core'
 
 class QuerySort extends Component {
   constructor() {
@@ -66,63 +79,75 @@ class QuerySort extends Component {
 
   setLimit(ev) {
     ev.preventDefault()
-    this.props.limitTo(this.props.tableName, ev.target.limit.value)
+    this.props.limitTo(this.props.tableName, ev.target.value)
   }
 
   render() {
     return (
-      <div>
-        <Form>
-          Group By
-          {this.props.queryBundle[this.props.tableName].fields.map(selected => (
-            <div key={`inline-${selected}`}>
-              <input
-                type="checkbox"
-                value={selected}
-                id={selected}
-                onChange={this.toggleGroupBy}
-              />
-              <label htmlFor={selected}>{selected}</label>
-            </div>
-          ))}
-        </Form>
-
-        <Form>
-          Order By
-          {this.props.queryBundle[this.props.tableName].fields.map(
-            (selected, index) => (
-              <div
-                key={`inline-${selected}`}
-                className="Order-by"
-                onClick={e => e.target.focus()}
-              >
-                <Form.Check
-                  type="checkbox"
-                  inline
-                  value={selected}
+      <div className="sorts">
+        <FormControl>
+          <FormLabel>Group By</FormLabel>
+          <FormGroup row>
+            {this.props.queryBundle[this.props.tableName].fields.map(
+              selected => (
+                <FormControlLabel
+                  key={selected}
+                  control={
+                    <Checkbox onChange={this.toggleGroupBy} value={selected} />
+                  }
                   label={selected}
-                  onChange={this.toggleOrderBy}
                 />
-                <select
-                  className="direction-select"
-                  name="direction"
-                  onChange={ev => this.toggleDirection(ev, selected)}
-                >
-                  <option value="ASC" />
-                  <option value="ASC">ascending</option>
-                  <option value="ASC">alphabetical</option>
-                  <option value="DESC">descending</option>
-                  <option value="DESC">reverse aplh.</option>
-                </select>
-              </div>
-            )
-          )}
-        </Form>
+              )
+            )}
+          </FormGroup>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Order By</FormLabel>
+          <FormGroup row>
+            {this.props.queryBundle[this.props.tableName].fields.map(
+              selected => (
+                <div key={selected} className="order-by">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={this.toggleOrderBy}
+                        value={selected}
+                      />
+                    }
+                    label={selected}
+                  />
+                  <InputLabel id="label" />
+                  <Select
+                    labelId="label"
+                    id="select"
+                    name="direction"
+                    onChange={ev => this.toggleDirection(ev, selected)}
+                  >
+                    <option value="ASC">Direction</option>
+                    <option value="ASC">ascending</option>
+                    <option value="ASC">alphabetical</option>
+                    <option value="DESC">descending</option>
+                    <option value="DESC">reverse aplh.</option>
+                  </Select>
+                </div>
+              )
+            )}
+          </FormGroup>
+        </FormControl>
         <form onSubmit={this.setLimit}>
-          Limit results to
-          <input name="limit" />
-          <button type="submit">Ok</button>
+          <FormControl>
+            <InputLabel htmlFor="my-input">Limit</InputLabel>
+            <Input id="my-input" aria-describedby="my-helper-text" />
+            <FormHelperText id="my-helper-text">
+              Only show top x results
+            </FormHelperText>
+            <Button type="submit">Submit</Button>
+          </FormControl>
         </form>
+
+        <Button variant="contained">Clear All</Button>
+        <Button variant="contained">Remove Table</Button>
       </div>
     )
   }
@@ -145,25 +170,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuerySort)
-
-/*
-
-    toggleDirection(ev, field) {
-    let modified = [...this.state.orderByArray]
-    let preExisting = false
-    for (let i = 0; i <= modified.length; i++) {
-      if (Object.keys(modified)[0] === field) {
-        preExisting = true
-      }
-    }
-    if (preExisting) {
-      modified = modified.map((header) => {
-        if (Object.keys(header)[0] === field) {
-          return {[field]: ev.target.value}
-        }
-      })
-    } else {
-      modified = [...modified, ]
-    }
-
- */

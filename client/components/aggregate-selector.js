@@ -46,7 +46,7 @@ class AggregateSelector extends Component {
     )
     numericFields.push('*')
     return (
-      <div>
+      <div className="aggregate-selector">
         <form className="avg-filter-form" onSubmit={this.toggleAgg}>
           <button className="agg" type="submit" name="agg" value="AVG">
             AVG
