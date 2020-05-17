@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
@@ -7,8 +6,6 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-import {connect} from 'react-redux'
-import StickyHeaderTable from './query-result-table'
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props
@@ -50,26 +47,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const makeColumns = (tableName, tableData, tableResult) => {
-  let tableObj = tableData.find(table => Object.keys(table)[0] === tableName)
-  let headers = tableObj[tableName].headers
-  return Object.keys(tableResult[tableName].rows[0]).reduce(
-    (columns, header) => {
-      let column = {
-        label: header,
-        id: header,
-        minWidth: 50,
-        align: 'right'
-      }
-
-      columns.push(column)
-      return columns
-    },
-    []
-  )
-}
-
-function ResultTabs(props) {
+export default function QueryTabs(props) {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
 
@@ -98,50 +76,15 @@ function ResultTabs(props) {
           })}
         </Tabs>
       </AppBar>
-
       {props.resultTables.map((table, index) => {
         let tableName = Object.keys(table)[0]
 
-        if (!table[tableName].rows.length) {
-          return (
-            <TabPanel key={index} value={value} index={index}>
-              <Typography align="center" variant="h5">
-                No Results
-              </Typography>
-            </TabPanel>
-          )
-        }
-
-        let columns = makeColumns(tableName, props.tableData, table)
-
         return (
           <TabPanel key={index} value={value} index={index}>
-            <StickyHeaderTable rows={table[tableName].rows} columns={columns} />
+            <Typography variant="h5">{table[tableName].query}</Typography>
           </TabPanel>
         )
       })}
     </div>
   )
 }
-
-// let parseRow = (row, columns) => {
-//     return columns.map(col => {
-//         return row[col]
-//     })
-// }
-
-// let makeRows = (queryRows, columns) => {
-//     queryRows.reduce((rows, row) => {
-//         rows.push(parseRow(row, columns))
-
-//         return rows
-//     }, [])
-// }
-
-const mapStateToProps = state => ({
-  tableData: state.tableData
-})
-
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResultTabs)
