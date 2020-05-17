@@ -44,19 +44,22 @@ export class Home extends Component {
           </Grid>
           <Grid
             item
-            direction="column"
             container
+            direction="column"
             justify="space-between"
             xs={12}
             sm={3}
           >
-            <SimpleCard item>
+            <SimpleCard>
               <FileUpload />
             </SimpleCard>
-
+            <br />
             <Grid item container alignItems="center">
               <Button
-                item
+                disabled={
+                  !this.props.files.fileNames.length &&
+                  !this.props.files.tableNames.length
+                }
                 type="button"
                 onClick={() => {
                   if (this.props.files.fileNames.length) {
