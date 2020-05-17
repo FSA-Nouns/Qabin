@@ -87,9 +87,7 @@ router.get('/:userId', async (req, res, next) => {
     let userTableDatas = []
     for (let i = 0; i < userTablesNames.length; i++) {
       let tableName = userTablesNames[i]
-      console.log(tableName)
       let table = await pool.query(`SELECT * FROM ${tableName} LIMIT 1`)
-      console.log(table)
       // res.send(table)
       let headers = Object.keys(table.rows[0]).reduce((heads, field) => {
         let dataTypeId = table.fields.find(fieldObj => fieldObj.name === field)
