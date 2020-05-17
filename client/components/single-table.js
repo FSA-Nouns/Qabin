@@ -5,7 +5,7 @@ import DataTypeRow from './data-type-row'
 import Join from './query-join'
 import {useState} from 'react'
 import AggregateSelector from './aggregate-selector'
-
+//
 let aggArr = ['AVG', 'SUM']
 
 export default function SingleTable(props) {
