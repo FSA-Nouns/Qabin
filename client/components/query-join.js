@@ -6,7 +6,7 @@ import {
   removeJoinElement,
   setJoinColumnElement
 } from '../store/query'
-
+//
 let joinType
 class Join extends React.Component {
   constructor(props) {
