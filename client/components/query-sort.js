@@ -15,8 +15,7 @@ import {
   IconButton,
   Input,
   InputLabel,
-  Select,
-  TextField
+  Select
 } from '@material-ui/core'
 
 class QuerySort extends Component {
@@ -135,7 +134,6 @@ class QuerySort extends Component {
                     <Select
                       labelId="label"
                       id="select"
-                      name="direction"
                       onChange={ev => this.toggleDirection(ev, selected)}
                     >
                       <option value="ASC">Direction</option>

@@ -5,7 +5,19 @@ import {
   addFieldElement,
   addFilterElement
 } from '../store/query'
-import {Grid, Checkbox, FormControlLabel} from '@material-ui/core'
+import {
+  Grid,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from '@material-ui/core'
 
 const getOperator = operator => {
   if (
@@ -90,35 +102,21 @@ class QueryRow extends Component {
 
   render() {
     return (
-      <Grid container>
-        <tr className="query-row">
-          {/* <Grid item>
-            <td>
-              <span>{this.props.field}</span>
-            </td>
-          </Grid> */}
-          <Grid item>
-            <td>
-              {/* <input
-                name={this.props.field}
-                type="checkbox"
-                onChange={this.toggleField}
-              /> */}
-              <FormControlLabel
-                control={<Checkbox onChange={this.toggleField} />}
-                label={this.props.field}
-              />
-            </td>
-          </Grid>
-          <Grid item>
-            <FilterForm
-              filterElement={this.filterElement}
-              dataType={this.props.tableData.headers[this.props.field]}
-            />
-          </Grid>
-        </tr>
-        <Grid item />
-      </Grid>
+      <TableRow>
+        <TableCell align="right">
+          <FormControlLabel
+            control={<Checkbox onChange={this.toggleField} />}
+            label={this.props.field}
+          />
+        </TableCell>
+        <TableCell align="right">
+          <FilterForm
+            filterElement={this.filterElement}
+            dataType={this.props.tableData.headers[this.props.field]}
+          />
+        </TableCell>
+        <TableCell align="right">Filler for applied filters</TableCell>
+      </TableRow>
     )
   }
 }
