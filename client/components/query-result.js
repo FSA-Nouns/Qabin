@@ -4,23 +4,40 @@ import TableExtract from './table-extract'
 import {Grid, Card, List, ListItem, Typography, Button} from '@material-ui/core'
 import ResultTabs from './query-results-middle-box'
 import QueryTabs from './query-result-bottom-box'
+import QueryDataVizSelection from './query-results-data-viz-selection'
+import {makeStyles} from '@material-ui/core/styles'
 
 export class QueryResult extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      dataVizStyle: 'table'
+    }
+
+    this.changeDataVizStyle = this.changeDataVizStyle.bind(this)
+  }
+
+  changeDataVizStyle(style) {
+    this.setState({dataVizStyle: style})
+  }
+
   render() {
     return (
-      <Grid container>
-        {/* <div className="table-extract-container"> */}
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={3}>
+          <QueryDataVizSelection changeDataVizStyle={this.changeDataVizStyle} />
+        </Grid>
         <Grid item direction="column" container sm={8} xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => this.props.history.push('/queryBuilder')}
-          >
+          <NewQueryButton history={this.props.history}>
             New Selection
-          </Button>
+          </NewQueryButton>
           <Grid item>
             {this.props.resultTables.length ? (
-              <ResultTabs resultTables={this.props.resultTables} />
+              <ResultTabs
+                dataVizStyle={this.state.dataVizStyle}
+                resultTables={this.props.resultTables}
+              />
             ) : (
               <Typography variant="h3">No tables to display</Typography>
             )}
@@ -42,6 +59,33 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryResult)
+
+function NewQueryButton(props) {
+  const useStyles = makeStyles({
+    root: {
+      marginBottom: 8
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() => props.history.push('/queryBuilder')}
+      className={classes.root}
+    >
+      {props.children}
+    </Button>
+  )
+}
 
 function ShowQuery(props) {
   const [showQuery, toggleShowQuery] = useState(false)

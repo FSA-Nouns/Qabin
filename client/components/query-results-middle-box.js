@@ -116,7 +116,12 @@ function ResultTabs(props) {
 
         return (
           <TabPanel key={index} value={value} index={index}>
-            <StickyHeaderTable rows={table[tableName].rows} columns={columns} />
+            {props.dataVizStyle === 'table' && (
+              <StickyHeaderTable
+                rows={table[tableName].rows}
+                columns={columns}
+              />
+            )}
           </TabPanel>
         )
       })}
