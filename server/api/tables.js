@@ -66,12 +66,22 @@ let headerTypes = {
   409: 'REGROLE'
 }
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'dummy-qbp',
-  port: 5432
-})
+let pool
+
+if (process.env.NODE_ENV !== 'production') {
+  pool = new Pool({
+    host: 'localhost',
+    user: 'postgres',
+    database: 'dummy-qbp',
+    //   password: "123",
+    port: 5432
+  })
+} else {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
 
 router.get('/:userId', async (req, res, next) => {
   try {
