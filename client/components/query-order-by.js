@@ -1,50 +1,24 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {orderBy, groupBy, limitTo} from '../store/query'
-import AutorenewIcon from '@material-ui/icons/Autorenew'
-import DeleteIcon from '@material-ui/icons/Delete'
+import {orderBy} from '../store/query'
 import {
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   FormHelperText,
   FormLabel,
-  Grid,
-  IconButton,
-  Input,
-  InputLabel,
-  Select
+  Grid
 } from '@material-ui/core'
 
-class QuerySort extends Component {
+class OrderBy extends Component {
   constructor() {
     super()
     this.state = {
-      groupByArray: [],
       orderByArray: []
     }
-    this.toggleGroupBy = this.toggleGroupBy.bind(this)
     this.toggleOrderBy = this.toggleOrderBy.bind(this)
     this.toggleDirection = this.toggleDirection.bind(this)
-    this.setLimit = this.setLimit.bind(this)
-  }
-
-  toggleGroupBy(ev) {
-    let modified = []
-    if (this.state.groupByArray.includes(ev.target.value)) {
-      modified = this.state.groupByArray.filter(
-        field => field !== ev.target.value
-      )
-      if (this.state.groupByArray) {
-        this.setState({groupByArray: modified})
-      }
-    } else {
-      modified = [ev.target.value, ...this.state.groupByArray]
-      this.setState({groupByArray: modified})
-    }
-    this.props.groupBy(this.props.tableName, modified)
   }
 
   //this needs to be re-worked to preserve order
@@ -66,22 +40,14 @@ class QuerySort extends Component {
 
   toggleDirection(ev, field) {
     let modified = this.state.orderByArray
-
     modified = modified.map(header => {
       if (Object.keys(header)[0] === field) {
         return {[field]: ev.target.value}
       }
-
       return header
     })
-
     this.setState({orderByArray: modified})
     this.props.orderBy(this.props.tableName, modified)
-  }
-
-  setLimit(ev) {
-    ev.preventDefault()
-    this.props.limitTo(this.props.tableName, ev.target.value)
   }
 
   render() {
@@ -93,27 +59,6 @@ class QuerySort extends Component {
         alignItems="flex-start"
         spacing={3}
       >
-        <Grid item>
-          <FormControl>
-            <FormLabel>Group By</FormLabel>
-            <FormGroup row>
-              {this.props.queryBundle[this.props.tableName].fields.map(
-                selected => (
-                  <FormControlLabel
-                    key={selected}
-                    control={
-                      <Checkbox
-                        onChange={this.toggleGroupBy}
-                        value={selected}
-                      />
-                    }
-                    label={selected}
-                  />
-                )
-              )}
-            </FormGroup>
-          </FormControl>
-        </Grid>
         <Grid item>
           <FormControl>
             <FormLabel>Order By</FormLabel>
@@ -148,34 +93,6 @@ class QuerySort extends Component {
             </FormGroup>
           </FormControl>
         </Grid>
-        <Grid
-          container
-          item
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
-        >
-          <Grid item />
-          <form onSubmit={this.setLimit}>
-            <FormControl>
-              <InputLabel htmlFor="my-input">Limit</InputLabel>
-              <Input id="my-input" />
-              <Button variant="outlined" size="small" type="submit">
-                Submit
-              </Button>
-            </FormControl>
-          </form>
-          <Grid item>
-            <IconButton aria-label="reset">
-              <AutorenewIcon fontSize="large" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="delete">
-              <DeleteIcon fontSize="large" />
-            </IconButton>
-          </Grid>
-        </Grid>
       </Grid>
     )
   }
@@ -188,11 +105,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     orderBy: (tableName, orderByArray) =>
-      dispatch(orderBy(tableName, orderByArray)),
-    groupBy: (tableName, groupByArray) =>
-      dispatch(groupBy(tableName, groupByArray)),
-    limitTo: (tableName, limit) => dispatch(limitTo(tableName, limit))
+      dispatch(orderBy(tableName, orderByArray))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuerySort)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderBy)

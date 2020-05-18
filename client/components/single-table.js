@@ -1,6 +1,8 @@
 import React from 'react'
 import QueryRow from './query-row'
-import QuerySort from './query-sort'
+import GroupBy from './query-group-by'
+import OrderBy from './query-order-by'
+import QueryLimit from './query-limit'
 import Join from './query-join'
 import AggregateSelector from './aggregate-selector'
 import {
@@ -25,19 +27,33 @@ export default function SingleTable(props) {
       alignItems="flex-start"
       spacing={3}
     >
+      <Grid
+        container
+        item
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-start"
+        spacing={4}
+      >
+        <Grid item>
+          <h2>{props.tableName.slice(props.tableName.indexOf('_') + 1)}</h2>
+        </Grid>
+        <Grid item>
+          {props.location.pathname === '/queryBuilder' ? (
+            <Join data={props} index={0} />
+          ) : (
+            ''
+          )}
+        </Grid>
+        <Grid item>
+          {props.location.pathname === '/queryBuilder' ? (
+            <Join data={props} index={1} />
+          ) : (
+            ''
+          )}
+        </Grid>
+      </Grid>
       <Grid item>
-        <h2>{props.tableName.slice(props.tableName.indexOf('_') + 1)}</h2>
-        {props.location.pathname === '/queryBuilder' ? (
-          <Join data={props} index={0} />
-        ) : (
-          ''
-        )}
-        {props.location.pathname === '/queryBuilder' ? (
-          <Join data={props} index={1} />
-        ) : (
-          ''
-        )}
-
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -71,7 +87,13 @@ export default function SingleTable(props) {
         />
       </Grid>
       <Grid item>
-        <QuerySort tableName={props.tableName} className="query-sort" />
+        <GroupBy tableName={props.tableName} />
+      </Grid>
+      <Grid item>
+        <OrderBy tableName={props.tableName} />
+      </Grid>
+      <Grid item>
+        <QueryLimit tableName={props.tableName} />
       </Grid>
     </Grid>
   )
