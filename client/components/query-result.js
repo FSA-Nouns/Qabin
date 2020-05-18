@@ -1,38 +1,53 @@
 import React, {Component, Fragment, useState} from 'react'
 import {connect} from 'react-redux'
 import TableExtract from './table-extract'
+import {Grid, Card, List, ListItem, Typography, Button} from '@material-ui/core'
+import ResultTabs from './query-results-middle-box'
+import QueryTabs from './query-result-bottom-box'
+import QueryDataVizSelection from './query-results-data-viz-selection'
+import {makeStyles} from '@material-ui/core/styles'
+
 export class QueryResult extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      dataVizStyle: 'table'
+    }
+
+    this.changeDataVizStyle = this.changeDataVizStyle.bind(this)
+  }
+
+  changeDataVizStyle(style) {
+    this.setState({dataVizStyle: style})
+  }
+
   render() {
     return (
-      <div>
-        <button onClick={() => this.props.history.push('/queryBuilder')}>
-          New Query
-        </button>
-        <div className="table-extract-container">
-          {this.props.resultTables.length ? (
-            this.props.resultTables.map((table, index) => (
-              <Fragment key={index}>
-                <ShowQuery
-                  query={
-                    table[Object.keys(this.props.resultTables[index])[0]].query
-                  }
-                />
-                {table[Object.keys(this.props.resultTables[index])[0]].rows
-                  .length ? (
-                  <TableExtract
-                    tableData={table}
-                    tableName={Object.keys(this.props.resultTables[index])}
-                  />
-                ) : (
-                  <p>No Results</p>
-                )}
-              </Fragment>
-            ))
-          ) : (
-            <p>No tables to display</p>
-          )}
-        </div>
-      </div>
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={3}>
+          <QueryDataVizSelection changeDataVizStyle={this.changeDataVizStyle} />
+        </Grid>
+        <Grid item direction="column" container sm={8} xs={12}>
+          <NewQueryButton history={this.props.history}>
+            New Selection
+          </NewQueryButton>
+          <Grid item>
+            {this.props.resultTables.length ? (
+              <ResultTabs
+                dataVizStyle={this.state.dataVizStyle}
+                resultTables={this.props.resultTables}
+              />
+            ) : (
+              <Typography variant="h3">No tables to display</Typography>
+            )}
+          </Grid>
+          <Grid item>
+            <QueryTabs resultTables={this.props.resultTables} />
+          </Grid>
+        </Grid>
+        {/* </div> */}
+      </Grid>
     )
   }
 }
@@ -44,6 +59,33 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryResult)
+
+function NewQueryButton(props) {
+  const useStyles = makeStyles({
+    root: {
+      marginBottom: 8
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() => props.history.push('/queryBuilder')}
+      className={classes.root}
+    >
+      {props.children}
+    </Button>
+  )
+}
 
 function ShowQuery(props) {
   const [showQuery, toggleShowQuery] = useState(false)
