@@ -158,8 +158,9 @@ class Join extends React.Component {
                       <Select
                         labelId="Join-Type"
                         id="Join-Type"
-                        value={event.target.value}
+                        // value={event.target.value}
                         onChange={event => this.handleJoinType(event)}
+                        defaultValue=""
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -192,43 +193,26 @@ class Join extends React.Component {
                       <Select
                         labelId="Join-Table-1"
                         id="Join-Table-1"
-                        // value={undefined? '-' : event.target.value}
+                        defaultValue=""
                         onChange={event =>
                           this.handleJoinElement(event, this.props.index)
                         }
                       >
+                        <MenuItem value=""> Select Table 1 </MenuItem>
                         {this.props.data.tableDatas
-                          .map((table, index) => (
-                            <MenuItem key={index}>
-                              {Object.keys(table)}
-                            </MenuItem>
-                          ))
                           .filter(
                             table =>
-                              table.props.children[0] !==
+                              Object.keys(table)[0] !==
                               this.props.data.tableName
-                          )}
+                          )
+                          .map((table, index) => (
+                            <MenuItem key={index} value={Object.keys(table)[0]}>
+                              {Object.keys(table)[0]}
+                            </MenuItem>
+                          ))}
                       </Select>
                       <FormHelperText>Table to Join</FormHelperText>
                     </FormControl>
-
-                    {/* <select
-                    name="table"
-                    onChange={event =>
-                      this.handleJoinElement(event, this.props.index)
-                    }
-                    className="dropdown"
-                  >
-                    <option>Table to Join</option>
-                    {this.props.data.tableDatas
-                      .map((table, index) => (
-                        <option key={index}>{Object.keys(table)}</option>
-                      ))
-                      .filter(
-                        table => table.props.children[0] !== this.props.data.tableName
-                      )}
-                    Table Selection
-                  </select> */}
 
                     <FormControl
                       className="formControl"
@@ -241,16 +225,19 @@ class Join extends React.Component {
                       <Select
                         labelId="Column-Table-1"
                         id="Column-Table-1"
-                        // value={event.target.value}
+                        defaultValue=""
                         onChange={event =>
                           this.handleColumnElement(table1, table1, event, 2)
                         }
                       >
+                        <MenuItem> Select Column 1 </MenuItem>
                         {this.props.data.tableDatas.map(table => {
                           if (table[table1] !== undefined) {
                             return Object.keys(table[table1].rows[0]).map(
                               column => (
-                                <MenuItem key={column}>{column}</MenuItem>
+                                <MenuItem key={column} value={column}>
+                                  {column}
+                                </MenuItem>
                               )
                             )
                           }
@@ -258,27 +245,7 @@ class Join extends React.Component {
                       </Select>
                       <FormHelperText>Table 1 Field</FormHelperText>
                     </FormControl>
-                    {/* <select
-                    name="element1"
-                    onChange={event =>
-                      this.handleColumnElement(table1, table1, event, 2)
-                    }
-                    className="dropdown"
-                  >
-                    <option>Column from this table</option>
-                    {table1 !== undefined ? (
-                      this.props.data.tableDatas.map(table => {
-                        if (table[table1] !== undefined) {
-                          return Object.keys(table[table1].rows[0]).map(column => (
-                            <option key={column}>{column}</option>
-                          ))
-                        }
-                      })
-                    ) : (
-                      <option>Not Applicable</option>
-                    )}
-                    Table 1 Column Selection
-                  </select> */}
+
                     <FormControl
                       className="formControl"
                       spacing="1"
@@ -292,14 +259,20 @@ class Join extends React.Component {
                         id="Column-Table-2"
                         // value={event.target.value}
                         onChange={event =>
-                          this.handleColumnElement(table1, table1, event, 2)
+                          this.handleColumnElement(table1, table2, event, 3)
                         }
+                        defaultValue=""
                       >
+                        <MenuItem>Select Column 2 </MenuItem>
                         {this.props.data.tableDatas.map(table => {
-                          if (table[table1] !== undefined) {
+                          if (table[table2] !== undefined) {
+                            console.log('TABLE 1', table1)
+                            console.log('TABLE 2', table2)
                             return Object.keys(table[table2].rows[0]).map(
                               column => (
-                                <MenuItem key={column}>{column}</MenuItem>
+                                <MenuItem key={column} value={column}>
+                                  {column}
+                                </MenuItem>
                               )
                             )
                           }
@@ -307,30 +280,6 @@ class Join extends React.Component {
                       </Select>
                       <FormHelperText>Table 2 Field</FormHelperText>
                     </FormControl>
-
-                    {/* <select
-                    name="element2"
-                    onChange={event =>
-                      this.handleColumnElement(table1, table2, event, 3)
-                    }
-                    className="dropdown"
-                  >
-                    <option>Column from table to be joined</option>
-                    {table2 !== undefined ? (
-                      this.props.data.tableDatas.map(table => {
-                        if (table[table2] !== undefined) {
-                          return Object.keys(table[table2].rows[0]).map(column => (
-                            <option key={column}>{column}</option>
-                          ))
-                        }
-                      })
-                    ) : (
-                      <option>Not Applicable</option>
-                    )}
-                    Table 2 Column Selection
-                  </select> */}
-
-                    {/* <button onClick={this.handleConfirmJoin} >Confirm Join</button> */}
                   </SimpleCard>
                 </Grid>
               </Grid>
