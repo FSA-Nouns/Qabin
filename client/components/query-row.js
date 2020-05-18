@@ -5,6 +5,7 @@ import {
   addFieldElement,
   addFilterElement
 } from '../store/query'
+import {Grid, Checkbox, FormControlLabel} from '@material-ui/core'
 
 const getOperator = operator => {
   if (
@@ -89,23 +90,35 @@ class QueryRow extends Component {
 
   render() {
     return (
-      <tr className="query-row">
-        <td>
-          <span>{this.props.field}</span>
-        </td>
-        <td>
-          <input
-            name={this.props.field}
-            type="checkbox"
-            onChange={this.toggleField}
-          />
-        </td>
-
-        <FilterForm
-          filterElement={this.filterElement}
-          dataType={this.props.tableData.headers[this.props.field]}
-        />
-      </tr>
+      <Grid container>
+        <tr className="query-row">
+          {/* <Grid item>
+            <td>
+              <span>{this.props.field}</span>
+            </td>
+          </Grid> */}
+          <Grid item>
+            <td>
+              {/* <input
+                name={this.props.field}
+                type="checkbox"
+                onChange={this.toggleField}
+              /> */}
+              <FormControlLabel
+                control={<Checkbox onChange={this.toggleField} />}
+                label={this.props.field}
+              />
+            </td>
+          </Grid>
+          <Grid item>
+            <FilterForm
+              filterElement={this.filterElement}
+              dataType={this.props.tableData.headers[this.props.field]}
+            />
+          </Grid>
+        </tr>
+        <Grid item />
+      </Grid>
     )
   }
 }

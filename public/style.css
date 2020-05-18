@@ -27,7 +27,7 @@ form div {
   display: inline-block;
 }
 
-.big-container {
+/* .big-container {
   display: flex;
   flex-flow: row;
 }
@@ -60,4 +60,4 @@ form div {
 .sort-checkbox {
 }
 .direction-select {
-}
+} */

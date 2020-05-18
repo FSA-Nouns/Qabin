@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {orderBy, groupBy, limitTo} from '../store/query'
-import Form from 'react-bootstrap/Form'
+import AutorenewIcon from '@material-ui/icons/Autorenew'
+import DeleteIcon from '@material-ui/icons/Delete'
 import {
   Button,
   Checkbox,
@@ -10,6 +11,8 @@ import {
   FormGroup,
   FormHelperText,
   FormLabel,
+  Grid,
+  IconButton,
   Input,
   InputLabel,
   Select,
@@ -84,76 +87,101 @@ class QuerySort extends Component {
 
   render() {
     return (
-      <div className="sorts">
-        <FormControl>
-          <FormLabel>Group By</FormLabel>
-          <FormGroup row>
-            {this.props.queryBundle[this.props.tableName].fields.map(
-              selected => (
-                <FormControlLabel
-                  key={selected}
-                  control={
-                    <Checkbox onChange={this.toggleGroupBy} value={selected} />
-                  }
-                  label={selected}
-                />
-              )
-            )}
-          </FormGroup>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Order By</FormLabel>
-          <FormGroup row>
-            {this.props.queryBundle[this.props.tableName].fields.map(
-              selected => (
-                <div key={selected} className="order-by">
+      <Grid
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="flex-start"
+        spacing={3}
+      >
+        <Grid item>
+          <FormControl>
+            <FormLabel>Group By</FormLabel>
+            <FormGroup row>
+              {this.props.queryBundle[this.props.tableName].fields.map(
+                selected => (
                   <FormControlLabel
+                    key={selected}
                     control={
                       <Checkbox
-                        onChange={this.toggleOrderBy}
+                        onChange={this.toggleGroupBy}
                         value={selected}
                       />
                     }
                     label={selected}
                   />
-                  <InputLabel id="label" />
-                  <Select
-                    labelId="label"
-                    id="select"
-                    name="direction"
-                    onChange={ev => this.toggleDirection(ev, selected)}
-                  >
-                    <option value="ASC">Direction</option>
-                    <option value="ASC">ascending</option>
-                    <option value="ASC">alphabetical</option>
-                    <option value="DESC">descending</option>
-                    <option value="DESC">reverse aplh.</option>
-                  </Select>
-                </div>
-              )
-            )}
-          </FormGroup>
-        </FormControl>
-        <form onSubmit={this.setLimit}>
-          <FormControl>
-            <InputLabel htmlFor="my-input">Limit</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
-            <FormHelperText id="my-helper-text">
-              Only show top x results
-            </FormHelperText>
-            <Button type="submit">Submit</Button>
+                )
+              )}
+            </FormGroup>
           </FormControl>
-        </form>
-
-        <Button variant="contained">Clear All</Button>
-        <Button variant="contained">Remove Table</Button>
-      </div>
+        </Grid>
+        <Grid item>
+          <FormControl>
+            <FormLabel>Order By</FormLabel>
+            <FormGroup row>
+              {this.props.queryBundle[this.props.tableName].fields.map(
+                selected => (
+                  <div key={selected} className="order-by">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={this.toggleOrderBy}
+                          value={selected}
+                        />
+                      }
+                      label={selected}
+                    />
+                    <InputLabel id="label" />
+                    <Select
+                      labelId="label"
+                      id="select"
+                      name="direction"
+                      onChange={ev => this.toggleDirection(ev, selected)}
+                    >
+                      <option value="ASC">Direction</option>
+                      <option value="ASC">ascending</option>
+                      <option value="ASC">alphabetical</option>
+                      <option value="DESC">descending</option>
+                      <option value="DESC">reverse aplh.</option>
+                    </Select>
+                  </div>
+                )
+              )}
+            </FormGroup>
+          </FormControl>
+        </Grid>
+        <Grid
+          container
+          item
+          direction="row"
+          justify="space-evenly"
+          alignItems="center"
+        >
+          <Grid item />
+          <form onSubmit={this.setLimit}>
+            <FormControl>
+              <InputLabel htmlFor="my-input">Limit</InputLabel>
+              <Input id="my-input" />
+              <Button variant="outlined" size="small" type="submit">
+                Submit
+              </Button>
+            </FormControl>
+          </form>
+          <Grid item>
+            <IconButton aria-label="reset">
+              <AutorenewIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton aria-label="delete">
+              <DeleteIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
     )
   }
 }
-
-// for disabled checkboxes to appear <Form.Check disabled type="checkbox" label={selected} />
 
 const mapStateToProps = state => ({
   queryBundle: state.queryBundle
