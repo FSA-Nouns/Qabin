@@ -1,7 +1,8 @@
-# Boilermaker
+# Query Builder Pro
 
-_Good things come in pairs_
+Explore your data like a pro without knowing SQL!
 
+We make it easy for anyone to simply query their data by intuitive user interface and visualize their data
 Looking to mix up a backend with `express`/`sequelize` and a frontend with
 `react`/`redux`? That's `boilermaker`!
 

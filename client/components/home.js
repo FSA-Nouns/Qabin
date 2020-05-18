@@ -96,7 +96,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-function SimpleCard(props) {
+export function SimpleCard(props) {
   const useStyles = makeStyles({
     root: {
       marginTop: 15,

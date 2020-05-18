@@ -67,7 +67,7 @@ export class EditData extends Component {
             </div>
           </div>
         ) : (
-          <p>No tables to display</p>
+          <div>No tables to display</div>
         )}
       </div>
     )

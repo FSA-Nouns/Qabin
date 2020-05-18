@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {Grid, Card, List, ListItem, Typography, Button} from '@material-ui/core'
 import ProgressionBar from './stepper'
-
 import {makeStyles} from '@material-ui/core/styles'
 import {grey} from '@material-ui/core/colors'
 
