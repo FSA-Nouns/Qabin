@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 import React, {Component, useState, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {
   removeFieldElement,
   addFieldElement,
-  addFilterElement
+  addFilterElement,
+  removeFilterElement
 } from '../store/query'
 import {
   Grid,
@@ -16,8 +18,18 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Chip
 } from '@material-ui/core'
+
+// let operatorDict = {
+//   '>=': 'at least',
+//   '<=': 'at most',
+//   '<': 'smaller',
+//   '>': 'bigger',
+//   '=': 'equal to',
+//   '!=': 'not equal to',
+// }
 
 const getOperator = operator => {
   if (
@@ -142,8 +154,21 @@ class QueryRow extends Component {
           {this.props.queryBundle[this.props.tableName].where
             ? this.props.queryBundle[this.props.tableName].where
                 .filter(arr => arr[0] === this.props.field)
-                .map(filter => {
-                  return <h5 key={filter}>{filter}</h5>
+                .map((filter, index) => {
+                  return (
+                    <Chip
+                      key={index}
+                      size="small"
+                      value={filter}
+                      label={filter.join(' ')}
+                      onDelete={() =>
+                        this.props.removeFilterElement(
+                          this.props.tableName,
+                          filter
+                        )
+                      }
+                    />
+                  )
                 })
             : ''}
         </TableCell>
@@ -163,7 +188,10 @@ const mapDispatchToProps = dispatch => {
     addFieldElement: (tableName, field) =>
       dispatch(addFieldElement(tableName, field)),
     removeFieldElement: (tableName, field) =>
-      dispatch(removeFieldElement(tableName, field))
+      dispatch(removeFieldElement(tableName, field)),
+    removeFilterElement: (tableName, filterArray) => {
+      dispatch(removeFilterElement(tableName, filterArray))
+    }
   }
 }
 
@@ -183,7 +211,10 @@ function FilterForm(props) {
 // date upto from before after
 //component to display filter operators accordingly to dataType of the field
 function FilterFormDataSelect(props) {
-  return props.dataType === 'int' ||
+  return props.dataType === 'serial' ||
+    props.dataType === 'integer' ||
+    props.dataType === 'double precision' ||
+    props.dataType === 'int' ||
     props.dataType === 'int' ||
     props.dataType === 'float' ? (
     <select name="operator">
@@ -206,7 +237,7 @@ function FilterFormDataSelect(props) {
       <option value="ends-with">ends with</option>
       <option value="IS NOT NULL">Not Empty</option>
     </select>
-  ) : props.dataType === 'bool' ? (
+  ) : props.dataType === 'bool' || props.dataType === 'boolean' ? (
     <select name="operator">
       <option value="null">Option</option>
       <option value="=">IS</option>
