@@ -19,3 +19,7 @@ The user must uploads tables as .csv files and then can execute many types of qu
 ## Deployed
 
 [Qabin Website](https://qabin.herokuapp.com)
+
+## License
+
+MIT © [Team Cabinet](https://github.com/FSA-Nouns/Cabinet)
