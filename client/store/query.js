@@ -7,6 +7,8 @@ const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
 
 const ADD_FIELD_ELEMENT = 'ADD_FIELD_ELEMENT'
 
+const REMOVE_FILTER_ELEMENT = 'REMOVE_FILTER_ELEMENT'
+
 const REMOVE_FIELD_ELEMENT = 'REMOVE_FIELD_ELEMENT'
 
 const ADD_JOIN_ELEMENT = 'ADD_JOIN_ELEMENT'
@@ -26,6 +28,15 @@ const GROUP_BY = 'GROUP_BY'
 const LIMIT_TO = 'LIMIT_TO'
 
 const RESET = 'RESET'
+
+const checkArray = (arr1, arr2) => {
+  return arr1.reduce((bool, ele) => {
+    if (!arr2.includes(ele)) {
+      bool = false
+    }
+    return bool
+  }, true)
+}
 
 export const addJoinElement = (tableName, joinArray, joinType, joinId) => ({
   type: ADD_JOIN_ELEMENT,
@@ -52,6 +63,12 @@ export const setJoinColumnElement = (tableName, joinArray, index, joinId) => ({
 
 export const addFilterElement = (tableName, filterArray) => ({
   type: ADD_FILTER_ELEMENT,
+  tableName,
+  filterArray
+})
+
+export const removeFilterElement = (tableName, filterArray) => ({
+  type: REMOVE_FILTER_ELEMENT,
   tableName,
   filterArray
 })
@@ -120,8 +137,26 @@ const query = (state = initialState, action) => {
       newState3[action.tableName].where = [
         ...newState3[action.tableName].where,
         action.filterArray
-      ]
+      ].reduce((uniques, whereArr) => {
+        if (
+          !uniques.filter(conditionArr =>
+            checkArray(conditionArr, action.filterArray)
+          ).length
+        ) {
+          uniques.push(whereArr)
+        }
+        return uniques
+      }, [])
       return newState3
+
+    case REMOVE_FILTER_ELEMENT:
+      let newState03 = {...state}
+      newState03[action.tableName].where = newState03[
+        action.tableName
+      ].where.filter(
+        conditionArr => !checkArray(conditionArr, action.filterArray)
+      )
+      return newState03
     case ADD_JOIN_ELEMENT:
       let newStateA = {...state}
       newStateA[action.tableName].join = [

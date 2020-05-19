@@ -3,16 +3,23 @@ const Pool = require('pg').Pool
 const queryParser = require('../services/queryParser')
 const isUserMiddleware = require('../auth/isUser')
 
-const pool = new Pool({
-  host: 'localhost',
-  user: 'postgres',
-  database: 'dummy-qbp',
-  //   password: "123",
-  port: 5432,
-  max: 20,
-  connectionTimeoutMillis: 0,
-  idleTimeoutMillis: 0
-})
+let pool
+
+if (process.env.NODE_ENV !== 'production') {
+  pool = new Pool({
+    host: 'localhost',
+    user: 'postgres',
+    database: 'qabin',
+    //   password: "123",
+    port: 5432
+  })
+} else {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
+
 //queries/query/1
 router.put('/:userId/query', async (req, res, next) => {
   try {

@@ -7,13 +7,22 @@ const fastcsv = require('fast-csv')
 //pay attention to filepath, is it relational to where this is being called, or where this file is
 function parseCSVtoDB(table_name, filepath, headers) {
   // create a new connection to the database
-  const pool = new Pool({
-    host: 'localhost',
-    user: 'postgres',
-    database: 'dummy-qbp',
-    //   password: "123",
-    port: 5432
-  })
+  let pool
+
+  if (process.env.NODE_ENV !== 'production') {
+    pool = new Pool({
+      host: 'localhost',
+      user: 'postgres',
+      database: 'qabin',
+      //   password: "123",
+      port: 5432
+    })
+  } else {
+    pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true
+    })
+  }
 
   let stream = fs.createReadStream(filepath)
   let csvData = []

@@ -5,13 +5,22 @@ const fs = require('fs')
 const isUserMiddleware = require('../auth/isUser')
 const Pool = require('pg').Pool
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'dummy1-qbp',
-  port: 5432
-})
+let pool
 
+if (process.env.NODE_ENV !== 'production') {
+  pool = new Pool({
+    host: 'localhost',
+    user: 'postgres',
+    database: 'qabin',
+    //   password: "123",
+    port: 5432
+  })
+} else {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
 module.exports = router
 
 // make sure the userId is being identified when the front-ends sends the array of filepaths
