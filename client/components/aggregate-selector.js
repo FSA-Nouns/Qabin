@@ -11,7 +11,8 @@ class AggregateSelector extends Component {
       SUM: [],
       COUNT: [],
       MIN: [],
-      MAX: []
+      MAX: [],
+      aggregates: ['AVG', 'SUM', 'COUNT', 'MIN', 'MAX']
     }
     this.toggleAgg = this.toggleAgg.bind(this)
   }
@@ -33,23 +34,6 @@ class AggregateSelector extends Component {
         this.props.removeFieldElement(this.props.tableName, q)
       }
     })
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.queryBundle[this.props.tableName].fields !==
-      prevProps.queryBundle[this.props.tableName].fields
-    ) {
-      if (
-        !Object.keys(
-          this.props.queryBundle[this.props.tableName].fields
-        ).includes(this.props.field)
-      ) {
-        this.setState({checked: false})
-      } else {
-        this.setState({checked: true})
-      }
-    }
   }
 
   render() {
@@ -153,25 +137,28 @@ class AggregateSelector extends Component {
           spacing={3}
         >
           {this.props.queryBundle[this.props.tableName].fields ? (
-            Object.entries(this.state).map(pair => {
-              if (pair[1].length > 0) {
-                return pair[1].map(field => {
-                  return (
-                    <Grid item key={field}>
-                      <Chip
-                        name="selected"
-                        size="small"
-                        value={field}
-                        label={`${pair[0]} of ${field}`}
-                        onDelete={this.props.removeFieldElement(
+            this.props.queryBundle[this.props.tableName].fields.map(field => {
+              if (this.state.aggregates.includes(field.split('(')[0]))
+                return (
+                  <Grid item key={field}>
+                    <Chip
+                      name="selected"
+                      size="small"
+                      value={field}
+                      label={`${field.split('(')[0]} of ${
+                        field.split('(')[1].split(')')[0]
+                      }`}
+                      onDelete={() =>
+                        this.props.removeFieldElement(
                           this.props.tableName,
-                          `${pair[0]}(${field})`
-                        )}
-                      />
-                    </Grid>
-                  )
-                })
-              }
+                          `${field.split('(')[0]}(${
+                            field.split('(')[1].split(')')[0]
+                          })`
+                        )
+                      }
+                    />
+                  </Grid>
+                )
             })
           ) : (
             <Chip label="failed" />
