@@ -16,11 +16,7 @@ export class DataTypeRow extends Component {
   componentDidMount() {
     if (this.props.clickCheck) {
       this.setState({clicked: this.props.clickCheck})
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.state.clicked === 'text') {
+    } else {
       this.props.addHeaderType(this.props.element, 'text', this.props.tableName)
     }
   }

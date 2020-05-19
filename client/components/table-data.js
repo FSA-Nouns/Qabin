@@ -5,7 +5,7 @@ import DataTypeRow from './data-type-row'
 import PropTypes from 'prop-types'
 import Join from './query-join'
 import {useState} from 'react'
-import AggregateSelector from './aggregate-selector'
+import TableExtract from './table-extract'
 import {makeStyles} from '@material-ui/core/styles'
 import {
   Grid,
@@ -57,6 +57,7 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    paddingTop: 0,
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
@@ -133,22 +134,41 @@ export default function TableData(props) {
                     })}
                   </Grid>
                 </ListSubheader>
-                {Object.keys(table[props.tableNames[index]].rows[0]).map(
-                  (element, i) => {
-                    return (
-                      <ListItem key={i}>
-                        <Grid container direction="row" key={i}>
-                          <DataTypeRow
-                            tableName={props.tableNames[index]}
-                            key={i}
-                            element={element}
-                            index={index}
-                          />
-                        </Grid>
-                      </ListItem>
-                    )
-                  }
-                )}
+                <ListItem key={index}>
+                  <Grid container direction="column">
+                    {Object.keys(table[props.tableNames[index]].rows[0]).map(
+                      (element, i) => {
+                        return (
+                          <Grid container direction="row" key={i}>
+                            <DataTypeRow
+                              tableName={props.tableNames[index]}
+                              key={i}
+                              element={element}
+                              index={index}
+                            />
+                          </Grid>
+                        )
+                      }
+                    )}
+                    <Grid item>
+                      {props.tableData
+                        .filter(
+                          (tableSample, i2) =>
+                            !tableSample[Object.keys(tableSample)[0]].old &&
+                            i2 === index
+                        )
+                        .map((tableSample, ind) => (
+                          <Grid className="single-table-extract" key={ind}>
+                            <TableExtract
+                              tableData={tableSample}
+                              tableName={Object.keys(tableSample)[0]}
+                              key={ind}
+                            />
+                          </Grid>
+                        ))}
+                    </Grid>
+                  </Grid>
+                </ListItem>
               </List>
             </TabPanel>
           )
