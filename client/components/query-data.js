@@ -4,6 +4,7 @@ import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 import {setTables} from '../store/upload'
+import {Grid} from '@material-ui/core'
 
 export class QueryData extends Component {
   componentDidMount() {
@@ -12,31 +13,45 @@ export class QueryData extends Component {
 
   render() {
     return (
-      <div>
+      <Grid
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="center"
+      >
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
             this.props.submitQuery(this.props.queryBundle, this.props.user)
-          }
+          }}
         >
-          Query
+          IS THIS IT
         </button>
         {this.props.tableData.map((table, index) => {
           return (
-            <div className="single-table" key={index}>
-              <SingleTable
-                tableData={table[Object.keys(table)[0]]}
-                tableDatas={this.props.tableData}
-                index={index}
-                tableName={Object.keys(table)[0]}
-                index={index}
-                location={this.props.location}
-                // allTables={this.props}
-              />
-            </div>
+            <Grid
+              key={index}
+              item
+              container
+              direction="row"
+              justify="center"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <SingleTable
+                  tableData={table[Object.keys(table)[0]]}
+                  tableDatas={this.props.tableData}
+                  index={index}
+                  tableName={Object.keys(table)[0]}
+                  index={index}
+                  location={this.props.location}
+                  // allTables={this.props}
+                />
+              </Grid>
+            </Grid>
           )
         })}
-      </div>
+      </Grid>
     )
   }
 }

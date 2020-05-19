@@ -12,6 +12,7 @@ const queriedTables = tables => {
 
 export const submitQuery = (query, user) => {
   return async dispatch => {
+    console.log('SUBMIT QUERY BUTTON RAN')
     try {
       const {data} = await axios.put(`/api/queries/${user.id}/query`, {
         queryBundle: query

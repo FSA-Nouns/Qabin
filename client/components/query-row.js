@@ -5,6 +5,19 @@ import {
   addFieldElement,
   addFilterElement
 } from '../store/query'
+import {
+  Grid,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from '@material-ui/core'
 
 const getOperator = operator => {
   if (
@@ -87,30 +100,61 @@ class QueryRow extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (
+      this.props.queryBundle[this.props.tableName].fields !==
+      prevProps.queryBundle[this.props.tableName].fields
+    ) {
+      if (
+        !Object.keys(
+          this.props.queryBundle[this.props.tableName].fields
+        ).includes(this.props.field)
+      ) {
+        this.setState({checked: false})
+      } else {
+        this.setState({checked: true})
+      }
+    }
+  }
+
   render() {
     return (
-      <tr className="query-row">
-        <td>
-          <span>{this.props.field}</span>
-        </td>
-        <td>
-          <input
-            name={this.props.field}
-            type="checkbox"
-            onChange={this.toggleField}
+      <TableRow>
+        <TableCell align="left" scope="row">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.checked}
+                onChange={this.toggleField}
+              />
+            }
+            label={this.props.field}
           />
-        </td>
-
-        <FilterForm
-          filterElement={this.filterElement}
-          dataType={this.props.tableData.headers[this.props.field]}
-        />
-      </tr>
+        </TableCell>
+        <TableCell align="right">
+          <FilterForm
+            filterElement={this.filterElement}
+            dataType={this.props.tableData.headers[this.props.field]}
+          />
+        </TableCell>
+        <TableCell align="right">
+          {this.props.queryBundle[this.props.tableName].where
+            ? this.props.queryBundle[this.props.tableName].where
+                .filter(arr => arr[0] === this.props.field)
+                .map(filter => {
+                  return <h5 key={filter}>{filter}</h5>
+                })
+            : ''}
+        </TableCell>
+      </TableRow>
     )
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  queryBundle: state.queryBundle
+})
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -129,22 +173,11 @@ function FilterForm(props) {
   const [formOpen, toggleForm] = useState(false)
 
   return (
-    <td>
-      <button
-        className="filter-toggle"
-        onClick={() => toggleForm(!formOpen)}
-        type="button"
-      >
-        Filter
-      </button>{' '}
-      {formOpen && (
-        <form className="filter-form" onSubmit={props.filterElement}>
-          <FilterFormDataSelect dataType={props.dataType} />
-          <FilterFormInput dataType={props.dataType} />
-          <button type="submit">Add</button>
-        </form>
-      )}
-    </td>
+    <form className="filter-form" onSubmit={props.filterElement}>
+      <FilterFormDataSelect dataType={props.dataType} />
+      <FilterFormInput dataType={props.dataType} />
+      <button type="submit">Add</button>
+    </form>
   )
 }
 // date upto from before after
