@@ -22,14 +22,70 @@ import {
   Chip
 } from '@material-ui/core'
 
-// let operatorDict = {
-//   '>=': 'at least',
-//   '<=': 'at most',
-//   '<': 'smaller',
-//   '>': 'bigger',
-//   '=': 'equal to',
-//   '!=': 'not equal to',
-// }
+let operatorDict = dataType => ({
+  '>=': 'at least',
+  '<=': 'at most',
+  '<': dataType === 'date' ? 'before' : 'less than',
+  '>': dataType === 'date' ? 'after' : 'greater than',
+  '=': 'equal to',
+  '!=': 'not equal to'
+})
+
+const parseOperator = (filterArray, dataType) => {
+  if (filterArray[1] === 'LIKE') {
+    if (
+      filterArray[2][0] === '%' &&
+      filterArray[2][filterArray[2].length - 1] === '%'
+    ) {
+      return 'contains'
+    } else if (
+      filterArray[2][0] === '%' &&
+      filterArray[2][filterArray[2].length - 1] !== '%'
+    ) {
+      return 'ends with'
+    } else if (
+      filterArray[2][0] !== '%' &&
+      filterArray[2][filterArray[2].length - 1] === '%'
+    ) {
+      return 'starts with'
+    }
+  } else if (filterArray[1] === '') {
+    return 'not empty'
+  } else {
+    return operatorDict(dataType)[filterArray[1]]
+  }
+}
+
+const parseCondition = (operator, value) => {
+  if (value === 'IS NOT NULL') {
+    return ''
+  } else if (operator === 'starts with') {
+    return value.slice(0, -1)
+  } else if (operator === 'ends with') {
+    return value.slice(1)
+  } else if (operator === 'contains') {
+    return value.slice(1, -1)
+  } else {
+    return value
+  }
+}
+
+const conditionalDict = (field, headers, filterArray) => {
+  const dataType = headers[field]
+  console.log(dataType)
+  const operator = parseOperator(filterArray, dataType)
+  // const curatedField = (dataType === 'date') ? field.split('(')[1].slice(0, -1) : field;
+  const condition = parseCondition(operator, filterArray[2])
+  return `${field} ${operator.toLowerCase()} ${condition.toLowerCase()}`
+}
+
+const parseField = field => {
+  if (field.includes('trunc(') && field[field.length - 1] === ')') {
+    return field.split('(')[1].slice(0, -1)
+  } else {
+    return field
+  }
+}
 
 const getOperator = operator => {
   if (
@@ -152,14 +208,18 @@ class QueryRow extends Component {
         <TableCell align="right">
           {this.props.queryBundle[this.props.tableName].where
             ? this.props.queryBundle[this.props.tableName].where
-                .filter(arr => arr[0] === this.props.field)
+                .filter(arr => parseField(arr[0]) === this.props.field)
                 .map((filter, index) => {
                   return (
                     <Chip
                       key={index}
                       size="small"
                       value={filter}
-                      label={filter.join(' ')}
+                      label={conditionalDict(
+                        parseField(filter[0]),
+                        this.props.tableData.headers,
+                        filter
+                      )}
                       onDelete={() =>
                         this.props.removeFilterElement(
                           this.props.tableName,
