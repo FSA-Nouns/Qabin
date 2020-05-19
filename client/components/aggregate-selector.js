@@ -14,7 +14,6 @@ class AggregateSelector extends Component {
       MAX: []
     }
     this.toggleAgg = this.toggleAgg.bind(this)
-    this.deleteAgg = this.deleteAgg.bind(this)
   }
 
   toggleAgg(evt) {
@@ -36,18 +35,21 @@ class AggregateSelector extends Component {
     })
   }
 
-  deleteAgg(evt, agg) {
-    evt.preventDefault()
-    console.log('AGG', agg)
-    console.log('EV.TARGET.VALUE', evt.target.value)
-    // let aggType = agg
-    // let column = evt.target.value
-    // let q = `${aggType}(${column})`
-    // Object.keys(this.state).forEach((agg) => {
-    //   let newState = this.state[agg].filter((col) => col !== column)
-    //   this.setState({[agg]: newState})
-    //   this.props.removeFieldElement(this.props.tableName, q)
-    // })
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.queryBundle[this.props.tableName].fields !==
+      prevProps.queryBundle[this.props.tableName].fields
+    ) {
+      if (
+        !Object.keys(
+          this.props.queryBundle[this.props.tableName].fields
+        ).includes(this.props.field)
+      ) {
+        this.setState({checked: false})
+      } else {
+        this.setState({checked: true})
+      }
+    }
   }
 
   render() {
@@ -157,10 +159,14 @@ class AggregateSelector extends Component {
                   return (
                     <Grid item key={field}>
                       <Chip
+                        name="selected"
                         size="small"
                         value={field}
                         label={`${pair[0]} of ${field}`}
-                        onDelete={evt => this.deleteAgg(evt, pair[0])}
+                        onDelete={this.props.removeFieldElement(
+                          this.props.tableName,
+                          `${pair[0]}(${field})`
+                        )}
                       />
                     </Grid>
                   )

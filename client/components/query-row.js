@@ -101,7 +101,6 @@ class QueryRow extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
     if (
       this.props.queryBundle[this.props.tableName].fields !==
       prevProps.queryBundle[this.props.tableName].fields
