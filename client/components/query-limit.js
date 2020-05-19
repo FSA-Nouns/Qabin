@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {limitTo} from '../store/query'
+import {limitTo, reset} from '../store/query'
 import AutorenewIcon from '@material-ui/icons/Autorenew'
 import DeleteIcon from '@material-ui/icons/Delete'
 
@@ -23,11 +23,17 @@ class QueryLimit extends Component {
   constructor() {
     super()
     this.setLimit = this.setLimit.bind(this)
+    this.resetQuery = this.resetQuery.bind(this)
   }
 
   setLimit(ev) {
     ev.preventDefault()
     this.props.limitTo(this.props.tableName, ev.target.value)
+  }
+
+  resetQuery(ev) {
+    ev.preventDefault()
+    this.props.reset(this.props.tableName)
   }
 
   render() {
@@ -42,15 +48,15 @@ class QueryLimit extends Component {
         <Grid item />
         <form onSubmit={this.setLimit}>
           <FormControl>
-            <InputLabel htmlFor="my-input">Limit</InputLabel>
-            <Input id="my-input" />
-            <Button variant="outlined" size="small" type="submit">
+            <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
+            <Input id={this.props.tableName} />
+            {/* <Button variant="outlined" size="small" type="submit">
               Submit
-            </Button>
+            </Button> */}
           </FormControl>
         </form>
         <Grid item>
-          <IconButton aria-label="reset">
+          <IconButton aria-label="reset" onClick={this.resetQuery}>
             <AutorenewIcon fontSize="large" />
           </IconButton>
         </Grid>
@@ -70,7 +76,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    limitTo: (tableName, limit) => dispatch(limitTo(tableName, limit))
+    limitTo: (tableName, limit) => dispatch(limitTo(tableName, limit)),
+    reset: tableName => dispatch(reset(tableName))
   }
 }
 

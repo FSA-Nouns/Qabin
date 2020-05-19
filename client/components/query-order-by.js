@@ -8,6 +8,8 @@ import {
   FormGroup,
   FormHelperText,
   FormLabel,
+  InputLabel,
+  Select,
   Grid
 } from '@material-ui/core'
 
@@ -46,7 +48,7 @@ class OrderBy extends Component {
       }
       return header
     })
-    this.setState({orderByArray: modified})
+    this.setState({orderByArray: modified, direction: ev.target.value})
     this.props.orderBy(this.props.tableName, modified)
   }
 
@@ -81,11 +83,8 @@ class OrderBy extends Component {
                       id="select"
                       onChange={ev => this.toggleDirection(ev, selected)}
                     >
-                      <option value="ASC">Direction</option>
                       <option value="ASC">ascending</option>
-                      <option value="ASC">alphabetical</option>
                       <option value="DESC">descending</option>
-                      <option value="DESC">reverse aplh.</option>
                     </Select>
                   </div>
                 )

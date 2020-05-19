@@ -68,6 +68,7 @@ export default function SingleTable(props) {
                 return (
                   <QueryRow
                     tableName={props.tableName}
+                    queryBundle={props.tableName}
                     key={index}
                     field={element}
                     tableData={props.tableData}

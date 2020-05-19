@@ -21,11 +21,11 @@ export class QueryData extends Component {
       >
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
             this.props.submitQuery(this.props.queryBundle, this.props.user)
-          }
+          }}
         >
-          Query
+          IS THIS IT
         </button>
         {this.props.tableData.map((table, index) => {
           return (

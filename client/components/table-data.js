@@ -1,6 +1,4 @@
 import React from 'react'
-import QueryRow from './query-row'
-import QuerySort from './query-sort'
 import DataTypeRow from './data-type-row'
 import Join from './query-join'
 import {useState} from 'react'

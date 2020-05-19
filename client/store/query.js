@@ -25,6 +25,8 @@ const GROUP_BY = 'GROUP_BY'
 
 const LIMIT_TO = 'LIMIT_TO'
 
+const RESET = 'RESET'
+
 export const addJoinElement = (tableName, joinArray, joinType, joinId) => ({
   type: ADD_JOIN_ELEMENT,
   tableName,
@@ -82,6 +84,11 @@ export const limitTo = (tableName, limit) => ({
   type: LIMIT_TO,
   tableName,
   limit
+})
+
+export const reset = tableName => ({
+  type: RESET,
+  tableName
 })
 
 const query = (state = initialState, action) => {
@@ -159,6 +166,18 @@ const query = (state = initialState, action) => {
       let newState6 = {...state}
       newState6[action.tableName].limit = [action.limit]
       return newState6
+
+    case RESET:
+      let newState7 = {...state}
+      newState7[action.tableName] = {
+        fields: [],
+        where: [],
+        join: [],
+        orderBy: [],
+        groupBy: [],
+        limit: []
+      }
+      return newState7
 
     default:
       return state
