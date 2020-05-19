@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {gotTables} from '../store/editData'
+import {gotTables, addHeaderType} from '../store/editData'
 import TableExtract from './table-extract'
 import {makeStyles} from '@material-ui/core/styles'
 import SingleTable from './single-table'
@@ -115,6 +115,8 @@ const mapDispatchToProps = dispatch => ({
   gotTables: (userId, tables, files) => {
     dispatch(gotTables(userId, tables, files))
   },
+  addHeaderType: (header, type, table) =>
+    dispatch(addHeaderType(header, type, table)),
   parseTablesWithDataTypes: (user, tableData) =>
     dispatch(parseFilesWithDataType(user, tableData))
 })
