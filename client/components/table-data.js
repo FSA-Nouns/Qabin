@@ -1,9 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import DataTypeRow from './data-type-row'
 import PropTypes from 'prop-types'
-import Join from './query-join'
-import {useState} from 'react'
-import TableExtract from './table-extract'
 import {makeStyles} from '@material-ui/core/styles'
 import {
   Grid,
@@ -59,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 300
+    maxHeight: 290
   }
 }))
 
@@ -73,7 +70,7 @@ const tips = [
 
 export default function TableData(props) {
   const dataTypes = ['Text', 'Integer', 'Real', 'Boolean', 'Date']
-  const [selectedTable, setSelecedTable] = React.useState(0)
+  const [selectedTable, setSelecedTable] = useState(0)
 
   const handleChange = (event, newValue) => {
     setSelecedTable(newValue)
@@ -82,8 +79,8 @@ export default function TableData(props) {
   const classes = useStyles()
 
   return (
-    <SimpleCard>
-      <Grid container direction="column" alignItems="center">
+    <Grid item>
+      <Grid container direction="column" alignItems="center" wrap="nowrap">
         {/* <Typography variant="h4">{props.tableName.slice(props.tableName.indexOf('_') + 1)}</Typography> */}
         <AppBar position="static">
           <Tabs
@@ -91,11 +88,13 @@ export default function TableData(props) {
             onChange={handleChange}
             aria-label="simple tabs example"
           >
-            {props.tableNames.map(name => {
+            {props.tableData.map(name => {
               return (
                 <Tab
-                  key={name}
-                  label={name.slice(name.indexOf('_') + 1)}
+                  key={Object.keys(name)[0]}
+                  label={Object.keys(name)[0].slice(
+                    Object.keys(name)[0].indexOf('_') + 1
+                  )}
                   {...a11yProps(0)}
                 />
               )
@@ -113,6 +112,7 @@ export default function TableData(props) {
                     p={0}
                     direction="row"
                     justify="space-around"
+                    wrap="nowrap"
                   >
                     <Grid item m={0} p={0} xs={2} />
                     {dataTypes.map((element, j) => {
@@ -133,38 +133,23 @@ export default function TableData(props) {
                   </Grid>
                 </ListSubheader>
                 <ListItem key={index}>
-                  <Grid container direction="column">
-                    {Object.keys(table[props.tableNames[index]].rows[0]).map(
+                  <Grid container direction="column" wrap="nowrap">
+                    {Object.keys(table[Object.keys(table)[0]].rows[0]).map(
                       (element, i) => {
                         return (
-                          <Grid container direction="row" key={i}>
-                            <DataTypeRow
-                              tableName={props.tableNames[index]}
-                              key={i}
-                              element={element}
-                              index={index}
-                            />
+                          <Grid container direction="row" key={i} wrap="nowrap">
+                            <Grid item xs={12}>
+                              <DataTypeRow
+                                tableName={Object.keys(table)[0]}
+                                key={i}
+                                element={element}
+                                index={index}
+                              />
+                            </Grid>
                           </Grid>
                         )
                       }
                     )}
-                    <Grid item>
-                      {props.tableData
-                        .filter(
-                          (tableSample, i2) =>
-                            !tableSample[Object.keys(tableSample)[0]].old &&
-                            i2 === index
-                        )
-                        .map((tableSample, ind) => (
-                          <Grid className="single-table-extract" key={ind}>
-                            <TableExtract
-                              tableData={tableSample}
-                              tableName={Object.keys(tableSample)[0]}
-                              key={ind}
-                            />
-                          </Grid>
-                        ))}
-                    </Grid>
                   </Grid>
                 </ListItem>
               </List>
@@ -172,14 +157,14 @@ export default function TableData(props) {
           )
         })}
       </Grid>
-    </SimpleCard>
+    </Grid>
   )
 }
+
 function SimpleCard(props) {
-  const useStyles = makeStyles({
+  const useStyles1 = makeStyles({
     root: {
-      margin: 15,
-      padding: 15
+      margin: 15
     },
     title: {
       fontSize: 14
@@ -189,7 +174,7 @@ function SimpleCard(props) {
     }
   })
 
-  const classes = useStyles()
+  const classes = useStyles1()
 
   return <Card className={classes.root}>{props.children}</Card>
 }
