@@ -42,28 +42,50 @@ class QueryLimit extends Component {
         container
         item
         direction="row"
-        justify="space-evenly"
+        justify="space-between"
         alignItems="center"
+        wrap="nowrap"
       >
-        <Grid item />
-        <form onSubmit={this.setLimit}>
-          <FormControl>
-            <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
-            <Input id={this.props.tableName} />
-            {/* <Button variant="outlined" size="small" type="submit">
-              Submit
-            </Button> */}
-          </FormControl>
-        </form>
-        <Grid item>
-          <IconButton aria-label="reset" onClick={this.resetQuery}>
-            <AutorenewIcon fontSize="large" />
-          </IconButton>
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          item
+          xs={6}
+        >
+          <form onSubmit={this.setLimit}>
+            <FormControl>
+              <Grid item xs={6}>
+                <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
+                <Input id={this.props.tableName} />
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="outlined" size="small" type="submit">
+                  Submit
+                </Button>
+              </Grid>
+            </FormControl>
+          </form>
         </Grid>
-        <Grid item>
-          <IconButton aria-label="delete">
-            <DeleteIcon fontSize="large" />
-          </IconButton>
+        <Grid
+          container
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+          item
+          xs={6}
+        >
+          <Grid item>
+            <IconButton aria-label="reset" onClick={this.resetQuery}>
+              <AutorenewIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton aria-label="delete">
+              <DeleteIcon fontSize="large" />
+            </IconButton>
+          </Grid>
         </Grid>
       </Grid>
     )

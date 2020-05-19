@@ -4,6 +4,7 @@ import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 import {setTables} from '../store/upload'
+
 import {Button, Grid} from '@material-ui/core'
 
 export class QueryData extends Component {
