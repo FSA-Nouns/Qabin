@@ -5,6 +5,8 @@ import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 import {setTables} from '../store/upload'
 
+import {Button, Grid} from '@material-ui/core'
+
 export class QueryData extends Component {
   componentDidMount() {
     this.props.setTables(this.props.tableNames)
@@ -12,31 +14,45 @@ export class QueryData extends Component {
 
   render() {
     return (
-      <div>
-        <button
+      <Grid
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="center"
+      >
+        <Button
           type="button"
-          onClick={() =>
+          onClick={() => {
             this.props.submitQuery(this.props.queryBundle, this.props.user)
-          }
+          }}
         >
           Query
-        </button>
+        </Button>
         {this.props.tableData.map((table, index) => {
           return (
-            <div className="single-table" key={index}>
-              <SingleTable
-                tableData={table[Object.keys(table)[0]]}
-                tableDatas={this.props.tableData}
-                index={index}
-                tableName={Object.keys(table)[0]}
-                index={index}
-                location={this.props.location}
-                // allTables={this.props}
-              />
-            </div>
+            <Grid
+              key={index}
+              item
+              container
+              direction="row"
+              justify="center"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <SingleTable
+                  tableData={table[Object.keys(table)[0]]}
+                  tableDatas={this.props.tableData}
+                  index={index}
+                  tableName={Object.keys(table)[0]}
+                  index={index}
+                  location={this.props.location}
+                  // allTables={this.props}
+                />
+              </Grid>
+            </Grid>
           )
         })}
-      </div>
+      </Grid>
     )
   }
 }

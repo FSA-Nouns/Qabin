@@ -1,10 +1,91 @@
+/* eslint-disable complexity */
 import React, {Component, useState, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {
   removeFieldElement,
   addFieldElement,
-  addFilterElement
+  addFilterElement,
+  removeFilterElement
 } from '../store/query'
+import {
+  Grid,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip
+} from '@material-ui/core'
+
+let operatorDict = dataType => ({
+  '>=': 'at least',
+  '<=': 'at most',
+  '<': dataType === 'date' ? 'before' : 'less than',
+  '>': dataType === 'date' ? 'after' : 'greater than',
+  '=': 'equal to',
+  '!=': 'not equal to'
+})
+
+const parseOperator = (filterArray, dataType) => {
+  if (filterArray[1] === 'LIKE') {
+    if (
+      filterArray[2][0] === '%' &&
+      filterArray[2][filterArray[2].length - 1] === '%'
+    ) {
+      return 'contains'
+    } else if (
+      filterArray[2][0] === '%' &&
+      filterArray[2][filterArray[2].length - 1] !== '%'
+    ) {
+      return 'ends with'
+    } else if (
+      filterArray[2][0] !== '%' &&
+      filterArray[2][filterArray[2].length - 1] === '%'
+    ) {
+      return 'starts with'
+    }
+  } else if (filterArray[1] === '') {
+    return 'not empty'
+  } else {
+    return operatorDict(dataType)[filterArray[1]]
+  }
+}
+
+const parseCondition = (operator, value) => {
+  if (value === 'IS NOT NULL') {
+    return ''
+  } else if (operator === 'starts with') {
+    return value.slice(0, -1)
+  } else if (operator === 'ends with') {
+    return value.slice(1)
+  } else if (operator === 'contains') {
+    return value.slice(1, -1)
+  } else {
+    return value
+  }
+}
+
+const conditionalDict = (field, headers, filterArray) => {
+  const dataType = headers[field]
+  console.log(dataType)
+  const operator = parseOperator(filterArray, dataType)
+  // const curatedField = (dataType === 'date') ? field.split('(')[1].slice(0, -1) : field;
+  const condition = parseCondition(operator, filterArray[2])
+  return `${field} ${operator.toLowerCase()} ${condition.toLowerCase()}`
+}
+
+const parseField = field => {
+  if (field.includes('trunc(') && field[field.length - 1] === ')') {
+    return field.split('(')[1].slice(0, -1)
+  } else {
+    return field
+  }
+}
 
 const getOperator = operator => {
   if (
@@ -87,30 +168,77 @@ class QueryRow extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.queryBundle[this.props.tableName].fields !==
+      prevProps.queryBundle[this.props.tableName].fields
+    ) {
+      if (
+        !Object.keys(
+          this.props.queryBundle[this.props.tableName].fields
+        ).includes(this.props.field)
+      ) {
+        this.setState({checked: false})
+      } else {
+        this.setState({checked: true})
+      }
+    }
+  }
+
   render() {
     return (
-      <tr className="query-row">
-        <td>
-          <span>{this.props.field}</span>
-        </td>
-        <td>
-          <input
-            name={this.props.field}
-            type="checkbox"
-            onChange={this.toggleField}
+      <TableRow>
+        <TableCell align="left" scope="row">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.checked}
+                onChange={this.toggleField}
+              />
+            }
+            label={this.props.field}
           />
-        </td>
-
-        <FilterForm
-          filterElement={this.filterElement}
-          dataType={this.props.tableData.headers[this.props.field]}
-        />
-      </tr>
+        </TableCell>
+        <TableCell align="right">
+          <FilterForm
+            filterElement={this.filterElement}
+            dataType={this.props.tableData.headers[this.props.field]}
+          />
+        </TableCell>
+        <TableCell align="right">
+          {this.props.queryBundle[this.props.tableName].where
+            ? this.props.queryBundle[this.props.tableName].where
+                .filter(arr => parseField(arr[0]) === this.props.field)
+                .map((filter, index) => {
+                  return (
+                    <Chip
+                      key={index}
+                      size="small"
+                      value={filter}
+                      label={conditionalDict(
+                        parseField(filter[0]),
+                        this.props.tableData.headers,
+                        filter
+                      )}
+                      onDelete={() =>
+                        this.props.removeFilterElement(
+                          this.props.tableName,
+                          filter
+                        )
+                      }
+                    />
+                  )
+                })
+            : ''}
+        </TableCell>
+      </TableRow>
     )
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  queryBundle: state.queryBundle
+})
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -119,7 +247,10 @@ const mapDispatchToProps = dispatch => {
     addFieldElement: (tableName, field) =>
       dispatch(addFieldElement(tableName, field)),
     removeFieldElement: (tableName, field) =>
-      dispatch(removeFieldElement(tableName, field))
+      dispatch(removeFieldElement(tableName, field)),
+    removeFilterElement: (tableName, filterArray) => {
+      dispatch(removeFilterElement(tableName, filterArray))
+    }
   }
 }
 
@@ -129,28 +260,20 @@ function FilterForm(props) {
   const [formOpen, toggleForm] = useState(false)
 
   return (
-    <td>
-      <button
-        className="filter-toggle"
-        onClick={() => toggleForm(!formOpen)}
-        type="button"
-      >
-        Filter
-      </button>{' '}
-      {formOpen && (
-        <form className="filter-form" onSubmit={props.filterElement}>
-          <FilterFormDataSelect dataType={props.dataType} />
-          <FilterFormInput dataType={props.dataType} />
-          <button type="submit">Add</button>
-        </form>
-      )}
-    </td>
+    <form className="filter-form" onSubmit={props.filterElement}>
+      <FilterFormDataSelect dataType={props.dataType} />
+      <FilterFormInput dataType={props.dataType} />
+      <button type="submit">Add</button>
+    </form>
   )
 }
 // date upto from before after
 //component to display filter operators accordingly to dataType of the field
 function FilterFormDataSelect(props) {
-  return props.dataType === 'int' ||
+  return props.dataType === 'serial' ||
+    props.dataType === 'integer' ||
+    props.dataType === 'double precision' ||
+    props.dataType === 'int' ||
     props.dataType === 'int' ||
     props.dataType === 'float' ? (
     <select name="operator">
@@ -173,7 +296,7 @@ function FilterFormDataSelect(props) {
       <option value="ends-with">ends with</option>
       <option value="IS NOT NULL">Not Empty</option>
     </select>
-  ) : props.dataType === 'bool' ? (
+  ) : props.dataType === 'bool' || props.dataType === 'boolean' ? (
     <select name="operator">
       <option value="null">Option</option>
       <option value="=">IS</option>
