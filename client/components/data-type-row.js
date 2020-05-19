@@ -29,22 +29,34 @@ export class DataTypeRow extends Component {
   }
 
   render() {
+    let elemName = ''
+    if (this.props.element.includes('_')) {
+      let elemArr = this.props.element.split('_')
+      elemArr.forEach((el, i) => {
+        elemName += elemArr[i][0].toUpperCase() + elemArr[i].slice(1) + ' '
+      })
+    } else {
+      elemName =
+        this.props.element[0].toUpperCase() + this.props.element.slice(1)
+    }
     return (
-      <Grid container direction="row" justify="center">
+      <Grid container direction="row" justify="center" wrap="nowrap">
         <Box
           width="10%"
           height="7%"
+          whiteSpace="nowrap"
+          textOverflow="ellipsis"
           p={2}
           m={2}
           mb={0}
           sm={1}
-          justifyContent="center"
+          justifyContent="flex-start"
           borderRadius={4}
           border={0}
           bgcolor="info.main"
           color="info.contrastText"
         >
-          {`${this.props.element}`}
+          {`${elemName}`}
         </Box>
         <Box p={2} mb={0} sm={1}>
           <Button
@@ -124,10 +136,9 @@ export class DataTypeRow extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  clickCheck:
-    state.tableData[ownProps.index][ownProps.tableName].headers[
-      ownProps.element
-    ]
+  clickCheck: state.tableData.filter(table => !!table[ownProps.tableName])[0][
+    ownProps.tableName
+  ].headers[ownProps.element]
 })
 
 const mapDispatchToProps = dispatch => {

@@ -21,15 +21,25 @@ export class EditData extends Component {
   }
 
   render() {
+    const tables = this.props.tableData.filter(
+      table => !table[Object.keys(table)[0]].old
+    )
     return (
       <Grid container direction="row">
         <Grid item align="left" sm={3}>
           <SimpleCard>
             <Button
+              variant="contained"
               sm={2}
-              bgcolor="primary"
-              color="default"
+              color="primary"
               type="button"
+              disabled={
+                tables.filter(
+                  table =>
+                    Object.keys(table[Object.keys(table)[0]].headers).length ===
+                    Object.keys(table[Object.keys(table)[0]].rows[0]).length
+                ).length !== tables.length
+              }
               onClick={() =>
                 this.props.parseTablesWithDataTypes(
                   this.props.user,
@@ -42,42 +52,42 @@ export class EditData extends Component {
               Continue
             </Button>
             <Grid container direction="column">
-              <Typography component="span" variant="h6">
+              <Typography component="span" variant="h6" align="center">
                 Step 2 - Specify Your Data Types
               </Typography>
               <Typography component="span" variant="body1" align="center">
                 Here, you select from our five datatypes so I can interact with
                 your data properly. If you don't know what a specific data type
                 represents, hover over the text above each for a brief
-                definition.
+                definition. If you need a reminder on what columns in your
+                tables have which values, look to the table samples on the
+                bottom of the page, which show the first two rows of data for
+                each of your tables.
               </Typography>
             </Grid>
           </SimpleCard>
         </Grid>
         {this.props.tableData.length ? (
-          <Grid item sm={8}>
-            <Grid container direction="column" alignItems="flex-start">
-              <TableData
-                tableData={this.props.tableData}
-                tableNames={this.props.files.tableNames}
-                location={this.props.location}
-              />
+          <Grid item sm={9}>
+            <Grid container direction="row" alignItems="flex-start">
+              <Grid item xs={12} lg={12}>
+                <TableData
+                  tableData={this.props.tableData.filter(
+                    table => !table[Object.keys(table)[0]].old
+                  )}
+                  location={this.props.location}
+                />
+              </Grid>
+              <Grid item xs={12} lg={12}>
+                <TableExtract
+                  tableData={this.props.tableData.filter(
+                    table => !table[Object.keys(table)[0]].old
+                  )}
+                />
+              </Grid>
             </Grid>
           </Grid>
         ) : (
-          // {/* <Grid className="table-extract-container">
-          //   {this.props.tableData
-          //     .filter(table => !table[Object.keys(table)[0]].old)
-          //     .map((table, index) => (
-          //       <Grid className="single-table-extract" key={index}>
-          //         <TableExtract
-          //           tableData={table}
-          //           tableName={Object.keys(table)[0]}
-          //           key={index}
-          //         />
-          //       </Grid>
-          //     ))}
-          // </Grid> */}
           <p>No tables to display</p>
         )}
       </Grid>
