@@ -4,7 +4,7 @@ import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 import {setTables} from '../store/upload'
-import {Grid} from '@material-ui/core'
+import {Button, Grid} from '@material-ui/core'
 
 export class QueryData extends Component {
   componentDidMount() {
@@ -19,14 +19,14 @@ export class QueryData extends Component {
         justify="space-evenly"
         alignItems="center"
       >
-        <button
+        <Button
           type="button"
           onClick={() => {
             this.props.submitQuery(this.props.queryBundle, this.props.user)
           }}
         >
-          IS THIS IT
-        </button>
+          Query
+        </Button>
         {this.props.tableData.map((table, index) => {
           return (
             <Grid
