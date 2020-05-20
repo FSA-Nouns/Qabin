@@ -2,8 +2,9 @@ import React from 'react'
 import QueryRow from './query-row'
 import QuerySort from './query-sort'
 import DataTypeRow from './data-type-row'
-import Join from './query-join'
-import {useState} from 'react'
+import Join from './Joins/query-join'
+import JoinCopy from './Joins/join-copy'
+// import {useState} from 'react'
 import AggregateSelector from './aggregate-selector'
 
 let aggArr = ['AVG', 'SUM']
@@ -17,16 +18,16 @@ export default function SingleTable(props) {
           <tr>
             <th>{props.tableName.slice(props.tableName.indexOf('_') + 1)}</th>
 
-            <td>
+            {/* <td>
               {props.location.pathname === '/queryBuilder' ? (
                 <Join data={props} index={0} />
               ) : (
                 ''
               )}
-            </td>
+            </td> */}
             <td>
               {props.location.pathname === '/queryBuilder' ? (
-                <Join data={props} index={1} />
+                <JoinCopy data={props} index={1} />
               ) : (
                 ''
               )}

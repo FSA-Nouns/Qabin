@@ -73,9 +73,8 @@ const fileReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_FILE_NAMES:
       return {...state, fileNames: action.fileNames}
-    case SET_TABLE_NAMES:
-      console.log(state)
 
+    case SET_TABLE_NAMES:
       return {
         ...state,
         tableNames: [...state.tableNames, ...action.tableNames].reduce(

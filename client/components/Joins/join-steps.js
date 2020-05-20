@@ -1,10 +1,12 @@
 import React from 'react'
 import {Grid, Typography} from '@material-ui/core'
-import {gray} from '@material-ui/core/colors'
-import {SimpleCard} from './home'
+// import {gray} from '@material-ui/core/colors'
+import {SimpleCard} from '../home'
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
+import {style, useStyles} from './join-styles'
 
-export default function JoinSteps() {
+export default function JoinSteps(props) {
+  const classes = useStyles(props)
   return (
     // <Grid container direction="column">
     //   <Typography variant="h6">Step 1 - Gather your data</Typography>
@@ -13,34 +15,35 @@ export default function JoinSteps() {
     //     upload your data in .csv format
     //   </Typography>
     // </Grid>
+    // style={style.typography.h3}
     <SimpleCard>
-      <Typography variant="h4">
-        STEPS {<HelpIcon color={gray} fontSize="small" />}
+      <Typography className={classes.typography}>
+        STEPS {<HelpIcon fontSize="small" />}
       </Typography>
-      <Typography variant="h6">
+      <Typography className={classes.typography}>
         Follow the pop-up arrows to each step
       </Typography>
-      <Typography variant="h5">Step 1:</Typography>
-      <Typography variant="h5">
+      <Typography variant="h7">Step 1:</Typography>
+      <Typography variant="h8">
         Select a table (lets call it Table 2) to connect data. This will help
         analyse data across the connected tables on common data field.
       </Typography>
-      <Typography variant="h5">Step 2:</Typography>
-      <Typography variant="h5">
+      <Typography variant="h7">Step 2:</Typography>
+      <Typography variant="h8">
         Select column in existing table (lets call it Table 1) that has common
         data with the Table 2.
       </Typography>
-      <Typography variant="h5">Step 3:</Typography>
-      <Typography variant="h5">
+      <Typography variant="h7">Step 3:</Typography>
+      <Typography variant="h8">
         Select column in Table 2 that has common data with the Table 1.
       </Typography>
-      <Typography variant="h5">Step 4:</Typography>
-      <Typography variant="h5">
+      <Typography variant="h7">Step 4:</Typography>
+      <Typography variant="h8">
         Select the area on the venn diagram to column in Table 2 that has common
         data with the Table 1.
       </Typography>
-      <Typography variant="h5">Step 5:</Typography>
-      <Typography variant="h5">
+      <Typography variant="h7">Step 5:</Typography>
+      <Typography variant="h8">
         Save and proceed to select the fields from each table to visualize
         results.
       </Typography>

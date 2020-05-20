@@ -101,7 +101,8 @@ function parseJoin(table, joinArr, queryBundle) {
       return (query += ` ${join[1]} JOIN ${join[0]} ON ${join[2]} = ${
         join[3]
       } `)
-    } else return 100
+      // WHERE ${join[3]} IS NULL
+    } else return
   })
   return joinArr.length !== 0 && query !== undefined ? query : ''
 }
