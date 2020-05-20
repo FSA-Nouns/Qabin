@@ -28,6 +28,7 @@ export class DataTypeRow extends Component {
     this.props.addHeaderType(this.props.element, value, this.props.tableName)
   }
 
+  // eslint-disable-next-line complexity
   render() {
     let elemName = ''
     if (this.props.element.includes('_')) {
@@ -70,7 +71,9 @@ export class DataTypeRow extends Component {
             size="medium"
             color={this.state.clicked === 'text' ? 'primary' : 'default'}
             onClick={() => this.handleClick('text')}
-          />
+          >
+            {this.state.clicked === 'text' ? `X` : ''}
+          </Button>
         </Box>
         <Box p={2} mb={0} sm={1}>
           <Button
@@ -84,7 +87,9 @@ export class DataTypeRow extends Component {
             variant="contained"
             color={this.state.clicked === 'integer' ? 'primary' : 'default'}
             onClick={() => this.handleClick('integer')}
-          />
+          >
+            {this.state.clicked === 'integer' ? `X` : ''}
+          </Button>
         </Box>
         <Box p={2} mb={0} sm={1}>
           <Button
@@ -100,7 +105,9 @@ export class DataTypeRow extends Component {
               this.state.clicked === 'double precision' ? 'primary' : 'default'
             }
             onClick={() => this.handleClick('double precision')}
-          />
+          >
+            {this.state.clicked === 'double precision' ? `X` : ''}
+          </Button>
         </Box>
         <Box p={2} mb={0} sm={1}>
           <Button
@@ -114,7 +121,9 @@ export class DataTypeRow extends Component {
             variant="contained"
             color={this.state.clicked === 'boolean' ? 'primary' : 'default'}
             onClick={() => this.handleClick('boolean')}
-          />
+          >
+            {this.state.clicked === 'boolean' ? `X` : ''}
+          </Button>
         </Box>
         <Box p={2} mb={0} sm={1}>
           <Button
@@ -128,7 +137,9 @@ export class DataTypeRow extends Component {
             variant="contained"
             color={this.state.clicked === 'date' ? 'primary' : 'default'}
             onClick={() => this.handleClick('date')}
-          />
+          >
+            {this.state.clicked === 'date' ? `X` : ''}
+          </Button>
         </Box>
       </Grid>
     )

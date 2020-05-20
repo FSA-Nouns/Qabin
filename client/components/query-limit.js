@@ -81,11 +81,6 @@ class QueryLimit extends Component {
               <AutorenewIcon fontSize="large" />
             </IconButton>
           </Grid>
-          <Grid item>
-            <IconButton aria-label="delete">
-              <DeleteIcon fontSize="large" />
-            </IconButton>
-          </Grid>
         </Grid>
       </Grid>
     )
