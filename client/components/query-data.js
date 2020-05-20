@@ -74,13 +74,14 @@ export class QueryData extends Component {
             </Grid>
           </Grid>
         </Grid>
-        {this.props.selectedTables.length > 0 ? (
-          this.props.selectedTables.map((table, index) => {
-            let tableIndex = this.props.files.tableNames.indexOf(table)
-            let singleTableData = this.props.tableData[tableIndex]
-            return (
-              <Grid key={index} item sm={9}>
+        <Grid item sm={9}>
+          {this.props.selectedTables.length > 0 ? (
+            this.props.selectedTables.map((table, index) => {
+              let tableIndex = this.props.files.tableNames.indexOf(table)
+              let singleTableData = this.props.tableData[tableIndex]
+              return (
                 <Grid
+                  key={index}
                   container
                   direction="row"
                   justify="center"
@@ -97,21 +98,21 @@ export class QueryData extends Component {
                     />
                   </Grid>
                 </Grid>
-              </Grid>
-            )
-          })
-        ) : (
-          <Grid item>
-            <Typography
-              component="span"
-              variant="h5"
-              align="center"
-              fontWeight="fontWeightBold"
-            >
-              Select some tables!
-            </Typography>
-          </Grid>
-        )}
+              )
+            })
+          ) : (
+            <Grid item>
+              <Typography
+                component="span"
+                variant="h5"
+                align="center"
+                fontWeight="fontWeightBold"
+              >
+                Select some tables!
+              </Typography>
+            </Grid>
+          )}
+        </Grid>
       </Grid>
     )
   }

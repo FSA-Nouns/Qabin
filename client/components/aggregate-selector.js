@@ -63,7 +63,6 @@ class AggregateSelector extends Component {
           direction="column"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={3}
         >
           <Grid item>
             <form className="avg-filter-form" onSubmit={this.toggleAgg}>

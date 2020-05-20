@@ -20,11 +20,6 @@ import {
 
 import {makeStyles} from '@material-ui/styles'
 
-const section = {
-  height: '100%',
-  paddingTop: 5
-}
-
 export default function SingleTable(props) {
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
@@ -44,9 +39,8 @@ export default function SingleTable(props) {
       item
       direction="row"
       justify="flex-start"
-      alignItems="flex-start"
       wrap="nowrap"
-      sm={8}
+      xs={12}
     >
       <Grid
         name="2: Tablename, join buttons and table (lvl 2) container"
@@ -123,25 +117,26 @@ export default function SingleTable(props) {
           <Grid xs={12}>
             <Typography variant="h3">Aggregate Analysis</Typography>
           </Grid>
-          <Grid container justify="space-evenly" xs={12} item>
-            <Grid xs={12} sm={4}>
+          <Grid container xs={12} item>
+            <Grid item xs={12}>
               <AggregateSelector
                 index={props.index}
                 tableData={props.tableData}
                 tableName={props.tableName}
               />
             </Grid>
-            <Grid xs={12} sm={4}>
-              <GroupBy tableName={props.tableName} />
+            <Grid container item xs={12}>
+              <Grid item xs={12} sm={6}>
+                <GroupBy tableName={props.tableName} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <OrderBy tableName={props.tableName} />
+              </Grid>
             </Grid>
-            <Grid xs={12} sm={4}>
-              <OrderBy tableName={props.tableName} />
+            <Grid className={classes.bottomSection} item xs={12}>
+              <QueryLimit tableName={props.tableName} />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} />
-        <Grid className={classes.bottomSection} item xs={12}>
-          <QueryLimit tableName={props.tableName} />
         </Grid>
       </Grid>
     </Grid>
