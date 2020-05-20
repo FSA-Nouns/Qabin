@@ -8,6 +8,7 @@ const initialState = {
 
 const SET_FILE_NAMES = 'SET_FILE_NAMES'
 const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
+const DELETED_TABLE = 'DELETED_TABLE'
 
 //ACTION CREATORS
 const setFiles = fileNames => ({
@@ -71,6 +72,11 @@ export const parseFiles = (files, user) => {
 
 const fileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case DELETED_TABLE:
+      return {
+        ...state,
+        tableNames: state.tableNames.filter(tab => tab !== action.table)
+      }
     case SET_FILE_NAMES:
       return {...state, fileNames: action.fileNames}
     case SET_TABLE_NAMES:

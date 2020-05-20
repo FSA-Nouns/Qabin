@@ -83,7 +83,7 @@ if (process.env.NODE_ENV !== 'production') {
   })
 }
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isUserMiddleware, async (req, res, next) => {
   try {
     let {rows} = await pool.query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name LIKE 'user${req
@@ -123,5 +123,19 @@ router.get('/:userId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get(
+  '/:userId/delete/:table',
+  isUserMiddleware,
+  async (req, res, next) => {
+    try {
+      await pool.query(`DROP TABLE IF EXISTS ${req.params.table}`)
+
+      res.sendStatus(204)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
 
 module.exports = router

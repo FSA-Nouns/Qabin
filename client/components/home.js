@@ -2,12 +2,21 @@ import {makeStyles} from '@material-ui/core/styles'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FileUpload from './file-upload'
-import {getUserTables} from '../store/tables'
+import {getUserTables, deleteUserTable} from '../store/tables'
 import Bouncer from 'react-data-bouncer'
 import history from '../history'
 import HomeSteps from './home-steps'
 import {Grid, Card, List, ListItem, Typography, Button} from '@material-ui/core'
 import {parseFiles} from '../store/upload'
+import FolderIcon from '@material-ui/icons/Folder'
+import DescriptionIcon from '@material-ui/icons/Description'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 export class Home extends Component {
   componentDidMount() {
@@ -29,8 +38,24 @@ export class Home extends Component {
                 {this.props.tableNames.length ? (
                   this.props.tableNames.map((table, index) => {
                     return (
-                      <ListItem divider={true} key={index}>
-                        {table}
+                      <ListItem key={index} divider={true}>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <DescriptionIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={table} />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() =>
+                              this.props.deleteUserTable(this.props.user, table)
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
                       </ListItem>
                     )
                   })
@@ -92,7 +117,8 @@ const mapDispatchToProps = dispatch => {
     getUserTables: user => dispatch(getUserTables(user)),
     parseFiles: (files, user) => {
       dispatch(parseFiles(files, user))
-    }
+    },
+    deleteUserTable: (user, table) => dispatch(deleteUserTable(user, table))
   }
 }
 
