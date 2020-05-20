@@ -8,6 +8,18 @@ import TableData from './table-data'
 import {parseFilesWithDataType} from './../store/upload'
 import {Grid, Button, Card, Typography} from '@material-ui/core'
 
+const checkFileInFileNames = (tableName, fileNames, user) => {
+  return fileNames.reduce((bool, file) => {
+    let fileName = file.path.split('/') // to get the file name for the table name
+    fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
+    if (`user${user.id}_${fileName[0]}`.toLowerCase() === tableName) {
+      bool = true
+    }
+
+    return bool
+  }, false)
+}
+
 export class EditData extends Component {
   // constructor() {
   //     super()
@@ -44,7 +56,13 @@ export class EditData extends Component {
                 this.props.parseTablesWithDataTypes(
                   this.props.user,
                   this.props.tableData.filter(
-                    table => !table[Object.keys(table)[0]].old
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
                   )
                 )
               }
@@ -73,7 +91,13 @@ export class EditData extends Component {
               <Grid item xs={12} lg={12}>
                 <TableData
                   tableData={this.props.tableData.filter(
-                    table => !table[Object.keys(table)[0]].old
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
                   )}
                   location={this.props.location}
                 />
@@ -81,7 +105,13 @@ export class EditData extends Component {
               <Grid item xs={12} lg={12}>
                 <TableExtract
                   tableData={this.props.tableData.filter(
-                    table => !table[Object.keys(table)[0]].old
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
                   )}
                 />
               </Grid>

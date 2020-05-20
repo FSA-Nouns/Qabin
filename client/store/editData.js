@@ -4,6 +4,7 @@ const initialState = []
 
 const GET_TABLES = 'GET_TABLES'
 const ADDED_HEADER_TYPE = 'ADDED_HEADER_TYPE'
+const DELETED_TABLE = 'DELETED_TABLE'
 
 //ACTION CREATORS
 const getTables = tables => ({
@@ -41,6 +42,8 @@ export const gotTables = (userId, tableData, files) => {
 
 const tableReducer = (state = initialState, action) => {
   switch (action.type) {
+    case DELETED_TABLE:
+      return state.filter(tab => Object.keys(tab)[0] !== action.table)
     case GET_TABLES:
       let newState = state.length ? state : []
 

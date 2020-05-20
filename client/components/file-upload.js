@@ -10,6 +10,9 @@ import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded'
 class FileUpload extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      uploaded: false
+    }
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
@@ -23,10 +26,11 @@ class FileUpload extends React.Component {
     }
 
     this.props.addFiles(data, this.props.user)
+    this.setState({uploaded: true})
   }
 
   render() {
-    return !this.props.files.fileNames.length ? (
+    return !this.state.uploaded ? (
       <form onSubmit={this.handleUploadFiles}>
         <Grid container direction="column" spacing={2}>
           <Typography variant="h5">Upload Tables (.csv)</Typography>
