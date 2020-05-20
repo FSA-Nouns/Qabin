@@ -14,6 +14,7 @@ import LeftArrow from '@material-ui/icons/ArrowBack'
 import RightArrow from '@material-ui/icons/ArrowForward'
 import UpArrow from '@material-ui/icons/ArrowUpward'
 
+let joinCounter = [1]
 class JoinCopy extends React.Component {
   constructor(props) {
     super(props)
@@ -21,12 +22,15 @@ class JoinCopy extends React.Component {
       open: false,
       clear: false,
       scroll: 'paper',
+      joinCount: joinCounter.length,
       descriptionElementRef: null
     }
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
-    // this.handleSave = this.handleSave.bind(this)
+    this.handleSave = this.handleSave.bind(this)
     this.handleClear = this.handleClear.bind(this)
+    this.handleAddJoin = this.handleAddJoin.bind(this)
+    this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
   }
 
   componentDidMount() {
@@ -49,12 +53,22 @@ class JoinCopy extends React.Component {
     // this.setState({join: false})
   }
 
-  //   handleSave() {
-  //     this.setState({open: false})
-  //   }
+  handleSave() {
+    this.setState({open: false})
+  }
 
   handleClear() {
     this.setState({clear: true})
+  }
+
+  handleAddJoin() {
+    // joinCounter.push(1)
+    // this.setState({joinCount: joinCounter.length})
+  }
+
+  handleRemoveJoin() {
+    // joinCounter.pop()
+    // this.setState({joinCount: joinCounter.length})
   }
 
   render() {
@@ -77,7 +91,9 @@ class JoinCopy extends React.Component {
           fullWidth
         >
           <DialogTitle id="scroll-dialog-title">
-            <Typography>Lets connect data from other tables</Typography>
+            <Typography variant="h4">
+              Lets make your data tables talk to each other!
+            </Typography>
           </DialogTitle>
 
           <DialogContent dividers={scroll === 'paper'}>
@@ -90,30 +106,76 @@ class JoinCopy extends React.Component {
                 <Grid item xs={false} sm={4}>
                   <JoinSteps />
                 </Grid>
-                {console.log(`${__dirname}`, 'DIRECTORYYYYYYYYY')}
 
-                <Grid item>
-                  <Grid item sm={8}>
+                <Grid item xs={false} sm={8}>
+                  <Typography variant="h5">
+                    Lets learn some more about your data
+                  </Typography>
+
+                  {joinCounter.map((join, index) => (
+                    <Grid item md={6} key={index}>
+                      <Join
+                        data={this.props.data}
+                        index={index}
+                        clear={this.state.clear}
+                      />
+                      {/* {console.log(
+                      'this.state.clear sent as props for index 0',
+                      this.state.clear
+                    )} */}
+                    </Grid>
+                  ))}
+                  {/* )) */}
+
+                  {/* <Grid item sm={8}>
                     <img
                       width="200"
                       height="200"
                       //   src="/root/Senior/Capstone/client/components/Joins/graphics/Join-types.png"
                     />
-                  </Grid>
+                  </Grid> */}
 
-                  <Grid item md={8}>
+                  {this.props.index >= 1 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleAddJoin()}
+                    >
+                      Need a more complex mojo? Connect more fields!
+                    </Button>
+                  ) : (
+                    <Button variant="contained" color="primary" disabled>
+                      Need a more complex mojo? Connect more fields!
+                    </Button>
+                  )}
+
+                  {this.state.joinCount > 1 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleRemoveJoin()}
+                    >
+                      Remove last connection.
+                    </Button>
+                  ) : (
+                    <Button variant="contained" color="primary" disabled>
+                      Remove last connection.
+                    </Button>
+                  )}
+
+                  {/* <Grid item md={8}>
                     <Join
                       data={this.props.data}
                       index={0}
                       clear={this.state.clear}
                     />
-                    {console.log(
+                    {/* {console.log(
                       'this.state.clear sent as props for index 0',
                       this.state.clear
-                    )}
-                  </Grid>
+                    )} */}
+                  {/* </Grid> */}
 
-                  <Grid item md={8}>
+                  {/* <Grid item md={8}>
                     <Join
                       data={this.props.data}
                       index={1}
@@ -123,7 +185,7 @@ class JoinCopy extends React.Component {
                       'this.state.clear sent as props for index 1',
                       this.state.clear
                     )}
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </DialogContentText>
@@ -132,9 +194,9 @@ class JoinCopy extends React.Component {
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-            {/* <Button onClick={this.handleSave} color="primary">
+            <Button onClick={this.handleSave} color="primary">
               Save
-            </Button> */}
+            </Button>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>

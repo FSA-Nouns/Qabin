@@ -6,98 +6,107 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import {
-  addJoinElement,
-  removeJoinElement,
+  addJoinTable,
+  removeJoinTable,
+  setJoinType,
   setJoinColumnElement
 } from '../../store/query'
+import {Typography} from '@material-ui/core'
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
+import {useStyles, tileData} from './join-styles'
+// import image from './graphics/Join-types.png'
 
-let joinType
+// let joinType
 class Join extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       join: false,
+      joinType: '',
       table1: '',
       table2: '',
+      column1: '',
+      column2: '',
       clear: false
     }
     this.handleClear = this.handleClear.bind(this)
-    this.handleJoinElement = this.handleJoinElement.bind(this)
+    this.handleJoinTable = this.handleJoinTable.bind(this)
+    this.handleJoinType = this.handleJoinType.bind(this)
     this.handleColumnElement = this.handleColumnElement.bind(this)
+    this.handleJoinInfo = this.handleJoinInfo.bind(this)
   }
 
-  // componentWillReceiveProps(nextProps){
-  //     if (nextProps.clear !== this.props.clear) {
-  //       this.setState({
-  //       clear: nextProps.clear
-  //     })
-  //   } else {
-  //       this.setState({clear: false})
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.clear !== this.props.clear) {
+      this.setState({
+        clear: nextProps.clear
+      })
+    } else {
+      this.setState({clear: false})
+    }
+  }
 
-  handleClear(table, index) {
+  handleClear(table, index, joinId) {
     event.preventDefault()
     if (this.state.join === true && this.props.clear === true) {
-      this.props.removeJoinElement(table, index)
+      this.props.removeJoinTable(table, index, joinId)
     }
   }
 
-  handleJoinType(event) {
-    event.preventDefault()
-    if (this.state.join === false) {
-      this.setState({join: true, clear: false})
-      joinType = event.target.value
-    }
-  }
-
-  handleJoinElement(event, index) {
+  handleJoinTable(event, index, joinId) {
     event.preventDefault()
     let joinArray = event.target.value
     let table = this.props.data.tableName
     if (this.state.join === true) {
-      this.props.removeJoinElement(table, index)
-      this.props.addJoinElement(table, joinArray, joinType, this.props.index)
-      return this.setState({table1: table, table2: joinArray})
+      this.props.removeJoinTable(table, index, joinId)
+      this.props.addJoinTable(table, joinArray, index, joinId)
+      this.setState({table1: table, table2: joinArray})
+    } else {
+      this.props.addJoinTable(table, joinArray, index, joinId)
+      this.setState({join: true, table1: table, table2: joinArray})
     }
   }
 
-  handleColumnElement(table1, table2, event, index) {
+  handleJoinType(event, index, joinId) {
+    event.preventDefault()
+    let joinArray = event.target.value
+    let table = this.props.data.tableName
+    if (this.state.join === true) {
+      this.props.setJoinType(table, joinArray, index, joinId)
+      return this.setState({joinType: joinArray})
+    }
+  }
+
+  handleColumnElement(table1, table2, event, index, joinId) {
     event.preventDefault()
     let joinArray = `${table2}.${event.target.value}`
-    this.props.setJoinColumnElement(table1, joinArray, index, this.props.index)
+    this.props.setJoinColumnElement(table1, joinArray, index, joinId)
+    this.setState({[`column${index - 1}`]: `${event.target.value}`})
+  }
+
+  handleJoinInfo(event) {
+    event.preventDefault()
   }
 
   render() {
     let table1 = this.state.table1
     let table2 = this.state.table2
-    console.log('this.props.index in render of join', this.props.index)
-    console.log('this.state.clear in render of join', this.state.clear)
-    if (this.state.clear === true) {
-      this.handleClear(table1, this.props.index)
-    }
+    // if (this.state.clear === true) {
+    //   this.handleClear(table1, 0, this.props.index)
+    // }
+    const classes = useStyles
+    // const tileData = tileData
 
     return (
       <Fragment>
-        <FormControl className="formControl" spacing="1" minWidth="120">
-          <InputLabel id="Join-Type">Join</InputLabel>
-          <Select
-            labelId="Join-Type"
-            id="Join-Type"
-            // value={event.target.value}
-            onChange={event => this.handleJoinType(event)}
-            defaultValue=""
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="INNER">Inner Join</MenuItem>
-            <MenuItem value="LEFT OUTER">Left Join</MenuItem>
-            <MenuItem value="RIGHT">Right Join</MenuItem>
-            <MenuItem value="FULL">Full Join</MenuItem>
-          </Select>
-          <FormHelperText>Type of Join</FormHelperText>
-        </FormControl>
+        <Typography variant="body1">
+          What other data table would you like to get data from?
+        </Typography>
 
         <FormControl className="formControl" spacing="1" minWidth="120">
           <InputLabel id="Join-Table-1">Table</InputLabel>
@@ -105,7 +114,7 @@ class Join extends React.Component {
             labelId="Join-Table-1"
             id="Join-Table-1"
             defaultValue=""
-            onChange={event => this.handleJoinElement(event, this.props.index)}
+            onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
             <MenuItem value=""> Select Table 1 </MenuItem>
             {this.props.data.tableDatas
@@ -123,6 +132,77 @@ class Join extends React.Component {
           <FormHelperText>Table to Join</FormHelperText>
         </FormControl>
 
+        <Typography variant="body1">
+          What kind of relation between your data tables would you like to
+          explore?
+        </Typography>
+        <Typography variant="caption" display="block" gutterBottom>
+          Click on ? icon to learn more about each type
+        </Typography>
+
+        <GridList cellHeight={180} className={classes.gridList}>
+          <GridListTile
+            key="Subheader"
+            xs={false}
+            cols={2}
+            style={{height: 'auto'}}
+          >
+            <ListSubheader
+            // component="div"
+            >
+              Join Types
+            </ListSubheader>
+          </GridListTile>
+          {tileData.map(tile => (
+            <GridListTile
+              key={tile.img}
+              value={tile.title}
+              onClick={event => this.handleJoinType(event, 1, this.props.index)}
+            >
+              <img src={tile.img} alt={tile.title} />
+              <GridListTileBar
+                title={tile.title}
+                actionIcon={
+                  <IconButton
+                    aria-label={`info about ${tile.title}`}
+                    className={classes.icon}
+                    onClick={event => this.handleJoininfo(event)}
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                }
+              />
+            </GridListTile>
+          ))}
+        </GridList>
+
+        {/* <FormControl className="formControl" spacing="1" minWidth="120">
+          <InputLabel id="Join-Type">Join</InputLabel>
+          <Select
+            labelId="Join-Type"
+            id="Join-Type"
+            // value={event.target.value}
+            onChange={event => this.handleJoinType(event, 1, this.props.index)}
+            defaultValue=""
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="INNER">Inner Join</MenuItem>
+            <MenuItem value="LEFT OUTER">Left Join</MenuItem>
+            <MenuItem value="RIGHT">Right Join</MenuItem>
+            <MenuItem value="FULL">Full Join</MenuItem>
+          </Select>
+          <FormHelperText>Type of Join</FormHelperText>
+        </FormControl> */}
+
+        <Typography variant="body1">
+          Help us connect your data in the most relevant manner.
+        </Typography>
+        <Typography variant="body1">
+          {`What data field in ${table1.slice(table1.indexOf('_') + 1)}
+          is common with ${table2.slice(table2.indexOf('_') + 1)}?`}
+        </Typography>
         <FormControl className="formControl" spacing="1" minWidth="120">
           <InputLabel id="Column-Table-1">Field in Table 1</InputLabel>
           <Select
@@ -130,7 +210,13 @@ class Join extends React.Component {
             id="Column-Table-1"
             defaultValue=""
             onChange={event =>
-              this.handleColumnElement(table1, table1, event, 2)
+              this.handleColumnElement(
+                table1,
+                table1,
+                event,
+                2,
+                this.props.index
+              )
             }
           >
             <MenuItem> Select Column 1 </MenuItem>
@@ -147,6 +233,12 @@ class Join extends React.Component {
           <FormHelperText>Table 1 Field</FormHelperText>
         </FormControl>
 
+        <Typography variant="body1">
+          {`What data field in ${table2.slice(table2.indexOf('_') + 1)}
+         is common with ${this.state.column1} from ${table1.slice(
+            table1.indexOf('_') + 1
+          )}?`}
+        </Typography>
         <FormControl className="formControl" spacing="1" minWidth="120">
           <InputLabel id="Column-Table-2">Field in Table 2</InputLabel>
           <Select
@@ -154,15 +246,19 @@ class Join extends React.Component {
             id="Column-Table-2"
             // value={event.target.value}
             onChange={event =>
-              this.handleColumnElement(table1, table2, event, 3)
+              this.handleColumnElement(
+                table1,
+                table2,
+                event,
+                3,
+                this.props.index
+              )
             }
             defaultValue=""
           >
             <MenuItem>Select Column 2 </MenuItem>
             {this.props.data.tableDatas.map(table => {
               if (table[table2] !== undefined) {
-                console.log('TABLE 1', table1)
-                console.log('TABLE 2', table2)
                 return Object.keys(table[table2].rows[0]).map(column => (
                   <MenuItem key={column} value={column}>
                     {column}
@@ -182,10 +278,12 @@ const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => {
   return {
-    addJoinElement: (tableName, joinArray, joinType, joinId) =>
-      dispatch(addJoinElement(tableName, joinArray, joinType, joinId)),
-    removeJoinElement: (tableName, joinId) =>
-      dispatch(removeJoinElement(tableName, joinId)),
+    addJoinTable: (tableName, joinArray, index, joinId) =>
+      dispatch(addJoinTable(tableName, joinArray, index, joinId)),
+    removeJoinTable: (tableName, index, joinId) =>
+      dispatch(removeJoinTable(tableName, index, joinId)),
+    setJoinType: (tableName, joinArray, index, joinId) =>
+      dispatch(setJoinType(tableName, joinArray, index, joinId)),
     setJoinColumnElement: (tableName, joinArray, index, joinId) =>
       dispatch(setJoinColumnElement(tableName, joinArray, index, joinId))
   }

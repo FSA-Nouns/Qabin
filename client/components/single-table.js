@@ -3,7 +3,7 @@ import QueryRow from './query-row'
 import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
-import Join from './query-join'
+import JoinCopy from './Joins/join-copy'
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
@@ -40,18 +40,18 @@ export default function SingleTable(props) {
         </Grid>
         <Grid item>
           {props.location.pathname === '/queryBuilder' ? (
-            <Join data={props} index={0} />
+            <JoinCopy data={props} index={0} />
           ) : (
             ''
           )}
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           {props.location.pathname === '/queryBuilder' ? (
-            <Join data={props} index={1} />
+            <JoinCopy data={props} index={1} />
           ) : (
             ''
           )}
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid item>
         <TableContainer component={Paper}>
