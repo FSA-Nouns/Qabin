@@ -44,7 +44,9 @@ export class Home extends Component {
                             <DescriptionIcon />
                           </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={table} />
+                        <ListItemText
+                          primary={table.slice(table.indexOf('_') + 1)}
+                        />
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
