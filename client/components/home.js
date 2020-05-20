@@ -73,7 +73,7 @@ export class Home extends Component {
             direction="column"
             justify="space-between"
             xs={12}
-            sm={3}
+            sm={4}
           >
             <SimpleCard>
               <FileUpload />
