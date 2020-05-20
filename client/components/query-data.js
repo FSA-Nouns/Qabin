@@ -39,17 +39,14 @@ export class QueryData extends Component {
               alignItems="flex-start"
               xs={12}
             >
-              <Grid item>
-                <SingleTable
-                  tableData={table[Object.keys(table)[0]]}
-                  tableDatas={this.props.tableData}
-                  index={index}
-                  tableName={Object.keys(table)[0]}
-                  index={index}
-                  location={this.props.location}
-                  // allTables={this.props}
-                />
-              </Grid>
+              <SingleTable
+                tableData={table[Object.keys(table)[0]]}
+                tableDatas={this.props.tableData}
+                index={index}
+                tableName={Object.keys(table)[0]}
+                location={this.props.location}
+                // allTables={this.props}
+              />
             </Grid>
           )
         })}

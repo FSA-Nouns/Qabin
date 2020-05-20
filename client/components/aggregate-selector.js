@@ -62,7 +62,7 @@ class AggregateSelector extends Component {
           item
           direction="column"
           justify="flex-start"
-          alignItems="center"
+          alignItems="flex-start"
           spacing={3}
         >
           <Grid item>

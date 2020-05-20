@@ -14,10 +14,30 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Typography
 } from '@material-ui/core'
 
+import {makeStyles} from '@material-ui/styles'
+
+const section = {
+  height: '100%',
+  paddingTop: 5
+}
+
 export default function SingleTable(props) {
+  const useStyles = makeStyles(() => ({
+    aggregateGrid: {
+      // height: '1100px',
+      padding: 50
+    },
+    bottomSection: {
+      marginTop: 100
+    }
+  }))
+
+  const classes = useStyles()
+
   return (
     <Grid
       name="0: root grid container (lvl 0)"
@@ -110,31 +130,38 @@ export default function SingleTable(props) {
             </TableContainer>
           </Grid>
         </Grid>
+
         <Grid
           name="3: Aggregate, Group, Order, Limit (lvl 2)"
           container
           item
-          direction="column"
+          direction="row"
           justify="space-evenly"
-          alignItems="flex-start"
-          spacing={3}
+          className={classes.aggregateGrid}
           sm={6}
         >
-          <Grid item>
-            <h3>Aggregate Analysis</h3>
-            <AggregateSelector
-              index={props.index}
-              tableData={props.tableData}
-              tableName={props.tableName}
-            />
+          <Grid container xs={12} item>
+            <Grid xs={12}>
+              <Typography variant="h3">Aggregate Analysis</Typography>
+            </Grid>
+            <Grid container justify="space-evenly" xs={12} item>
+              <Grid xs={12} sm={4}>
+                <AggregateSelector
+                  index={props.index}
+                  tableData={props.tableData}
+                  tableName={props.tableName}
+                />
+              </Grid>
+              <Grid xs={12} sm={4}>
+                <GroupBy tableName={props.tableName} />
+              </Grid>
+              <Grid xs={12} sm={4}>
+                <OrderBy tableName={props.tableName} />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item>
-            <GroupBy tableName={props.tableName} />
-          </Grid>
-          <Grid item>
-            <OrderBy tableName={props.tableName} />
-          </Grid>
-          <Grid item>
+          <Grid item xs={12} />
+          <Grid className={classes.bottomSection} item xs={12}>
             <QueryLimit tableName={props.tableName} />
           </Grid>
         </Grid>
