@@ -16,7 +16,7 @@ export class QueryData extends Component {
     return (
       <Grid
         container
-        direction="column"
+        direction="row"
         justify="space-evenly"
         alignItems="center"
       >
@@ -37,6 +37,7 @@ export class QueryData extends Component {
               direction="row"
               justify="center"
               alignItems="flex-start"
+              xs={12}
             >
               <Grid item>
                 <SingleTable
