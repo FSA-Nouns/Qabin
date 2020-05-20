@@ -8,6 +8,9 @@ import QueryData from './components/query-data'
 import QueryResult from './components/query-result'
 import Home from './components/home'
 import Navbar from './components/navbar'
+import {Grid} from '@material-ui/core'
+import {makeStyles} from '@material-ui/styles'
+
 /**
  * COMPONENT
  */
@@ -20,25 +23,29 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <Fragment>
-        <Route path="/" component={Navbar} />
-        <Switch>
-          {/* Routes placed here are available to all visitors */}
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          {isLoggedIn && (
-            <Switch>
-              {/* Routes placed here are only available after logging in */}
-              <Route path="/home" component={Home} />
-              <Route path="/editData" component={EditData} />
-              <Route path="/queryBuilder" component={QueryData} />
-              <Route path="/results" component={QueryResult} />
-            </Switch>
-          )}
-          {/* Displays our Login component as a fallback */}
-          <Route component={Login} />
-        </Switch>
-      </Fragment>
+      <Grid container>
+        <Grid item xs={12}>
+          <Route path="/" component={Navbar} />
+        </Grid>
+        <MainGrid>
+          <Switch>
+            {/* Routes placed here are available to all visitors */}
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            {isLoggedIn && (
+              <Switch>
+                {/* Routes placed here are only available after logging in */}
+                <Route path="/home" component={Home} />
+                <Route path="/editData" component={EditData} />
+                <Route path="/queryBuilder" component={QueryData} />
+                <Route path="/results" component={QueryResult} />
+              </Switch>
+            )}
+            {/* Displays our Login component as a fallback */}
+            <Route component={Login} />
+          </Switch>
+        </MainGrid>
+      </Grid>
     )
   }
 }
@@ -65,6 +72,22 @@ const mapDispatch = dispatch => {
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
+
+function MainGrid(props) {
+  const useStyles = makeStyles(() => ({
+    root: {
+      margin: '1rem'
+    }
+  }))
+
+  const classes = useStyles()
+
+  return (
+    <Grid item className={classes.root} container justify="center" xs={12}>
+      {props.children}
+    </Grid>
+  )
+}
 
 /**
  * PROP TYPES
