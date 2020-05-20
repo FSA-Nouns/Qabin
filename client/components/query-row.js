@@ -76,7 +76,7 @@ const conditionalDict = (field, headers, filterArray) => {
   const operator = parseOperator(filterArray, dataType)
   // const curatedField = (dataType === 'date') ? field.split('(')[1].slice(0, -1) : field;
   const condition = parseCondition(operator, filterArray[2])
-  return `${field} ${operator.toLowerCase()} ${condition.toLowerCase()}`
+  return `${field} ${operator} ${condition}`
 }
 
 const parseField = field => {

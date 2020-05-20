@@ -30,7 +30,7 @@ function queryParser(table, queryObj, queryBundle) {
   )} FROM ${table} ${join} ${where} ${groupBy} ${orderBy} ${limit}`
 
   console.log(query)
-  return query
+  return query.replace(/;/g, '')
 }
 function parseWhere(table, whereArr) {
   let query = whereArr.length ? ' WHERE' : ''
