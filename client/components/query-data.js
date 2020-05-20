@@ -79,7 +79,7 @@ export class QueryData extends Component {
             let tableIndex = this.props.files.tableNames.indexOf(table)
             let singleTableData = this.props.tableData[tableIndex]
             return (
-              <Grid key={index} item>
+              <Grid key={index} item sm={9}>
                 <Grid
                   container
                   direction="row"

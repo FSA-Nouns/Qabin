@@ -13,6 +13,8 @@ import {
   Grid
 } from '@material-ui/core'
 
+import {makeStyles} from '@material-ui/styles'
+
 class OrderBy extends Component {
   constructor() {
     super()
@@ -54,47 +56,62 @@ class OrderBy extends Component {
 
   render() {
     return (
-      <Grid
-        container
-        direction="column"
-        justify="space-evenly"
-        alignItems="flex-start"
-        spacing={3}
-      >
-        <Grid item>
-          <FormControl>
-            <FormLabel>Order By</FormLabel>
-            <FormGroup row>
-              {this.props.queryBundle[this.props.tableName].fields.map(
-                selected => (
-                  <div key={selected} className="order-by">
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          onChange={this.toggleOrderBy}
-                          value={selected}
-                        />
-                      }
-                      label={selected}
-                    />
-                    <InputLabel id="label" />
-                    <Select
-                      labelId="label"
-                      id="select"
-                      onChange={ev => this.toggleDirection(ev, selected)}
-                    >
-                      <option value="ASC">ascending</option>
-                      <option value="DESC">descending</option>
-                    </Select>
-                  </div>
-                )
-              )}
-            </FormGroup>
-          </FormControl>
-        </Grid>
-      </Grid>
+      // <Grid
+      //   container
+      //   direction="column"
+      //   justify="space-evenly"
+      //   alignItems="flex-start"
+      //   spacing={3}
+      // >
+      //   <Grid item>
+      <FormControlColumn>
+        <FormLabel>Order By</FormLabel>
+        <FormGroup>
+          {this.props.queryBundle[this.props.tableName].fields.map(selected => (
+            <div key={selected} className="order-by">
+              <Grid
+                container
+                justify="space-between"
+                alignItems="center"
+                wrap="nowrap"
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox onChange={this.toggleOrderBy} value={selected} />
+                  }
+                  label={selected}
+                />
+
+                <InputLabel id="label" />
+
+                <Select
+                  labelId="label"
+                  id="select"
+                  onChange={ev => this.toggleDirection(ev, selected)}
+                >
+                  <option value="ASC">asc</option>
+                  <option value="DESC">desc</option>
+                </Select>
+              </Grid>
+            </div>
+          ))}
+        </FormGroup>
+      </FormControlColumn>
     )
   }
+}
+
+const FormControlColumn = props => {
+  const useStyles = makeStyles(() => ({
+    root: {
+      display: 'flex',
+      flexFlow: 'column'
+    }
+  }))
+
+  const classes = useStyles()
+
+  return <FormControl classNames={classes.root}>{props.children}</FormControl>
 }
 
 const mapStateToProps = state => ({
