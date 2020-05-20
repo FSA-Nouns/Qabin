@@ -1,11 +1,24 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {gotTables} from '../store/editData'
+import {gotTables, addHeaderType} from '../store/editData'
 import TableExtract from './table-extract'
-
+import {makeStyles} from '@material-ui/core/styles'
 import SingleTable from './single-table'
 import TableData from './table-data'
 import {parseFilesWithDataType} from './../store/upload'
+import {Grid, Button, Card, Typography} from '@material-ui/core'
+
+const checkFileInFileNames = (tableName, fileNames, user) => {
+  return fileNames.reduce((bool, file) => {
+    let fileName = file.path.split('/') // to get the file name for the table name
+    fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
+    if (`user${user.id}_${fileName[0]}`.toLowerCase() === tableName) {
+      bool = true
+    }
+
+    return bool
+  }, false)
+}
 
 export class EditData extends Component {
   // constructor() {
@@ -20,58 +33,115 @@ export class EditData extends Component {
   }
 
   render() {
+    const tables = this.props.tableData.filter(
+      table => !table[Object.keys(table)[0]].old
+    )
     return (
-      <div>
-        <button
-          type="button"
-          onClick={() =>
-            this.props.parseTablesWithDataTypes(
-              this.props.user,
-              this.props.tableData.filter(
-                table => !table[Object.keys(table)[0]].old
-              )
-            )
-          }
-        >
-          Continue
-        </button>
+      <Grid container direction="row">
+        <Grid item align="left" sm={3}>
+          <SimpleCard>
+            <Button
+              variant="contained"
+              sm={2}
+              color="primary"
+              type="button"
+              disabled={
+                tables.filter(
+                  table =>
+                    Object.keys(table[Object.keys(table)[0]].headers).length ===
+                    Object.keys(table[Object.keys(table)[0]].rows[0]).length
+                ).length !== tables.length
+              }
+              onClick={() =>
+                this.props.parseTablesWithDataTypes(
+                  this.props.user,
+                  this.props.tableData.filter(
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
+                  )
+                )
+              }
+            >
+              Continue
+            </Button>
+            <Grid container direction="column">
+              <Typography component="span" variant="h6" align="center">
+                Step 2 - Specify Your Data Types
+              </Typography>
+              <Typography component="span" variant="body1" align="center">
+                Here, you select from our five datatypes so I can interact with
+                your data properly. If you don't know what a specific data type
+                represents, hover over the text above each for a brief
+                definition. If you need a reminder on what columns in your
+                tables have which values, look to the table samples on the
+                bottom of the page, which show the first two rows of data for
+                each of your tables.
+              </Typography>
+            </Grid>
+          </SimpleCard>
+        </Grid>
         {this.props.tableData.length ? (
-          <div>
-            <div className="big-container">
-              {this.props.tableData
-                .filter(table => !table[Object.keys(table)[0]].old)
-                .map((table, index) => (
-                  <div className="single-table" key={index}>
-                    <TableData
-                      tableData={table[Object.keys(table)[0]]}
-                      index={index}
-                      tableName={Object.keys(table)[0]}
-                      key={index}
-                      location={this.props.location}
-                    />
-                  </div>
-                ))}
-            </div>
-            <div className="table-extract-container">
-              {this.props.tableData
-                .filter(table => !table[Object.keys(table)[0]].old)
-                .map((table, index) => (
-                  <div className="single-table-extract" key={index}>
-                    <TableExtract
-                      tableData={table}
-                      tableName={Object.keys(table)[0]}
-                      key={index}
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
+          <Grid item sm={9}>
+            <Grid container direction="row" alignItems="flex-start">
+              <Grid item xs={12} lg={12}>
+                <TableData
+                  tableData={this.props.tableData.filter(
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
+                  )}
+                  location={this.props.location}
+                />
+              </Grid>
+              <Grid item xs={12} lg={12}>
+                <TableExtract
+                  tableData={this.props.tableData.filter(
+                    table =>
+                      !table[Object.keys(table)[0]].old &&
+                      checkFileInFileNames(
+                        Object.keys(table)[0],
+                        this.props.files.fileNames,
+                        this.props.user
+                      )
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
         ) : (
           <p>No tables to display</p>
         )}
-      </div>
+      </Grid>
     )
   }
+}
+
+function SimpleCard(props) {
+  const useStyles = makeStyles({
+    root: {
+      margin: 15,
+      padding: 15
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return <Card className={classes.root}>{props.children}</Card>
 }
 
 const mapStateToProps = state => ({
@@ -85,6 +155,8 @@ const mapDispatchToProps = dispatch => ({
   gotTables: (userId, tables, files) => {
     dispatch(gotTables(userId, tables, files))
   },
+  addHeaderType: (header, type, table) =>
+    dispatch(addHeaderType(header, type, table)),
   parseTablesWithDataTypes: (user, tableData) =>
     dispatch(parseFilesWithDataType(user, tableData))
 })

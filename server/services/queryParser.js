@@ -30,10 +30,10 @@ function queryParser(table, queryObj, queryBundle) {
   )} FROM ${table} ${join} ${where} ${groupBy} ${orderBy} ${limit}`
 
   console.log(query)
-  return query
+  return query.replace(/;/g, '')
 }
 function parseWhere(table, whereArr) {
-  let query = ' WHERE'
+  let query = whereArr.length ? ' WHERE' : ''
   query += whereArr.reduce((string, criteria, index) => {
     let field = criteria[0]
     let operator = criteria[1]
@@ -49,7 +49,7 @@ function parseWhere(table, whereArr) {
     }
     return string
   }, ' ')
-  return whereArr.length ? query : ''
+  return query
 }
 
 function parseAggregate(field, tableName) {
@@ -122,7 +122,7 @@ function appendJoinedFields(table, queryBundle) {
 }
 
 function parseGroupBy(table, groupByArray) {
-  let query = ' GROUP BY'
+  let query = groupByArray.length ? ' GROUP BY' : ''
   query += groupByArray.reduce((string, field, index) => {
     if (index === groupByArray.length - 1) {
       string += ` ${table}.${field}`
@@ -139,7 +139,7 @@ SQL defaults to ASC/alphabetical order
 */
 
 function parseOrderBy(table, orderByArray) {
-  let query = ' ORDER BY'
+  let query = orderByArray.length ? ' ORDER BY' : ''
   query += orderByArray.reduce((string, index) => {
     string += ` ${table}.${Object.keys(index)[0]}`
     string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
@@ -153,7 +153,7 @@ function parseOrderBy(table, orderByArray) {
 
 // the limit parameter stores a 1-element array with the desired limit as it's value
 function parseLimit(table, limitArr) {
-  let query = ` LIMIT ${limitArr[0]}`
+  let query = limitArr.length ? ` LIMIT ${limitArr[0]}` : ''
   return query
 }
 
