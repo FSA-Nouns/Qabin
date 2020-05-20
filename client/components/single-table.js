@@ -45,8 +45,8 @@ export default function SingleTable(props) {
       direction="row"
       justify="flex-start"
       alignItems="flex-start"
-      // wrap="wrap"
-      xs={12}
+      wrap="nowrap"
+      sm={8}
     >
       <Grid
         name="2: Tablename, join buttons and table (lvl 2) container"
