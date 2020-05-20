@@ -12,6 +12,8 @@ import {
   Grid
 } from '@material-ui/core'
 
+import {makeStyles} from '@material-ui/styles'
+
 class GroupBy extends Component {
   constructor() {
     super()
@@ -39,37 +41,36 @@ class GroupBy extends Component {
 
   render() {
     return (
-      <Grid
-        container
-        direction="column"
-        justify="space-evenly"
-        alignItems="flex-start"
-        spacing={3}
-      >
-        <Grid item>
-          <FormControl>
-            <FormLabel>Group By</FormLabel>
-            <FormGroup row>
-              {this.props.queryBundle[this.props.tableName].fields.map(
-                selected => (
-                  <FormControlLabel
-                    key={selected}
-                    control={
-                      <Checkbox
-                        onChange={this.toggleGroupBy}
-                        value={selected}
-                      />
-                    }
-                    label={selected}
-                  />
-                )
-              )}
-            </FormGroup>
-          </FormControl>
-        </Grid>
-      </Grid>
+      <FormControlColumn>
+        <FormLabel>Group By</FormLabel>
+        <FormGroup>
+          {this.props.queryBundle[this.props.tableName].fields.map(selected => (
+            <FormControlLabel
+              key={selected}
+              control={
+                <Checkbox onChange={this.toggleGroupBy} value={selected} />
+              }
+              label={selected}
+            />
+          ))}
+        </FormGroup>
+      </FormControlColumn>
     )
   }
+}
+
+const FormControlColumn = props => {
+  const useStyles = makeStyles(() => ({
+    root: {
+      display: 'flex',
+      flexFlow: 'column',
+      fontSize: 8
+    }
+  }))
+
+  const classes = useStyles()
+
+  return <FormControl classNames={classes.root}>{props.children}</FormControl>
 }
 
 const mapStateToProps = state => ({

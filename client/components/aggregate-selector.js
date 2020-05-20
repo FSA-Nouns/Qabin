@@ -48,13 +48,21 @@ class AggregateSelector extends Component {
     )
     numericFields.push('*')
     return (
-      <Grid container item direction="column">
+      <Grid
+        name="aggregate top level container"
+        container
+        direction="column"
+        justify="space-around"
+        alignItems="center"
+        // spacing={5}
+      >
         <Grid
+          name="aggregate selector buttons"
           container
           item
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
+          direction="column"
+          justify="flex-start"
+          alignItems="flex-start"
           spacing={3}
         >
           <Grid item>
@@ -129,11 +137,12 @@ class AggregateSelector extends Component {
           </Grid>
         </Grid>
         <Grid
+          name="aggregate chips"
           container
           item
-          direction="row"
-          justify="space-evenly"
-          alignItems="flex-end"
+          direction="column"
+          justify="flex-start"
+          alignItems="center"
           spacing={3}
         >
           {this.props.queryBundle[this.props.tableName].fields ? (
