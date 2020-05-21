@@ -32,6 +32,15 @@ function SimpleCard(props) {
 }
 
 export class QueryData extends Component {
+  constructor() {
+    super()
+    this.state = {
+      aggSelect: false,
+      groupSelect: false,
+      bothSelect: false
+    }
+  }
+
   componentDidMount() {
     this.props.setTables(this.props.tableNames)
     this.props.tableNames.forEach(table => this.props.unselectAll(table))
@@ -40,10 +49,12 @@ export class QueryData extends Component {
 
   render() {
     return (
+
       <Bouncer>
         <Grid container direction="row">
           <Grid item align="left" sm={3}>
             <Grid container direction="column">
+
               <Grid item>
                 <SimpleCard>
                   <Grid container direction="column">

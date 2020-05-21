@@ -11,13 +11,17 @@ const REMOVE_FILTER_ELEMENT = 'REMOVE_FILTER_ELEMENT'
 
 const REMOVE_FIELD_ELEMENT = 'REMOVE_FIELD_ELEMENT'
 
-const ADD_JOIN_ELEMENT = 'ADD_JOIN_ELEMENT'
+const ADD_JOIN_TABLE = 'ADD_JOIN_TABLE'
 
-const REMOVE_JOIN_ELEMENT = 'REMOVE_JOIN_ELEMENT'
+const REMOVE_JOIN_TABLE = 'REMOVE_JOIN_TABLE'
+
+const SET_JOIN_TYPE = 'ADD_JOIN_TYPE'
+
+// const REMOVE_JOIN_TYPE = 'REMOVE_JOIN_TYPE'
 
 const SET_JOIN_COLUMN_ELEMENT = 'SET_JOIN_COLUMN_ELEMENT'
 
-const REMOVE_COLUMN_ELEMENT = 'REMOVE_COLUMN_ELEMENT'
+// const REMOVE_COLUMN_ELEMENT = 'REMOVE_COLUMN_ELEMENT'
 
 const SELECT_ALL = 'SELECT_ALL'
 
@@ -42,6 +46,7 @@ const checkArray = (arr1, arr2) => {
   }, true)
 }
 
+
 export const selectAll = tableName => ({
   type: SELECT_ALL,
   tableName
@@ -52,18 +57,28 @@ export const unselectAll = tableName => ({
   tableName
 })
 
-export const addJoinElement = (tableName, joinArray, joinType, joinId) => ({
-  type: ADD_JOIN_ELEMENT,
+export const addJoinTable = (tableName, joinArray, index, joinId) => ({
+  type: ADD_JOIN_TABLE,
+
   tableName,
   joinArray,
-  joinType,
+  index: 0,
   joinId
 })
 
 //dont need joinArray as an arg as it will wipe out the array
-export const removeJoinElement = (tableName, joinId) => ({
-  type: REMOVE_JOIN_ELEMENT,
+export const removeJoinTable = (tableName, index, joinId) => ({
+  type: REMOVE_JOIN_TABLE,
   tableName,
+  index: 0,
+  joinId
+})
+
+export const setJoinType = (tableName, joinArray, index, joinId) => ({
+  type: SET_JOIN_TYPE,
+  tableName,
+  joinArray,
+  index: 1,
   joinId
 })
 
@@ -171,35 +186,41 @@ const query = (state = initialState, action) => {
         conditionArr => !checkArray(conditionArr, action.filterArray)
       )
       return newState03
-    case ADD_JOIN_ELEMENT:
+
+    case ADD_JOIN_TABLE:
       let newStateA = {...state}
-      newStateA[action.tableName].join = [
-        ...newStateA[action.tableName].join,
-        [action.joinArray, action.joinType, '', '']
-      ]
+      if (newStateA[action.tableName].join[action.joinId]) {
+        newStateA[action.tableName].join[action.joinId][action.index] =
+          action.joinArray
+      } else {
+        newStateA[action.tableName].join = [
+          ...newStateA[action.tableName].join,
+          [action.joinArray, '', '', '']
+        ]
+      }
       return newStateA
 
-    case REMOVE_JOIN_ELEMENT:
+    case REMOVE_JOIN_TABLE:
       let newStateB = {...state}
 
       newStateB[action.tableName].join !== []
         ? (newStateB[action.tableName].join = newStateB[
             action.tableName
-          ].join.filter(
-            (join, index) =>
-              // console.log(!join[action.joinId], '!join[action.joinId]')
-              // console.log(join[action.joinId], 'join[action.joinId]')
-              index !== action.joinId ? join : ''
-            // !join[action.joinId]
-          ))
+          ].join.filter((join, index) => (index !== action.joinId ? join : '')))
         : (newStateB[action.tableName].join = [])
       return newStateB
 
-    case SET_JOIN_COLUMN_ELEMENT:
-      let newStateD = {...state}
-      newStateD[action.tableName].join[action.joinId][action.index] =
+    case SET_JOIN_TYPE:
+      let newStateC = {...state}
+      newStateC[action.tableName].join[action.joinId][action.index] =
         action.joinArray
-      return newStateD
+      return newStateC
+
+    case SET_JOIN_COLUMN_ELEMENT:
+      let newStateE = {...state}
+      newStateE[action.tableName].join[action.joinId][action.index] =
+        action.joinArray
+      return newStateE
 
     case ORDER_BY:
       let newState4 = {...state}

@@ -1,6 +1,9 @@
 import React, {Component, useState} from 'react'
 import {connect} from 'react-redux'
 import {removeFieldElement, addFieldElement} from '../store/query'
+
+
+
 import {
   Chip,
   Grid,
@@ -14,6 +17,7 @@ import {
 } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {makeStyles} from '@material-ui/styles'
+
 
 class AggregateSelector extends Component {
   constructor(props) {
@@ -106,7 +110,7 @@ class AggregateSelector extends Component {
               </Select>
             </FormControl>
             <form className="avg-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="AVG">
+              <button type="submit" name="agg" value="AVG">
                 AVG
               </button>
               <select name="selector">

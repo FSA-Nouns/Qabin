@@ -3,8 +3,12 @@ import QueryRow from './query-row'
 import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
+
+import JoinCopy from './Joins/join-copy'
+
 import Join from './query-join'
 import SelectAll from './select-all'
+
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
@@ -72,18 +76,20 @@ export default function SingleTable(props) {
               {props.tableName.slice(props.tableName.indexOf('_') + 1)}
             </Typography>
             <SelectAll table={props.tableData} tableName={props.tableName} />
-            {props.location.pathname === '/queryBuilder' ? (
-              <Join data={props} index={0} />
-            ) : (
-              ''
-            )}
-            {props.location.pathname === '/queryBuilder' ? (
-              <Join data={props} index={1} />
-            ) : (
-              ''
-            )}
+            
+              <Grid item>
+          {props.location.pathname === '/queryBuilder' ? (
+            <JoinCopy data={props} index={0} />
+          ) : (
+            ''
+          )}
+        </Grid>
+      
+
+              
           </TableQueryHeader>
         </Grid>
+
         <Grid item name="Query table grid item" className={classes.outerGrid}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
@@ -109,6 +115,7 @@ export default function SingleTable(props) {
             </Table>
           </TableContainer>
         </Grid>
+
       </Grid>
 
       <Grid
