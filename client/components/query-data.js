@@ -3,8 +3,10 @@ import {connect} from 'react-redux'
 import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
+import {clearAllSelected} from '../store/selectedTables'
 import {setTables} from '../store/upload'
 import TableSelection from './table-selection'
+import {unselectAll} from '../store/query'
 
 import {Button, Grid, Card, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
@@ -30,6 +32,7 @@ function SimpleCard(props) {
 export class QueryData extends Component {
   componentDidMount() {
     this.props.setTables(this.props.tableNames)
+    this.props.tableNames.forEach(table => this.props.unselectAll(table))
   }
 
   render() {
@@ -48,6 +51,7 @@ export class QueryData extends Component {
                         this.props.queryBundle,
                         this.props.user
                       )
+                      this.props.clearTables()
                     }}
                   >
                     Query
@@ -129,7 +133,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   submitQuery: (query, user) => dispatch(submitQuery(query, user)),
-  setTables: tableNames => dispatch(setTables(tableNames))
+  setTables: tableNames => dispatch(setTables(tableNames)),
+  clearTables: () => dispatch(clearAllSelected()),
+  unselectAll: tableName => dispatch(unselectAll(tableName))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryData)

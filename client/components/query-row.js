@@ -5,7 +5,9 @@ import {
   removeFieldElement,
   addFieldElement,
   addFilterElement,
-  removeFilterElement
+  removeFilterElement,
+  selectAll,
+  unselectAll
 } from '../store/query'
 import {
   Grid,
@@ -162,11 +164,27 @@ class QueryRow extends Component {
     if (this.state.checked == false) {
       this.setState({checked: true})
       this.props.addFieldElement(this.props.tableName, this.props.field)
+    } else if (
+      this.state.checked === true &&
+      this.props.queryBundle[this.props.tableName].selectAll === true
+    ) {
+      this.props.unselectAll(this.props.tableName)
+      this.setState({checked: false})
+      this.props.removeFieldElement(this.props.tableName, this.props.field)
     } else {
       this.setState({checked: false})
       this.props.removeFieldElement(this.props.tableName, this.props.field)
     }
   }
+
+  // componentDidMount() {
+  //   if (this.props.queryBundle[this.props.tableName].selectAll === true) {
+  //     this.toggleField()
+  //   } else if (this.props.queryBundle[this.props.tableName].selectAll === false) {
+  //     this.setState({ checked: false })
+  //     this.props.removeFieldElement(this.props.tableName, this.props.field)
+  //   }
+  // }
 
   componentDidUpdate(prevProps) {
     if (
@@ -183,9 +201,26 @@ class QueryRow extends Component {
         this.setState({checked: true})
       }
     }
+    console.log(prevProps.queryBundle[this.props.tableName].fields)
+    if (
+      this.props.queryBundle[this.props.tableName].selectAll === true &&
+      this.state.checked === false
+    ) {
+      this.toggleField()
+    } else if (
+      this.state.checked === true &&
+      !this.props.queryBundle[this.props.tableName].fields.includes(
+        this.props.field
+      ) &&
+      !this.props.queryBundle[this.props.tableName].selectAll
+    ) {
+      this.props.unselectAll(this.props.tableName)
+      this.toggleField()
+    }
   }
 
   render() {
+    console.log('CHECKED ON Q-ROW', this.state.checked)
     return (
       <TableRow>
         <TableCell align="left" scope="row">
@@ -250,7 +285,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(removeFieldElement(tableName, field)),
     removeFilterElement: (tableName, filterArray) => {
       dispatch(removeFilterElement(tableName, filterArray))
-    }
+    },
+    unselectAll: tableName => dispatch(unselectAll(tableName))
   }
 }
 
