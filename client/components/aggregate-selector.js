@@ -62,24 +62,6 @@ class AggregateSelector extends Component {
               <button type="submit" name="agg" value="AVG">
                 AVG
               </button>
-              {/* <Box p={2} mb={0} sm={1}>
-              <Button
-                className="agg"
-                value="AVG"
-                style={{
-                  maxWidth: '80px',
-                  maxHeight: '45px',
-                  minWidth: '80px',
-                  minHeight: '45px',
-                  gutter: '0px'
-                }}
-                type="submit"
-                variant="contained"
-                size="medium"
-                // color={this.state.clicked === 'text' ? 'primary' : 'default'}
-                // onClick={() => this.handleClick('text')}
-              />
-            </Box> */}
               <select name="selector">
                 {numericFields.map((field, index) => (
                   <option key={index} value={field}>
