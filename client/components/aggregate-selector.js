@@ -252,7 +252,7 @@ const AggregateForm = props => {
   const classes = useStyles()
 
   return (
-    <Grid container item wrap="nowrap" alignItems="center">
+    <Grid container item wrap="nowrap">
       <IconButton
         onClick={() => handleSubmit()}
         color="secondary"

@@ -72,7 +72,8 @@ const OrderList = props => {
       maxWidth: 240,
       position: 'relative',
       overflow: 'auto',
-      height: 240
+      height: 240,
+      backgroundColor: '#e8eaf6'
     },
     subheader: {
       color: '#fff',

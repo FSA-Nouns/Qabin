@@ -25,10 +25,17 @@ import {makeStyles} from '@material-ui/styles'
 export default function SingleTable(props) {
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
-      padding: 50
+      padding: 50,
+      paddingTop: 0
     },
     bottomSection: {
-      marginTop: 100
+      marginTop: 30
+    },
+    middleSection: {
+      marginTop: 15
+    },
+    aggregateHeader: {
+      height: 45
     }
   }))
 
@@ -41,7 +48,7 @@ export default function SingleTable(props) {
       item
       direction="row"
       justify="flex-start"
-      wrap="nowrap"
+      // wrap="nowrap"
       xs={12}
     >
       <Grid
@@ -51,7 +58,8 @@ export default function SingleTable(props) {
         direction="column"
         justify="flex-start"
         alignItems="flex-start"
-        sm={6}
+        xs={12}
+        md={6}
       >
         <Grid name="tablename and join buttons (lvl 3)" container item>
           <TableQueryHeader>
@@ -104,36 +112,37 @@ export default function SingleTable(props) {
         direction="row"
         justify="space-evenly"
         className={classes.aggregateGrid}
-        sm={6}
+        md={6}
+        sm={12}
       >
-        <Grid container xs={12} item>
-          <Grid item xs={12}>
+        <Grid container direction="column" xs={12} item>
+          {/* <Grid container xs={12} item> */}
+          <Grid item className={classes.aggregateHeader}>
             <AggregateHeader>
               <Typography variant="h6">Aggregate Analysis</Typography>
             </AggregateHeader>
           </Grid>
-          <Grid container xs={12} item>
-            <SimpleCard>
-              <Grid item xs={12}>
-                <AggregateSelector
-                  index={props.index}
-                  tableData={props.tableData}
-                  tableName={props.tableName}
-                />
+          <SimpleCard>
+            <Grid item xs={12}>
+              <AggregateSelector
+                index={props.index}
+                tableData={props.tableData}
+                tableName={props.tableName}
+              />
+            </Grid>
+            <Grid container item xs={12} className={classes.middleSection}>
+              <Grid item xs={12} sm={6}>
+                <GroupBy tableName={props.tableName} />
               </Grid>
-              <Grid container item xs={12}>
-                <Grid item xs={12} sm={6}>
-                  <GroupBy tableName={props.tableName} />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <OrderBy tableName={props.tableName} />
-                </Grid>
+              <Grid item xs={12} sm={6}>
+                <OrderBy tableName={props.tableName} />
               </Grid>
-              <Grid className={classes.bottomSection} item xs={12}>
-                <QueryLimit tableName={props.tableName} />
-              </Grid>
-            </SimpleCard>
-          </Grid>
+            </Grid>
+            <Grid className={classes.bottomSection} item xs={12}>
+              <QueryLimit tableName={props.tableName} />
+            </Grid>
+          </SimpleCard>
+          {/* </Grid> */}
         </Grid>
       </Grid>
     </Grid>
