@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {removeFieldElement, addFieldElement} from '../store/query'
-import {Chip, Grid} from '@material-ui/core'
+import {Chip, Grid, Box, Button} from '@material-ui/core'
 
 class AggregateSelector extends Component {
   constructor(props) {
@@ -59,9 +59,27 @@ class AggregateSelector extends Component {
         >
           <Grid item>
             <form className="avg-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="AVG">
+              <button type="submit" name="agg" value="AVG">
                 AVG
               </button>
+              {/* <Box p={2} mb={0} sm={1}>
+              <Button
+                className="agg"
+                value="AVG"
+                style={{
+                  maxWidth: '80px',
+                  maxHeight: '45px',
+                  minWidth: '80px',
+                  minHeight: '45px',
+                  gutter: '0px'
+                }}
+                type="submit"
+                variant="contained"
+                size="medium"
+                // color={this.state.clicked === 'text' ? 'primary' : 'default'}
+                // onClick={() => this.handleClick('text')}
+              />
+            </Box> */}
               <select name="selector">
                 {numericFields.map((field, index) => (
                   <option key={index} value={field}>

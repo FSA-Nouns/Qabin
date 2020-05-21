@@ -33,6 +33,8 @@ const LIMIT_TO = 'LIMIT_TO'
 
 const RESET = 'RESET'
 
+const AGG = 'AGG'
+
 const checkArray = (arr1, arr2) => {
   return arr1.reduce((bool, ele) => {
     if (!arr2.includes(ele)) {
@@ -128,12 +130,17 @@ export const reset = tableName => ({
   tableName
 })
 
+export const agg = tableName => ({
+  type: AGG,
+  tableName
+})
+
 const query = (state = initialState, action) => {
   switch (action.type) {
     case SET_TABLE_NAMES:
       let newState = {...state}
       action.tableNames.forEach(
-        name => (newState[name] = {fields: [], join: [], where: []})
+        name => (newState[name] = {fields: [], join: [], where: [], agg: []})
       )
       return newState
 
@@ -249,9 +256,18 @@ const query = (state = initialState, action) => {
         join: [],
         orderBy: [],
         groupBy: [],
-        limit: []
+        limit: [],
+        agg: []
       }
       return newState7
+
+    case AGG:
+      let newState8 = {...state}
+      newState8[action.tableName].agg = [
+        ...newState1[action.tableName].agg,
+        action.field
+      ]
+      return newState1
 
     default:
       return state

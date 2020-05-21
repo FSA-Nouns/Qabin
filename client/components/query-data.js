@@ -8,11 +8,30 @@ import {setTables} from '../store/upload'
 import {Button, Grid} from '@material-ui/core'
 
 export class QueryData extends Component {
+  constructor() {
+    super()
+    this.state = {
+      aggSelect: false,
+      groupSelect: false,
+      bothSelect: false
+    }
+  }
+
   componentDidMount() {
     this.props.setTables(this.props.tableNames)
   }
 
   render() {
+    console.log(this.props, 'this.props in query data')
+    let queryBundle = this.props.queryBundle
+    // let words =
+    // Object.keys(queryBundle).map(table => {
+    //   Object.keys(table)[0].map(field => {
+    //     if(field.includes(words)){
+
+    //     }
+    //   })
+    // })
     return (
       <Grid
         container
@@ -20,7 +39,10 @@ export class QueryData extends Component {
         justify="space-evenly"
         alignItems="center"
       >
+        {/* {this.state.joinCount > 1 ? ( */}
         <Button
+          variant="contained"
+          color="primary"
           type="button"
           onClick={() => {
             this.props.submitQuery(this.props.queryBundle, this.props.user)
@@ -28,6 +50,24 @@ export class QueryData extends Component {
         >
           Query
         </Button>
+        {/* ) : (
+          <Button
+          variant="contained" color="primary"
+          type="button"
+          disabled
+        >
+          Query
+        </Button>
+        )} */}
+        {/* <Button
+          variant="contained" color="primary"
+          type="button"
+          onClick={() => {
+            this.props.submitQuery(this.props.queryBundle, this.props.user)
+          }}
+        >
+          Query
+        </Button> */}
         {this.props.tableData.map((table, index) => {
           return (
             <Grid

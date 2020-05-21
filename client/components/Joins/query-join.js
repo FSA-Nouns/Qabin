@@ -72,9 +72,10 @@ class Join extends React.Component {
     }
   }
 
-  handleJoinType(event, index, joinId) {
-    event.preventDefault()
-    let joinArray = event.target.value
+  handleJoinType(title, index, joinId) {
+    // event.preventDefault()
+    console.log('event in join type', title)
+    let joinArray = title
     let table = this.props.data.tableName
     if (this.state.join === true) {
       this.props.setJoinType(table, joinArray, index, joinId)
@@ -104,19 +105,22 @@ class Join extends React.Component {
 
     return (
       <Fragment>
-        <Typography variant="body1">
-          What other data table would you like to get data from?
-        </Typography>
-
-        <FormControl className="formControl" spacing="1" minWidth="120">
+        <FormControl
+          className="formControl"
+          // spacing="1"
+          align
+          minWidth="120"
+          spacing={2}
+          padding="50px"
+        >
           <InputLabel id="Join-Table-1">Table</InputLabel>
           <Select
-            labelId="Join-Table-1"
-            id="Join-Table-1"
+            labelId="demo-dialog-select-label"
+            id="demo-dialog-select"
             defaultValue=""
             onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
-            <MenuItem value=""> Select Table 1 </MenuItem>
+            <MenuItem value=""> Select Table to Join </MenuItem>
             {this.props.data.tableDatas
               .filter(
                 table => Object.keys(table)[0] !== this.props.data.tableName
@@ -132,7 +136,8 @@ class Join extends React.Component {
           <FormHelperText>Table to Join</FormHelperText>
         </FormControl>
 
-        <Typography variant="body1">
+        <Typography variant="body2">
+          {''}
           What kind of relation between your data tables would you like to
           explore?
         </Typography>
@@ -140,11 +145,11 @@ class Join extends React.Component {
           Click on ? icon to learn more about each type
         </Typography>
 
-        <GridList cellHeight={180} className={classes.gridList}>
+        <GridList cellHeight={180} className={classes.gridListJoin}>
           <GridListTile
             key="Subheader"
             xs={false}
-            cols={2}
+            cols={1}
             style={{height: 'auto'}}
           >
             <ListSubheader
@@ -157,7 +162,9 @@ class Join extends React.Component {
             <GridListTile
               key={tile.img}
               value={tile.title}
-              onClick={event => this.handleJoinType(event, 1, this.props.index)}
+              onClick={() =>
+                this.handleJoinType(tile.title, 1, this.props.index)
+              }
             >
               <img src={tile.img} alt={tile.title} />
               <GridListTileBar

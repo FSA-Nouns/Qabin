@@ -31,8 +31,8 @@ export const useStyles =
       }
     },
     gridListJoin: {
-      width: 500,
-      height: 450,
+      width: 100,
+      height: 100,
       // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
       transform: 'translateZ(0)'
     },
@@ -43,45 +43,53 @@ export const useStyles =
     },
     icon: {
       color: 'white'
+    },
+
+    list: {
+      width: 250
+    },
+
+    fullList: {
+      width: 'auto'
     }
   }
 // ))
 
 export const tileData = [
   {
-    img: '',
-    title: 'Image1'
+    img: './left.png',
+    title: 'LEFT'
   },
   {
-    img: '',
-    title: 'Image2'
+    img: './left.png',
+    title: 'LEFT OUTER'
   },
   {
-    img: '',
-    title: 'Image3'
+    img: './left-out.png',
+    title: 'RIGHT'
   },
   {
-    img: '',
-    title: 'Image4'
+    img: './left.png',
+    title: 'RIGHT OUTER'
   },
   {
-    img: '',
-    title: 'Image5'
+    img: './left.png',
+    title: 'FULL'
   },
   {
-    img: '',
-    title: 'Image6'
+    img: './left.png',
+    title: 'FULL OUTER'
   },
   {
-    img: '',
-    title: 'Image7'
-  },
-  {
-    img: '',
-    title: 'Image8'
-  },
-  {
-    img: '',
-    title: 'Image9'
+    img: './left.png',
+    title: 'INNER'
   }
+  // {
+  //   img: './left.png',
+  //   title: 'Image8'
+  // },
+  // {
+  //   img: './left.png',
+  //   title: 'Image9'
+  // }
 ]
