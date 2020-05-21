@@ -51,8 +51,13 @@ class QueryLimit extends Component {
             <FormControl row>
               <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
               <Input id={this.props.tableName} />
-              <Button variant="outlined" size="small" type="submit">
-                Submit
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                type="submit"
+              >
+                Set Limit
               </Button>
             </FormControl>
           </form>

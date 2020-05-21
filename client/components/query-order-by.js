@@ -116,7 +116,6 @@ const OrderList = props => {
     subheader: {
       color: '#fff',
       backgroundColor: theme.palette.primary.main,
-      opacity: 0.7,
       fontWeight: 800
     }
   }))
