@@ -140,7 +140,7 @@ const query = (state = initialState, action) => {
     case SET_TABLE_NAMES:
       let newState = {...state}
       action.tableNames.forEach(
-        name => (newState[name] = {fields: [], join: [], where: [], agg: []})
+        name => (newState[name] = {fields: [], join: [], where: []})
       )
       return newState
 
@@ -214,19 +214,6 @@ const query = (state = initialState, action) => {
         action.joinArray
       return newStateC
 
-    // case REMOVE_JOIN_TYPE:
-    //   let newStateD = {...state}
-
-    //   newStateD[action.tableName].join !== []
-    //     ? (newStateD[action.tableName].join = newStateD[
-    //         action.tableName
-    //       ].join.filter(
-    //         (join, index) =>
-    //           index !== action.joinId ? join : ''
-    //       ))
-    //     : (newStateD[action.tableName].join = [])
-    //   return newStateD
-
     case SET_JOIN_COLUMN_ELEMENT:
       let newStateE = {...state}
       newStateE[action.tableName].join[action.joinId][action.index] =
@@ -256,8 +243,7 @@ const query = (state = initialState, action) => {
         join: [],
         orderBy: [],
         groupBy: [],
-        limit: [],
-        agg: []
+        limit: []
       }
       return newState7
 
