@@ -35,6 +35,7 @@ export class QueryData extends Component {
   componentDidMount() {
     this.props.setTables(this.props.tableNames)
     this.props.tableNames.forEach(table => this.props.unselectAll(table))
+    this.props.clearTables()
   }
 
   render() {
