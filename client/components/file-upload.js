@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import React from 'react'
-import {addFiles, parseFiles} from '../store/upload'
+import {addFiles, parseFiles, setFiles} from '../store/upload'
 import {Link} from 'react-router-dom'
 import history from '../history'
 import {Button, Grid, Typography, IconButton} from '@material-ui/core'
@@ -14,6 +14,10 @@ class FileUpload extends React.Component {
       uploaded: false
     }
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.setFiles([])
   }
 
   handleUploadFiles(ev) {
@@ -66,7 +70,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addFiles: (files, user) => dispatch(addFiles(files, user))
+    addFiles: (files, user) => dispatch(addFiles(files, user)),
+    setFiles: fileNames => dispatch(setFiles(fileNames))
   }
 }
 
