@@ -44,7 +44,9 @@ export class Home extends Component {
                             <DescriptionIcon />
                           </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={table} />
+                        <ListItemText
+                          primary={table.slice(table.indexOf('_') + 1)}
+                        />
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
@@ -73,7 +75,7 @@ export class Home extends Component {
             direction="column"
             justify="space-between"
             xs={12}
-            sm={3}
+            sm={4}
           >
             <SimpleCard>
               <FileUpload />

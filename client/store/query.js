@@ -23,6 +23,10 @@ const SET_JOIN_COLUMN_ELEMENT = 'SET_JOIN_COLUMN_ELEMENT'
 
 // const REMOVE_COLUMN_ELEMENT = 'REMOVE_COLUMN_ELEMENT'
 
+const SELECT_ALL = 'SELECT_ALL'
+
+const UNSELECT_ALL = 'UNSELECT_ALL'
+
 const ADD_FILTER_ELEMENT = 'ADD_FILTER_ELEMENT'
 
 const ORDER_BY = 'ORDER_BY'
@@ -42,8 +46,20 @@ const checkArray = (arr1, arr2) => {
   }, true)
 }
 
+
+export const selectAll = tableName => ({
+  type: SELECT_ALL,
+  tableName
+})
+
+export const unselectAll = tableName => ({
+  type: UNSELECT_ALL,
+  tableName
+})
+
 export const addJoinTable = (tableName, joinArray, index, joinId) => ({
   type: ADD_JOIN_TABLE,
+
   tableName,
   joinArray,
   index: 0,
@@ -232,7 +248,14 @@ const query = (state = initialState, action) => {
         limit: []
       }
       return newState7
-
+    case SELECT_ALL:
+      let newState8 = {...state}
+      newState8[action.tableName].selectAll = true
+      return newState8
+    case UNSELECT_ALL:
+      const newState9 = {...state}
+      newState9[action.tableName].selectAll = false
+      return newState9
     default:
       return state
   }

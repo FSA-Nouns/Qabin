@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import files from './upload'
+import selectedTables from './selectedTables'
 import tableData from './editData'
 import query from './query'
 import resultQueryReducer from './result'
@@ -13,7 +14,8 @@ const reducer = combineReducers({
   files,
   tableData,
   queryBundle: query,
-  result: resultQueryReducer
+  result: resultQueryReducer,
+  selectedTables
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

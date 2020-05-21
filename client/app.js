@@ -7,9 +7,7 @@ import theme from './theme'
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <Routes />
-      </div>
+      <Routes />
     </ThemeProvider>
   )
 }
