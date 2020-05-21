@@ -1,5 +1,6 @@
 const SELECT_TABLE = 'SELECT_TABLE'
 const UNSELECT_TABLE = 'UNSELECT_TABLE'
+const CLEAR_SELECTED = 'CLEAR_SELECTED'
 
 export const selectTable = table => ({
   type: SELECT_TABLE,
@@ -11,6 +12,10 @@ export const unselectTable = table => ({
   table
 })
 
+export const clearAllSelected = () => ({
+  type: CLEAR_SELECTED
+})
+
 const initialState = []
 
 const selectedTables = (state = initialState, action) => {
@@ -19,6 +24,8 @@ const selectedTables = (state = initialState, action) => {
       return [...state, action.table]
     case UNSELECT_TABLE:
       return state.filter(tableName => tableName !== action.table)
+    case CLEAR_SELECTED:
+      return initialState
     default:
       return state
   }

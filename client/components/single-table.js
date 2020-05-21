@@ -4,6 +4,7 @@ import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 import Join from './query-join'
+import SelectAll from './select-all'
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
@@ -43,7 +44,6 @@ export default function SingleTable(props) {
   }))
 
   const classes = useStyles()
-
   return (
     <Grid
       name="1A: Table Selection (lvl 1)"
@@ -71,6 +71,7 @@ export default function SingleTable(props) {
             <Typography variant="h6">
               {props.tableName.slice(props.tableName.indexOf('_') + 1)}
             </Typography>
+            <SelectAll table={props.tableData} tableName={props.tableName} />
             {props.location.pathname === '/queryBuilder' ? (
               <Join data={props} index={0} />
             ) : (

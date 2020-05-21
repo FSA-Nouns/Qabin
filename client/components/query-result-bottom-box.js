@@ -81,7 +81,12 @@ export default function QueryTabs(props) {
 
         return (
           <TabPanel key={index} value={value} index={index}>
-            <Typography variant="h5">{table[tableName].query}</Typography>
+            <Typography variant="h5">
+              {table[tableName].query
+                .replace(/user\d+?(?=_)_/g, '')
+                .replace(/,/g, ', ')
+                .replace(/,\s+?(?=[\w])/g, ', ')}
+            </Typography>
           </TabPanel>
         )
       })}
