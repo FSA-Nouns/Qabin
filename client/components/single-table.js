@@ -36,6 +36,9 @@ export default function SingleTable(props) {
     },
     aggregateHeader: {
       height: 45
+    },
+    outerGrid: {
+      width: '100%'
     }
   }))
 
@@ -49,6 +52,7 @@ export default function SingleTable(props) {
       direction="row"
       justify="flex-start"
       // wrap="nowrap"
+      className={classes.outerGrid}
       xs={12}
     >
       <Grid
@@ -59,6 +63,7 @@ export default function SingleTable(props) {
         justify="flex-start"
         alignItems="flex-start"
         xs={12}
+        className={classes.outerGrid}
         md={6}
       >
         <Grid name="tablename and join buttons (lvl 3)" container item>
@@ -78,7 +83,7 @@ export default function SingleTable(props) {
             )}
           </TableQueryHeader>
         </Grid>
-        <Grid item name="Query table grid item">
+        <Grid item name="Query table grid item" className={classes.outerGrid}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
               <TableHead>

@@ -92,16 +92,16 @@ export class QueryData extends Component {
                     direction="row"
                     justify="center"
                     alignItems="flex-start"
+                    width="100%"
+                    spacing={2}
                   >
-                    <Grid item>
-                      <SingleTable
-                        tableData={singleTableData[table]}
-                        tableDatas={this.props.tableData}
-                        index={index}
-                        tableName={Object.keys(singleTableData)[0]}
-                        location={this.props.location}
-                      />
-                    </Grid>
+                    <SingleTable
+                      tableData={singleTableData[table]}
+                      tableDatas={this.props.tableData}
+                      index={index}
+                      tableName={Object.keys(singleTableData)[0]}
+                      location={this.props.location}
+                    />
                   </Grid>
                 )
               })
