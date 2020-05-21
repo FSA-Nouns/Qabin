@@ -6,7 +6,7 @@ import QueryLimit from './query-limit'
 
 import JoinCopy from './Joins/join-copy'
 
-import Join from './query-join'
+// import Join from './query-join'
 import SelectAll from './select-all'
 
 import AggregateSelector from './aggregate-selector'
@@ -76,17 +76,14 @@ export default function SingleTable(props) {
               {props.tableName.slice(props.tableName.indexOf('_') + 1)}
             </Typography>
             <SelectAll table={props.tableData} tableName={props.tableName} />
-            
-              <Grid item>
-          {props.location.pathname === '/queryBuilder' ? (
-            <JoinCopy data={props} index={0} />
-          ) : (
-            ''
-          )}
-        </Grid>
-      
 
-              
+            <Grid item>
+              {props.location.pathname === '/queryBuilder' ? (
+                <JoinCopy data={props} index={0} />
+              ) : (
+                ''
+              )}
+            </Grid>
           </TableQueryHeader>
         </Grid>
 
@@ -115,7 +112,6 @@ export default function SingleTable(props) {
             </Table>
           </TableContainer>
         </Grid>
-
       </Grid>
 
       <Grid
