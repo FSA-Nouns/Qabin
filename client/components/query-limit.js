@@ -28,7 +28,8 @@ class QueryLimit extends Component {
 
   setLimit(ev) {
     ev.preventDefault()
-    this.props.limitTo(this.props.tableName, ev.target.value)
+    console.dir(ev.target.limit)
+    this.props.limitTo(this.props.tableName, ev.target.limit.value)
   }
 
   resetQuery(ev) {
@@ -50,7 +51,7 @@ class QueryLimit extends Component {
           <form onSubmit={this.setLimit}>
             <FormControl row>
               <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
-              <Input id={this.props.tableName} />
+              <Input name="limit" id={this.props.tableName} />
               <Button
                 variant="contained"
                 color="primary"
