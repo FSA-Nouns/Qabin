@@ -33,8 +33,6 @@ const LIMIT_TO = 'LIMIT_TO'
 
 const RESET = 'RESET'
 
-const AGG = 'AGG'
-
 const checkArray = (arr1, arr2) => {
   return arr1.reduce((bool, ele) => {
     if (!arr2.includes(ele)) {
@@ -67,13 +65,6 @@ export const setJoinType = (tableName, joinArray, index, joinId) => ({
   index: 1,
   joinId
 })
-
-// export const removeJoinType = (tableName, index, joinId) => ({
-//   type: REMOVE_JOIN_TYPE,
-//   tableName,
-//   index: 1,
-//   joinId
-// })
 
 export const setJoinColumnElement = (tableName, joinArray, index, joinId) => ({
   type: SET_JOIN_COLUMN_ELEMENT,
@@ -127,11 +118,6 @@ export const limitTo = (tableName, limit) => ({
 
 export const reset = tableName => ({
   type: RESET,
-  tableName
-})
-
-export const agg = tableName => ({
-  type: AGG,
   tableName
 })
 
@@ -246,14 +232,6 @@ const query = (state = initialState, action) => {
         limit: []
       }
       return newState7
-
-    case AGG:
-      let newState8 = {...state}
-      newState8[action.tableName].agg = [
-        ...newState1[action.tableName].agg,
-        action.field
-      ]
-      return newState1
 
     default:
       return state
