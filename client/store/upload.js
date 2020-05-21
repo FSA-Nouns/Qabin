@@ -11,7 +11,7 @@ const SET_TABLE_NAMES = 'SET_TABLE_NAMES'
 const DELETED_TABLE = 'DELETED_TABLE'
 
 //ACTION CREATORS
-const setFiles = fileNames => ({
+export const setFiles = fileNames => ({
   type: SET_FILE_NAMES,
   fileNames
 })
