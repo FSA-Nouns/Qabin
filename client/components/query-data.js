@@ -6,6 +6,8 @@ import {submitQuery} from '../store/result'
 import {clearAllSelected} from '../store/selectedTables'
 import {setTables} from '../store/upload'
 import TableSelection from './table-selection'
+
+import Bouncer from 'react-data-bouncer'
 import {unselectAll} from '../store/query'
 
 import {Button, Grid, Card, Typography} from '@material-ui/core'
@@ -37,86 +39,91 @@ export class QueryData extends Component {
 
   render() {
     return (
-      <Grid container direction="row">
-        <Grid item align="left" sm={3}>
-          <Grid container direction="column">
-            <Grid item>
-              <SimpleCard>
-                <Grid container direction="column">
-                  <Button
-                    type="button"
-                    color="primary"
-                    onClick={() => {
-                      this.props.submitQuery(
-                        this.props.queryBundle,
-                        this.props.user
-                      )
-                      this.props.clearTables()
-                    }}
-                  >
-                    Query
-                  </Button>
+      <Bouncer>
+        <Grid container direction="row">
+          <Grid item align="left" sm={3}>
+            <Grid container direction="column">
+              <Grid item>
+                <SimpleCard>
                   <Grid container direction="column">
-                    <Typography component="span" variant="h6" align="center">
-                      Step 3 - Select Your Data
-                    </Typography>
-                    <Typography component="span" variant="body1" align="center">
-                      Here, you must specify what data you want to grab from
-                      your uploaded files, and what operations you might want to
-                      perform on that data. To filter on what data you display,
-                      choose from one of your filter options and write the
-                      number of text you wish to filter by. Additionally, use
-                      the Aggregate Analysis section of the page to perform
-                      operations on columns of data.
-                    </Typography>
+                    <Button
+                      type="button"
+                      color="primary"
+                      onClick={() => {
+                        this.props.submitQuery(
+                          this.props.queryBundle,
+                          this.props.user
+                        )
+                      }}
+                    >
+                      Query
+                    </Button>
+                    <Grid container direction="column">
+                      <Typography component="span" variant="h6" align="center">
+                        Step 3 - Select Your Data
+                      </Typography>
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        align="center"
+                      >
+                        Here, you must specify what data you want to grab from
+                        your uploaded files, and what operations you might want
+                        to perform on that data. To filter on what data you
+                        display, choose from one of your filter options and
+                        write the number of text you wish to filter by.
+                        Additionally, use the Aggregate Analysis section of the
+                        page to perform operations on columns of data.
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </SimpleCard>
-            </Grid>
-            <Grid item>
-              <TableSelection />
+                </SimpleCard>
+              </Grid>
+              <Grid item>
+                <TableSelection />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        {this.props.selectedTables.length > 0 ? (
-          this.props.selectedTables.map((table, index) => {
-            let tableIndex = this.props.files.tableNames.indexOf(table)
-            let singleTableData = this.props.tableData[tableIndex]
-            return (
-              <Grid key={index} item sm={9}>
-                <Grid
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="flex-start"
-                >
-                  <Grid item>
+          <Grid item sm={9}>
+            {this.props.selectedTables.length > 0 ? (
+              this.props.selectedTables.map((table, index) => {
+                let tableIndex = this.props.files.tableNames.indexOf(table)
+                let singleTableData = this.props.tableData[tableIndex]
+                return (
+                  <Grid
+                    key={index}
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="flex-start"
+                    width="100%"
+                    spacing={2}
+                  >
                     <SingleTable
                       tableData={singleTableData[table]}
                       tableDatas={this.props.tableData}
                       index={index}
                       tableName={Object.keys(singleTableData)[0]}
                       location={this.props.location}
-                      // allTables={this.props}
                     />
                   </Grid>
-                </Grid>
+                )
+              })
+            ) : (
+              <Grid item>
+                <Typography
+                  component="span"
+                  variant="h5"
+                  align="center"
+                  fontWeight="fontWeightBold"
+                >
+                  Select some tables!
+                </Typography>
               </Grid>
-            )
-          })
-        ) : (
-          <Grid item>
-            <Typography
-              component="span"
-              variant="h5"
-              align="center"
-              fontWeight="fontWeightBold"
-            >
-              Select some tables!
-            </Typography>
+            )}
           </Grid>
-        )}
-      </Grid>
+        </Grid>
+      </Bouncer>
     )
   }
 }

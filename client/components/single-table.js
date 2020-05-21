@@ -16,24 +16,30 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography
+  Typography,
+  AppBar,
+  Card
 } from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/styles'
 
-const section = {
-  height: '100%',
-  paddingTop: 5
-}
-
 export default function SingleTable(props) {
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
-      // height: '1100px',
-      padding: 50
+      padding: 50,
+      paddingTop: 0
     },
     bottomSection: {
-      marginTop: 100
+      marginTop: 30
+    },
+    middleSection: {
+      marginTop: 15
+    },
+    aggregateHeader: {
+      height: 45
+    },
+    outerGrid: {
+      width: '100%'
     }
   }))
 
@@ -45,9 +51,9 @@ export default function SingleTable(props) {
       item
       direction="row"
       justify="flex-start"
-      alignItems="flex-start"
-      wrap="nowrap"
-      sm={8}
+      // wrap="nowrap"
+      className={classes.outerGrid}
+      xs={12}
     >
       <Grid
         name="2: Tablename, join buttons and table (lvl 2) container"
@@ -56,38 +62,29 @@ export default function SingleTable(props) {
         direction="column"
         justify="flex-start"
         alignItems="flex-start"
-        sm={6}
+        xs={12}
+        className={classes.outerGrid}
+        md={6}
       >
-        <Grid
-          name="tablename and join buttons (lvl 3)"
-          container
-          item
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-        >
-          <Grid item>
-            <h2>{props.tableName.slice(props.tableName.indexOf('_') + 1)}</h2>
-          </Grid>
-          <Grid item>
+        <Grid name="tablename and join buttons (lvl 3)" container item>
+          <TableQueryHeader>
+            <Typography variant="h6">
+              {props.tableName.slice(props.tableName.indexOf('_') + 1)}
+            </Typography>
+            <SelectAll table={props.tableData} tableName={props.tableName} />
             {props.location.pathname === '/queryBuilder' ? (
               <Join data={props} index={0} />
             ) : (
               ''
             )}
-          </Grid>
-          <Grid item>
             {props.location.pathname === '/queryBuilder' ? (
               <Join data={props} index={1} />
             ) : (
               ''
             )}
-          </Grid>
-          <Grid item>
-            <SelectAll table={props.tableData} tableName={props.tableName} />
-          </Grid>
+          </TableQueryHeader>
         </Grid>
-        <Grid item name="Query table grid item">
+        <Grid item name="Query table grid item" className={classes.outerGrid}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
               <TableHead>
@@ -121,33 +118,118 @@ export default function SingleTable(props) {
         direction="row"
         justify="space-evenly"
         className={classes.aggregateGrid}
-        sm={6}
+        md={6}
+        sm={12}
       >
-        <Grid container xs={12} item>
-          <Grid xs={12}>
-            <Typography variant="h3">Aggregate Analysis</Typography>
+        <Grid container direction="column" xs={12} item>
+          {/* <Grid container xs={12} item> */}
+          <Grid item className={classes.aggregateHeader}>
+            <AggregateHeader>
+              <Typography variant="h6">Aggregate Analysis</Typography>
+            </AggregateHeader>
           </Grid>
-          <Grid container justify="space-evenly" xs={12} item>
-            <Grid xs={12} sm={4}>
+          <SimpleCard>
+            <Grid item xs={12}>
               <AggregateSelector
                 index={props.index}
                 tableData={props.tableData}
                 tableName={props.tableName}
               />
             </Grid>
-            <Grid xs={12} sm={4}>
-              <GroupBy tableName={props.tableName} />
+            <Grid container item xs={12} className={classes.middleSection}>
+              <Grid item xs={12} sm={6}>
+                <GroupBy tableName={props.tableName} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <OrderBy tableName={props.tableName} />
+              </Grid>
             </Grid>
-            <Grid xs={12} sm={4}>
-              <OrderBy tableName={props.tableName} />
+            <Grid className={classes.bottomSection} item xs={12}>
+              <QueryLimit tableName={props.tableName} />
             </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} />
-        <Grid className={classes.bottomSection} item xs={12}>
-          <QueryLimit tableName={props.tableName} />
+          </SimpleCard>
+          {/* </Grid> */}
         </Grid>
       </Grid>
     </Grid>
   )
+}
+
+function AggregateHeader(props) {
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      height: 45,
+      paddingLeft: 15,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+
+      display: 'flex',
+
+      justifyContent: 'center'
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <AppBar className={classes.root} position="static">
+      {props.children}
+    </AppBar>
+  )
+}
+
+function TableQueryHeader(props) {
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      height: 45,
+      paddingLeft: 15,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <AppBar className={classes.root} position="static">
+      {props.children}
+    </AppBar>
+  )
+}
+
+function SimpleCard(props) {
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      padding: 15
+    },
+    title: {
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return <Card className={classes.root}>{props.children}</Card>
 }

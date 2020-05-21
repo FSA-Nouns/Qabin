@@ -4,15 +4,15 @@ import {groupBy} from '../store/query'
 
 import {
   Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
-  Grid
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader
 } from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/styles'
+import theme from '../theme'
 
 class GroupBy extends Component {
   constructor() {
@@ -41,36 +41,65 @@ class GroupBy extends Component {
 
   render() {
     return (
-      <FormControlColumn>
-        <FormLabel>Group By</FormLabel>
-        <FormGroup>
-          {this.props.queryBundle[this.props.tableName].fields.map(selected => (
-            <FormControlLabel
-              key={selected}
-              control={
-                <Checkbox onChange={this.toggleGroupBy} value={selected} />
-              }
-              label={selected}
-            />
-          ))}
-        </FormGroup>
-      </FormControlColumn>
+      <OrderList>
+        {this.props.queryBundle[this.props.tableName].fields.map(selected => {
+          const labelId = `checkbox-list-label-${selected}`
+          return (
+            <ListItem key={selected} role={undefined} dense separator>
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  checked={this.state.groupByArray.indexOf(selected) !== -1}
+                  tabIndex={-1}
+                  onChange={this.toggleGroupBy}
+                  value={selected}
+                  inputProps={{'aria-labelledby': labelId}}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={selected} />
+            </ListItem>
+          )
+        })}
+      </OrderList>
     )
   }
 }
 
-const FormControlColumn = props => {
+const OrderList = props => {
   const useStyles = makeStyles(() => ({
     root: {
-      display: 'flex',
-      flexFlow: 'column',
-      fontSize: 8
+      width: '100%',
+      maxWidth: 240,
+      position: 'relative',
+      overflow: 'auto',
+      height: 240,
+      backgroundColor: '#e8eaf6'
+    },
+    subheader: {
+      color: '#fff',
+      backgroundColor: theme.palette.primary.main,
+      fontWeight: 800
     }
   }))
 
   const classes = useStyles()
 
-  return <FormControl classNames={classes.root}>{props.children}</FormControl>
+  return (
+    <List
+      className={classes.root}
+      subheader={
+        <ListSubheader
+          component="div"
+          id="nested-list-subheader"
+          className={classes.subheader}
+        >
+          Group By
+        </ListSubheader>
+      }
+    >
+      {props.children}
+    </List>
+  )
 }
 
 const mapStateToProps = state => ({

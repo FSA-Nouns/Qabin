@@ -3,17 +3,18 @@ import {connect} from 'react-redux'
 import {orderBy} from '../store/query'
 import {
   Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
-  InputLabel,
+  MenuItem,
   Select,
-  Grid
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  ListSubheader
 } from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/styles'
+import theme from '../theme'
 
 class OrderBy extends Component {
   constructor() {
@@ -50,68 +51,94 @@ class OrderBy extends Component {
       }
       return header
     })
-    this.setState({orderByArray: modified, direction: ev.target.value})
+    this.setState({orderByArray: modified})
     this.props.orderBy(this.props.tableName, modified)
   }
 
   render() {
     return (
-      // <Grid
-      //   container
-      //   direction="column"
-      //   justify="space-evenly"
-      //   alignItems="flex-start"
-      //   spacing={3}
-      // >
-      //   <Grid item>
-      <FormControlColumn>
-        <FormLabel>Order By</FormLabel>
-        <FormGroup>
-          {this.props.queryBundle[this.props.tableName].fields.map(selected => (
-            <div key={selected} className="order-by">
-              <Grid
-                container
-                justify="space-between"
-                alignItems="center"
-                wrap="nowrap"
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox onChange={this.toggleOrderBy} value={selected} />
+      <OrderList>
+        {this.props.queryBundle[this.props.tableName].fields.map(selected => {
+          const labelId = `checkbox-list-label-${selected}`
+          return (
+            <ListItem
+              key={selected}
+              subheader={
+                <ListSubheader component="div" id="nested-list-subheader">
+                  Order By
+                </ListSubheader>
+              }
+              role={undefined}
+              dense
+            >
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  checked={
+                    !!this.state.orderByArray.filter(
+                      obj => Object.keys(obj)[0] === selected
+                    ).length
                   }
-                  label={selected}
+                  tabIndex={-1}
+                  onChange={this.toggleOrderBy}
+                  value={selected}
+                  inputProps={{'aria-labelledby': labelId}}
                 />
-
-                <InputLabel id="label" />
-
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={selected} />
+              <ListItemSecondaryAction>
                 <Select
                   labelId="label"
                   id="select"
                   onChange={ev => this.toggleDirection(ev, selected)}
                 >
-                  <option value="ASC">asc</option>
-                  <option value="DESC">desc</option>
+                  <MenuItem value="ASC">Asc</MenuItem>
+                  <MenuItem value="DESC">Desc</MenuItem>
                 </Select>
-              </Grid>
-            </div>
-          ))}
-        </FormGroup>
-      </FormControlColumn>
+              </ListItemSecondaryAction>
+            </ListItem>
+          )
+        })}
+      </OrderList>
     )
   }
 }
 
-const FormControlColumn = props => {
+const OrderList = props => {
   const useStyles = makeStyles(() => ({
     root: {
-      display: 'flex',
-      flexFlow: 'column'
+      width: '100%',
+      maxWidth: 240,
+      position: 'relative',
+      overflow: 'auto',
+      height: 240,
+      backgroundColor: '#e8eaf6'
+    },
+    subheader: {
+      color: '#fff',
+      backgroundColor: theme.palette.primary.main,
+      fontWeight: 800
     }
   }))
 
   const classes = useStyles()
 
-  return <FormControl classNames={classes.root}>{props.children}</FormControl>
+  return (
+    <List
+      className={classes.root}
+      subheader={
+        <ListSubheader
+          component="div"
+          id="nested-list-subheader"
+          className={classes.subheader}
+        >
+          Order By
+        </ListSubheader>
+      }
+    >
+      {props.children}
+    </List>
+  )
 }
 
 const mapStateToProps = state => ({

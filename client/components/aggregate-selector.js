@@ -1,7 +1,19 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import {connect} from 'react-redux'
 import {removeFieldElement, addFieldElement} from '../store/query'
-import {Chip, Grid} from '@material-ui/core'
+import {
+  Chip,
+  Grid,
+  Button,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  IconButton,
+  Box
+} from '@material-ui/core'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import {makeStyles} from '@material-ui/styles'
 
 class AggregateSelector extends Component {
   constructor(props) {
@@ -12,15 +24,30 @@ class AggregateSelector extends Component {
       COUNT: [],
       MIN: [],
       MAX: [],
-      aggregates: ['AVG', 'SUM', 'COUNT', 'MIN', 'MAX']
+      aggregates: ['AVG', 'SUM', 'COUNT', 'MIN', 'MAX'],
+      numericFields: []
     }
     this.toggleAgg = this.toggleAgg.bind(this)
   }
 
-  toggleAgg(evt) {
-    evt.preventDefault()
-    let aggType = evt.target.agg.value
-    let column = evt.target.selector.value
+  componentDidMount() {
+    let numericFields = Object.keys(this.props.tableData.headers).filter(
+      field => {
+        if (
+          this.props.tableData.headers[field] === 'int' ||
+          this.props.tableData.headers[field] === 'float'
+        )
+          return true
+      }
+    )
+    numericFields.push('*')
+
+    this.setState({numericFields: numericFields})
+  }
+  toggleAgg(aggType, column) {
+    // evt.preventDefault()
+    // let aggType = evt.target.agg.value
+    // let column = evt.target.selector.value
 
     let q = `${aggType}(${column})`
     Object.keys(this.state).forEach(agg => {
@@ -37,35 +64,47 @@ class AggregateSelector extends Component {
   }
 
   render() {
-    let numericFields = Object.keys(this.props.tableData.headers).filter(
-      field => {
-        if (
-          this.props.tableData.headers[field] === 'int' ||
-          this.props.tableData.headers[field] === 'float'
-        )
-          return true
-      }
-    )
-    numericFields.push('*')
     return (
       <Grid
         name="aggregate top level container"
         container
-        direction="column"
+        direction="row"
         justify="space-around"
-        alignItems="center"
-        // spacing={5}
       >
         <Grid
           name="aggregate selector buttons"
           container
           item
+          xs={12}
+          sm={6}
           direction="column"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={3}
         >
-          <Grid item>
+          {this.state.aggregates.map((aggType, index) => {
+            return (
+              <AggregateForm
+                key={index}
+                aggType={aggType}
+                numericFields={this.state.numericFields}
+                toggleAgg={this.toggleAgg}
+              />
+            )
+          })}
+          {/* <Grid item>
+            <AggregateForm className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
             <form className="avg-filter-form" onSubmit={this.toggleAgg}>
               <button className="agg" type="submit" name="agg" value="AVG">
                 AVG
@@ -134,41 +173,50 @@ class AggregateSelector extends Component {
                 ))}
               </select>
             </form>
-          </Grid>
+          </Grid> */}
         </Grid>
+
         <Grid
           name="aggregate chips"
           container
           item
           direction="column"
-          justify="flex-start"
+          // justify="center"
           alignItems="center"
-          spacing={3}
+          height="100%"
+          width={1}
+          spacing={1}
+          xs={12}
+          sm={6}
         >
           {this.props.queryBundle[this.props.tableName].fields ? (
-            this.props.queryBundle[this.props.tableName].fields.map(field => {
-              if (this.state.aggregates.includes(field.split('(')[0]))
-                return (
-                  <Grid item key={field}>
-                    <Chip
-                      name="selected"
-                      size="small"
-                      value={field}
-                      label={`${field.split('(')[0]} of ${
-                        field.split('(')[1].split(')')[0]
-                      }`}
-                      onDelete={() =>
-                        this.props.removeFieldElement(
-                          this.props.tableName,
-                          `${field.split('(')[0]}(${
-                            field.split('(')[1].split(')')[0]
-                          })`
-                        )
-                      }
-                    />
-                  </Grid>
-                )
-            })
+            this.props.queryBundle[this.props.tableName].fields.map(
+              (field, index) => {
+                if (this.state.aggregates.includes(field.split('(')[0]))
+                  return (
+                    <Grid width={1} item>
+                      <Chip
+                        key={index}
+                        name="selected"
+                        size="small"
+                        value={field}
+                        label={`${field.split('(')[0]} of ${
+                          field.split('(')[1].split(')')[0]
+                        }`}
+                        width={1}
+                        onDelete={() =>
+                          this.props.removeFieldElement(
+                            this.props.tableName,
+                            `${field.split('(')[0]}(${
+                              field.split('(')[1].split(')')[0]
+                            })`
+                          )
+                        }
+                      />
+                    </Grid>
+                  )
+              }
+            )
           ) : (
             <Chip label="failed" />
           )}
@@ -176,6 +224,58 @@ class AggregateSelector extends Component {
       </Grid>
     )
   }
+}
+
+const AggregateForm = props => {
+  const useStyles = makeStyles(() => ({
+    root: {
+      // marginBottom: 15
+    },
+    formControl: {
+      marginBottom: '0.5rem',
+      minWidth: 120
+    }
+  }))
+
+  const [selectColumn, selectVal] = useState(props.aggType)
+
+  const handleChange = event => {
+    selectVal(event.target.value)
+  }
+
+  const handleSubmit = () => {
+    if (selectColumn && selectColumn !== props.aggType) {
+      props.toggleAgg(props.aggType, selectColumn)
+      selectVal(props.aggType)
+    }
+  }
+  const classes = useStyles()
+
+  return (
+    <Grid container item wrap="nowrap">
+      <IconButton
+        onClick={() => handleSubmit()}
+        color="secondary"
+        aria-label="add an agg"
+      >
+        <AddCircleIcon />
+      </IconButton>
+      <FormControl className={classes.formControl}>
+        <Select
+          id="demo-simple-select"
+          value={selectColumn}
+          onChange={handleChange}
+        >
+          <MenuItem value={props.aggType}>{props.aggType}</MenuItem>
+          {props.numericFields.map((field, index) => (
+            <MenuItem key={index} value={field}>
+              {field}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Grid>
+  )
 }
 
 const mapStateToProps = state => ({

@@ -46,25 +46,19 @@ class QueryLimit extends Component {
         alignItems="center"
         wrap="nowrap"
       >
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
-          item
-          xs={6}
-        >
+        <Grid container direction="row" item xs={9}>
           <form onSubmit={this.setLimit}>
-            <FormControl>
-              <Grid item xs={6}>
-                <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
-                <Input id={this.props.tableName} />
-              </Grid>
-              <Grid item xs={6}>
-                <Button variant="outlined" size="small" type="submit">
-                  Submit
-                </Button>
-              </Grid>
+            <FormControl row>
+              <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
+              <Input id={this.props.tableName} />
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                type="submit"
+              >
+                Set Limit
+              </Button>
             </FormControl>
           </form>
         </Grid>
@@ -74,7 +68,7 @@ class QueryLimit extends Component {
           justify="flex-end"
           alignItems="center"
           item
-          xs={6}
+          xs={3}
         >
           <Grid item>
             <IconButton aria-label="reset" onClick={this.resetQuery}>
