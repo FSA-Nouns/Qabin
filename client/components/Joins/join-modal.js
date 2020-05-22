@@ -22,7 +22,8 @@ import RightArrow from '@material-ui/icons/ArrowForward'
 import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
-let joinCounter = [1]
+let joinCounter = [0]
+
 class JoinCopy extends React.Component {
   constructor(props) {
     super(props)
@@ -39,10 +40,10 @@ class JoinCopy extends React.Component {
     }
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
-    this.handleSave = this.handleSave.bind(this)
+    // this.handleSave = this.handleSave.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleAddJoin = this.handleAddJoin.bind(this)
-    this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
+    // this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +53,8 @@ class JoinCopy extends React.Component {
         descriptionElement.focus()
       }
     }
+    // console.log("this.props.queryBundle", this.props.queryBundle)
+    // console.log("this.props", this.props.queryBundle)
   }
 
   toggleDrawer(anchor, open) {
@@ -70,24 +73,19 @@ class JoinCopy extends React.Component {
   }
 
   handleClose() {
-    this.props.removeJoinTable(this.props.data.tableName, 0, this.props.index)
-    // this.setState({open: false
-    //   , clear: false
-    // })
-    // this.setState({join: false})
+    // this.props.removeJoinTable(this.props.data.tableName, 0, this.props.index)
     this.setState({open: false})
   }
 
-  handleSave() {
-    this.setState({open: false})
-  }
+  // handleSave() {
+  //   this.setState({open: false})
+  // }
 
   handleClear() {
     joinCounter.map((join, index) => {
       this.props.removeJoinTable(this.props.data.tableName, 0, index)
     })
-
-    this.setState({clear: true})
+    joinCounter = [0]
   }
 
   handleAddJoin(event) {
@@ -99,17 +97,20 @@ class JoinCopy extends React.Component {
       0,
       this.props.index + joinCounter.length
     )
-    joinCounter.push(1)
+    let nextNum = joinCounter.length
+    joinCounter.push(nextNum + 1)
     // this.setState({joinCount: joinCounter.length})
   }
 
-  handleRemoveJoin() {
-    // joinCounter.pop()
-    // this.setState({joinCount: joinCounter.length})
-  }
+  // handleRemoveJoin() {
+  //   let joinId = this.joinCount - 1
+  //   joinCounter.pop()
+  //   this.props.removeJoinTable(this.props.data.tableName, 0, joinId)
+  //   this.setState({joinCount: joinCounter.length})
+  // }
 
   render() {
-    console.log(this.props, 'this.props')
+    console.log(this.props, 'this.props in ')
     return (
       <div>
         <Button
@@ -130,7 +131,7 @@ class JoinCopy extends React.Component {
           fullWidth
         >
           <DialogTitle id="scroll-dialog-title">
-            <Typography variant="h5">
+            <Typography variant="h6">
               Lets make your data tables talk to each other!
             </Typography>
           </DialogTitle>
@@ -147,7 +148,7 @@ class JoinCopy extends React.Component {
                 // spacing={4}
               >
                 <Grid item xs={false} sm={12}>
-                  <Typography variant="h5">
+                  <Typography variant="h6">
                     Lets learn some more about your data.
                   </Typography>
 
@@ -156,7 +157,7 @@ class JoinCopy extends React.Component {
                   </Typography>
 
                   {joinCounter.map((join, index) => (
-                    <Grid item md={6} key={index}>
+                    <Grid item md={12} key={index}>
                       <Join
                         data={this.props.data}
                         index={index}
@@ -166,13 +167,10 @@ class JoinCopy extends React.Component {
                   ))}
 
                   <Grid item padding="50px">
-                    {' '}
                     Need a more complex mojo?{' '}
                   </Grid>
 
-                  <Typography variant="h2" margin="50px">
-                    {' '}
-                  </Typography>
+                  <Typography variant="h2" margin="50px" />
                   {this.props.index >= 0 ? (
                     <Button
                       variant="contained"
@@ -191,29 +189,26 @@ class JoinCopy extends React.Component {
                     </Fragment>
                   )}
 
-                  {/* <Grid item md={8}>
-                    <Join
-                      data={this.props.data}
-                      index={0}
-                      clear={this.state.clear}
-                    />
-                    {/* {console.log(
-                      'this.state.clear sent as props for index 0',
-                      this.state.clear
-                    )} */}
-                  {/* </Grid> */}
-
-                  {/* <Grid item md={8}>
-                    <Join
-                      data={this.props.data}
-                      index={1}
-                      clear={this.state.clear}
-                    />
-                    {console.log(
-                      'this.state.clear sent as props for index 1',
-                      this.state.clear
-                    )}
-                  </Grid> */}
+                  {/* {this.state.joinCount > 1 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      padding="100px"
+                      margin="100px"
+                      onClick={() => this.handleRemoveJoin}
+                    >
+                      Remove last connection!
+                    </Button>
+                  ) : (
+                    <Fragment>
+                      <Typography variant="h2" />
+                      <Button variant="contained" color="secondary"
+                      onClick={() => this.handleRemoveJoin}
+                      >
+                      Remove last connection!
+                      </Button>
+                    </Fragment>
+                  )} */}
                 </Grid>
               </Grid>
             </DialogContentText>
@@ -222,11 +217,11 @@ class JoinCopy extends React.Component {
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-            <Button onClick={this.handleSave} color="primary">
+            {/* <Button onClick={this.handleSave} color="primary">
               Save
-            </Button>
+            </Button> */}
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              Done
             </Button>
           </DialogActions>
         </Dialog>
@@ -245,8 +240,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(addJoinTable(tableName, joinArray, index, joinId)),
     removeJoinTable: (tableName, index, joinId) =>
       dispatch(removeJoinTable(tableName, index, joinId))
-    // setJoinColumnElement: (tableName, joinArray, index, joinId) =>
-    //   dispatch(setJoinColumnElement(tableName, joinArray, index, joinId))
   }
 }
 

@@ -15,10 +15,10 @@ export const useStyles =
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-      backgroundColor: blue //theme.palette.background.paper
+      minWidth: 300,
+      width: '100%'
     },
+
     typography: {
       h3: {
         fontSize: '1rem',
@@ -46,19 +46,25 @@ export const useStyles =
     },
 
     list: {
-      width: 250
+      width: 120
     },
 
     fullList: {
       width: 'auto'
+    },
+    image: {
+      position: 'relative',
+      height: 200,
+      width: '100% !important' // Overrides inline-style
+      // height: 100,
     }
   }
-// ))
 
 export const tileData = [
   {
     img: './left.png',
-    title: 'LEFT'
+    title: 'LEFT',
+    width: 120
   },
   {
     img: './left.png',
@@ -84,12 +90,4 @@ export const tileData = [
     img: './left.png',
     title: 'INNER'
   }
-  // {
-  //   img: './left.png',
-  //   title: 'Image8'
-  // },
-  // {
-  //   img: './left.png',
-  //   title: 'Image9'
-  // }
 ]

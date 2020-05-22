@@ -66,3 +66,7 @@ form div {
 }
 .direction-select {
 } */
+
+.MuiGridListTileBar-title {
+  font-size: 10px;
+}

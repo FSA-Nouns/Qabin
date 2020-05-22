@@ -4,7 +4,7 @@ import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 
-import JoinCopy from './Joins/join-copy'
+import JoinCopy from './Joins/join-modal'
 
 // import Join from './query-join'
 import SelectAll from './select-all'
