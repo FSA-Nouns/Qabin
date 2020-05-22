@@ -64,30 +64,36 @@ export const tileData = [
   {
     img: './left.png',
     title: 'LEFT',
-    width: 120
+    width: '30%'
   },
   {
     img: './left.png',
-    title: 'LEFT OUTER'
+    title: 'LEFT OUTER',
+    width: '30%'
   },
   {
     img: './left-out.png',
-    title: 'RIGHT'
+    title: 'RIGHT',
+    width: '30%'
   },
   {
     img: './left.png',
-    title: 'RIGHT OUTER'
+    title: 'RIGHT OUTER',
+    width: '30%'
   },
   {
     img: './left.png',
-    title: 'FULL'
+    title: 'FULL',
+    width: '30%'
   },
   {
     img: './left.png',
-    title: 'FULL OUTER'
+    title: 'FULL OUTER',
+    width: '30%'
   },
   {
     img: './left.png',
-    title: 'INNER'
+    title: 'INNER',
+    width: '30%'
   }
 ]
