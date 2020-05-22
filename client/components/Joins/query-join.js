@@ -89,7 +89,7 @@ class Join extends React.Component {
     let table = this.props.data.tableName
     if (this.state.join === true) {
       this.props.setJoinType(table, joinArray, index, joinId)
-      return this.setState({joinType: joinArray})
+      this.setState({joinType: joinArray})
     }
     // console.log(joinArray, 'JoinArray')
   }
@@ -154,7 +154,8 @@ class Join extends React.Component {
           <FormHelperText>Table to Join</FormHelperText>
         </FormControl>
 
-        <Typography variant="body2">
+        {/*/////////////////*/}
+        <Typography variant="body1">
           {''}
           What kind of relation between your data tables would you like to
           explore?
@@ -162,47 +163,14 @@ class Join extends React.Component {
         <Typography variant="caption" display="block" gutterBottom>
           Click on ? icon to learn more about each type
         </Typography>
+        {/*/////////////////*/}
 
         <ButtonBases
           handleJoinType={this.handleJoinType}
           index={this.props.index}
           tileData={tileData}
+          joinType={this.state.joinType}
         />
-
-        {/* <GridList cellHeight="auto" className={classes.gridListJoin}>
-          {tileData.map((tile, index) => (
-            <GridImage
-              key={index}
-              title={tile.title}
-              index={this.props.index}
-              handleJoinType={this.handleJoinType}
-              joinType={this.state.joinType}
-            >
-              <img
-                src={tile.img}
-                alt={tile.title}
-                // width={tile.width}
-              />
-              <GridTitles
-                title={tile.title}
-                handleJoinType={this.handleJoinType}
-                joinType={this.state.joinType}
-
-                // actionIcon={
-                //   <IconButton
-                //     aria-label={`info about ${tile.title}`}
-                //     // className={classes.icon}
-                //     onClick={event => this.handleJoininfo(event)}
-                //   >
-                //     <InfoIcon />
-                //   </IconButton>
-                // }
-              >
-                {tile.title}
-              </GridTitles>
-            </GridImage>
-          ))}
-        </GridList> */}
 
         <Typography variant="body1">
           Help us connect your data in the most relevant manner.
@@ -212,13 +180,7 @@ class Join extends React.Component {
           {`What data field in ${table1.slice(table1.indexOf('_') + 1)}
           is common with ${table2.slice(table2.indexOf('_') + 1)}?`}
         </Typography>
-        <FormControl
-          //   className= {{formControl: {
-          // marginBottom: '0.5rem',
-          // minWidth: 120}}}
-          spacing="1"
-          fullWidth
-        >
+        <FormControl spacing="1" fullWidth>
           <InputLabel id="Column-Table-1" minWidth="500">
             Field in Table 1
           </InputLabel>
@@ -312,92 +274,26 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Join)
 
-function GridImage(props) {
-  const useStyles1 = makeStyles({
-    root: {
-      height: 150,
-      width: 150,
-      margin: 10,
-      fontSize: 10,
-      filter: props.joinType === props.title ? 'brightness(3)' : ''
-      // webkit-filter: ((props.joinType === props.title) ? brightness(3) : ''),
-      // border: (props.joinType === props.title) ? '2px solid gold' : ''
-    },
-    title: {
-      fontSize: 10
-    },
-    pos: {
-      marginBottom: 12
-    }
-  })
-
-  const classes = useStyles1()
-
-  return (
-    <GridListTile
-      className={classes.root}
-      value={props.title}
-      onClick={() => props.handleJoinType(props.title, 1, props.index)}
-    >
-      {props.children}
-    </GridListTile>
-  )
-}
-
-function GridTitles(props) {
-  const useStyles1 = makeStyles({
-    root: {
-      fontSize: 10,
-      height: props.joinType === props.title ? 150 : 48
-    }
-  })
-
-  const classes = useStyles1()
-
-  return (
-    <GridListTileBar className={classes.root} title={props.title}>
-      {props.children}
-    </GridListTileBar>
-  )
-}
-
 export function ButtonBases(props) {
-  // const images = [
-  //   {
-  //     url: '/static/images/grid-list/breakfast.jpg',
-  //     title: 'Breakfast',
-  //     width: '40%',
-  //   },
-  //   {
-  //     url: '/static/images/grid-list/burgers.jpg',
-  //     title: 'Burgers',
-  //     width: '30%',
-  //   },
-  //   {
-  //     url: '/static/images/grid-list/camera.jpg',
-  //     title: 'Camera',
-  //     width: '30%',
-  //   },
-  // ];
-
   const useStyles = makeStyles(theme => ({
     root: {
       display: 'flex',
       flexWrap: 'wrap',
       minWidth: 300,
-      width: '100%'
+      width: '100%',
+      margin: '10px'
     },
     image: {
       position: 'relative',
-      height: 200,
+      height: 150,
       [theme.breakpoints.down('xs')]: {
         width: '100% !important', // Overrides inline-style
-        height: 100
+        height: 150
       },
-      '&:hover, &$focusVisible': {
+      '&:hover, &$focusVisible, &$onClick': {
         zIndex: 1,
         '& $imageBackdrop': {
-          opacity: 0.15
+          opacity: 0
         },
         '& $imageMarked': {
           opacity: 0
@@ -414,6 +310,7 @@ export function ButtonBases(props) {
       right: 0,
       top: 0,
       bottom: 0,
+      border: props.join,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -435,22 +332,16 @@ export function ButtonBases(props) {
       top: 0,
       bottom: 0,
       backgroundColor: theme.palette.common.black,
-      opacity: 0.4,
+      opacity: 0.05,
       transition: theme.transitions.create('opacity')
     },
     imageTitle: {
       position: 'relative',
       padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) +
-        6}px`
-    },
-    imageMarked: {
-      height: 3,
-      width: 18,
-      backgroundColor: theme.palette.common.white,
-      position: 'absolute',
-      bottom: -2,
-      left: 'calc(50% - 9px)',
-      transition: theme.transitions.create('opacity')
+        6}px`,
+      color: 'black',
+      border: '0px solid white',
+      fontWeight: '400'
     }
   }))
 
@@ -465,7 +356,12 @@ export function ButtonBases(props) {
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
           style={{
-            width: image.width
+            width: image.width,
+            border:
+              image.title === props.joinType
+                ? '10px solid #00E676'
+                : '10px solid white',
+            opacity: image.title === props.joinType ? '100' : '0.8'
           }}
           onClick={() => props.handleJoinType(image.title, 1, props.index)}
         >
@@ -482,9 +378,9 @@ export function ButtonBases(props) {
               variant="subtitle1"
               color="inherit"
               className={classes.imageTitle}
+              border="0px solid white"
             >
               {image.title}
-              <span className={classes.imageMarked} />
             </Typography>
           </span>
         </ButtonBase>

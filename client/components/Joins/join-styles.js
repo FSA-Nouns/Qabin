@@ -62,37 +62,37 @@ export const useStyles =
 
 export const tileData = [
   {
-    img: './left.png',
+    img: './left-3.png',
     title: 'LEFT',
     width: '30%'
   },
   {
-    img: './left.png',
+    img: './left-out-3.png',
     title: 'LEFT OUTER',
     width: '30%'
   },
   {
-    img: './left-out.png',
+    img: './right-3.png',
     title: 'RIGHT',
     width: '30%'
   },
   {
-    img: './left.png',
+    img: './right-out-3.png',
     title: 'RIGHT OUTER',
     width: '30%'
   },
   {
-    img: './left.png',
+    img: './full-3.png',
     title: 'FULL',
     width: '30%'
   },
   {
-    img: './left.png',
+    img: './full-out-3.png',
     title: 'FULL OUTER',
     width: '30%'
   },
   {
-    img: './left.png',
+    img: './inner-3.png',
     title: 'INNER',
     width: '30%'
   }
