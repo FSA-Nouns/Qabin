@@ -10,18 +10,16 @@ import {
   unselectAll
 } from '../store/query'
 import {
-  Grid,
   Checkbox,
   FormControlLabel,
-  TextField,
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
   Paper,
-  Chip
+  Chip,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from '@material-ui/core'
 
 let operatorDict = dataType => ({
@@ -293,8 +291,6 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(QueryRow)
 
 function FilterForm(props) {
-  const [formOpen, toggleForm] = useState(false)
-
   return (
     <form className="filter-form" onSubmit={props.filterElement}>
       <FilterFormDataSelect dataType={props.dataType} />
@@ -305,54 +301,79 @@ function FilterForm(props) {
 }
 // date upto from before after
 //component to display filter operators accordingly to dataType of the field
+
+///SELECT REFACTORING
 function FilterFormDataSelect(props) {
+  //useStyles
+
   return props.dataType === 'serial' ||
     props.dataType === 'integer' ||
     props.dataType === 'double precision' ||
     props.dataType === 'int' ||
     props.dataType === 'int' ||
     props.dataType === 'float' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">equal to</option>
-      <option value="!=">not equal to</option>
-      <option value=">">greater than</option>
-      <option value=">=">at least</option>
-      <option value="<">less than</option>
-      <option value="<=">at most</option>
-      <option value="IS NOT NULL">Not Empty</option>
-    </select>
+    <FormControl>
+      <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        name="operator"
+      >
+        <MenuItem value="=">equal to</MenuItem>
+        <MenuItem value="!=">not equal to</MenuItem>
+        <MenuItem value=">">greater than</MenuItem>
+        <MenuItem value=">=">at least</MenuItem>
+        <MenuItem value="<">less than</MenuItem>
+        <MenuItem value="<=">at most</MenuItem>
+        <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
+      </Select>
+    </FormControl>
   ) : props.dataType === 'text' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">equal to</option>
-      <option value="!=">not equal to</option>
-      <option value="contains">contains</option>
-      <option value="starts-with">starts with</option>
-      <option value="ends-with">ends with</option>
-      <option value="IS NOT NULL">Not Empty</option>
-    </select>
+    <FormControl>
+      <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        name="operator"
+      >
+        <MenuItem value="=">equal to</MenuItem>
+        <MenuItem value="!=">not equal to</MenuItem>
+        <MenuItem value="contains">contains</MenuItem>
+        <MenuItem value="starts-with">starts with</MenuItem>
+        <MenuItem value="ends-with">ends with</MenuItem>
+        <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
+      </Select>
+    </FormControl>
   ) : props.dataType === 'bool' || props.dataType === 'boolean' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">IS</option>
-    </select>
+    <FormControl>
+      <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        name="operator"
+      >
+        <MenuItem value="=">is</MenuItem>
+      </Select>
+    </FormControl>
   ) : (
     props.dataType === 'date' && (
-      <select name="operator">
-        <option value="null">Option</option>
-        <option value="=">equal to</option>
-        <option value="!=">not equal to</option>
-        <option value=">">after</option>
-        <option value=">=">from</option>
-        <option value="<">before</option>
-        <option value="<=">up to</option>
-        <option value="IS NOT NULL">Not Empty</option>
-      </select>
+      <FormControl>
+        <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+        <Select name="operator">
+          <MenuItem value="=">equal to</MenuItem>
+          <MenuItem value="!=">not equal to</MenuItem>
+          <MenuItem value=">">after</MenuItem>
+          <MenuItem value=">=">from</MenuItem>
+          <MenuItem value="<">before</MenuItem>
+          <MenuItem value="<=">up to</MenuItem>
+          <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
+        </Select>
+      </FormControl>
     )
   )
 }
 
+//INPUT REFACTO
 function FilterFormInput(props) {
   return props.dataType === 'bool' ? (
     <select name="condition">
