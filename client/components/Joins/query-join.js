@@ -12,10 +12,6 @@ import {
   setJoinColumnElement
 } from '../../store/query'
 import {Typography} from '@material-ui/core'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import ListSubheader from '@material-ui/core/ListSubheader'
 import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/Info'
 import {useStyles, tileData} from './join-styles'
@@ -23,8 +19,8 @@ import Divider from '@material-ui/core/Divider'
 import {makeStyles} from '@material-ui/styles'
 import {theme} from '../../theme'
 import ButtonBase from '@material-ui/core/ButtonBase'
+import JoinTypes from './join-type'
 // import {joinCounter} from './join-modal'
-// import image from './graphics/Join-types.png'
 
 // let joinType
 class Join extends React.Component {
@@ -122,22 +118,13 @@ class Join extends React.Component {
 
     return (
       <Fragment>
-        <FormControl
-          // className="MuiFormControl-root makeStyles-formControl-711"
-          fullWidth
-          align
-          spacing={2}
-        >
+        <FormControl fullWidth align spacing={2}>
           <InputLabel id="Join-Table-1">{chosenTable}</InputLabel>
           <Select
-            // labelId="demo-dialog-select-label"
             id="demo-simple-select"
             defaultValue=""
             onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
-            {/* {let chosenTable = this.state.table2.slice(
-                    this.state.table2.indexOf('_') + 1
-                  )} */}
             <MenuItem value=""> Select Table to Connect </MenuItem>
             {this.props.data.tableDatas
               .filter(
@@ -165,7 +152,7 @@ class Join extends React.Component {
         </Typography>
         {/*/////////////////*/}
 
-        <ButtonBases
+        <JoinTypes
           handleJoinType={this.handleJoinType}
           index={this.props.index}
           tileData={tileData}
@@ -180,6 +167,7 @@ class Join extends React.Component {
           {`What data field in ${table1.slice(table1.indexOf('_') + 1)}
           is common with ${table2.slice(table2.indexOf('_') + 1)}?`}
         </Typography>
+
         <FormControl spacing="1" fullWidth>
           <InputLabel id="Column-Table-1" minWidth="500">
             Field in Table 1
@@ -219,6 +207,7 @@ class Join extends React.Component {
             table1.indexOf('_') + 1
           )}?`}
         </Typography>
+
         <FormControl className="formControl" spacing="1" fullWidth>
           <InputLabel id="Column-Table-2">Field in Table 2</InputLabel>
           <Select
@@ -274,117 +263,117 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Join)
 
-export function ButtonBases(props) {
-  const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      minWidth: 300,
-      width: '100%',
-      margin: '10px'
-    },
-    image: {
-      position: 'relative',
-      height: 150,
-      [theme.breakpoints.down('xs')]: {
-        width: '100% !important', // Overrides inline-style
-        height: 150
-      },
-      '&:hover, &$focusVisible, &$onClick': {
-        zIndex: 1,
-        '& $imageBackdrop': {
-          opacity: 0
-        },
-        '& $imageMarked': {
-          opacity: 0
-        },
-        '& $imageTitle': {
-          border: '4px solid currentColor'
-        }
-      }
-    },
-    focusVisible: {},
-    imageButton: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      border: props.join,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: theme.palette.common.white
-    },
-    imageSrc: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center 40%'
-    },
-    imageBackdrop: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundColor: theme.palette.common.black,
-      opacity: 0.05,
-      transition: theme.transitions.create('opacity')
-    },
-    imageTitle: {
-      position: 'relative',
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) +
-        6}px`,
-      color: 'black',
-      border: '0px solid white',
-      fontWeight: '400'
-    }
-  }))
+// export function ButtonBases(props) {
+//   const useStyles = makeStyles(theme => ({
+//     root: {
+//       display: 'flex',
+//       flexWrap: 'wrap',
+//       minWidth: 300,
+//       width: '100%',
+//       margin: '10px'
+//     },
+//     image: {
+//       position: 'relative',
+//       height: 150,
+//       [theme.breakpoints.down('xs')]: {
+//         width: '100% !important', // Overrides inline-style
+//         height: 150
+//       },
+//       '&:hover, &$focusVisible, &$onClick': {
+//         zIndex: 1,
+//         '& $imageBackdrop': {
+//           opacity: 0
+//         },
+//         '& $imageMarked': {
+//           opacity: 0
+//         },
+//         '& $imageTitle': {
+//           border: '4px solid currentColor'
+//         }
+//       }
+//     },
+//     focusVisible: {},
+//     imageButton: {
+//       position: 'absolute',
+//       left: 0,
+//       right: 0,
+//       top: 0,
+//       bottom: 0,
+//       border: props.join,
+//       display: 'flex',
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       color: theme.palette.common.white
+//     },
+//     imageSrc: {
+//       position: 'absolute',
+//       left: 0,
+//       right: 0,
+//       top: 0,
+//       bottom: 0,
+//       backgroundSize: 'cover',
+//       backgroundPosition: 'center 40%'
+//     },
+//     imageBackdrop: {
+//       position: 'absolute',
+//       left: 0,
+//       right: 0,
+//       top: 0,
+//       bottom: 0,
+//       backgroundColor: theme.palette.common.black,
+//       opacity: 0.05,
+//       transition: theme.transitions.create('opacity')
+//     },
+//     imageTitle: {
+//       position: 'relative',
+//       padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) +
+//         6}px`,
+//       color: 'black',
+//       border: '0px solid white',
+//       fontWeight: '400'
+//     }
+//   }))
 
-  const classes = useStyles()
+//   const classes = useStyles()
 
-  return (
-    <div className={classes.root}>
-      {props.tileData.map(image => (
-        <ButtonBase
-          focusRipple
-          key={image.title}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: image.width,
-            border:
-              image.title === props.joinType
-                ? '10px solid #00E676'
-                : '10px solid white',
-            opacity: image.title === props.joinType ? '100' : '0.8'
-          }}
-          onClick={() => props.handleJoinType(image.title, 1, props.index)}
-        >
-          <span
-            className={classes.imageSrc}
-            style={{
-              backgroundImage: `url(${image.img})`
-            }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-              border="0px solid white"
-            >
-              {image.title}
-            </Typography>
-          </span>
-        </ButtonBase>
-      ))}
-    </div>
-  )
-}
+//   return (
+//     <div className={classes.root}>
+//       {props.tileData.map(image => (
+//         <ButtonBase
+//           focusRipple
+//           key={image.title}
+//           className={classes.image}
+//           focusVisibleClassName={classes.focusVisible}
+//           style={{
+//             width: image.width,
+//             border:
+//               image.title === props.joinType
+//                 ? '10px solid #00E676'
+//                 : '10px solid white',
+//             opacity: image.title === props.joinType ? '100' : '0.8'
+//           }}
+//           onClick={() => props.handleJoinType(image.title, 1, props.index)}
+//         >
+//           <span
+//             className={classes.imageSrc}
+//             style={{
+//               backgroundImage: `url(${image.img})`
+//             }}
+//           />
+//           <span className={classes.imageBackdrop} />
+//           <span className={classes.imageButton}>
+//             <Typography
+//               component="span"
+//               variant="subtitle1"
+//               color="inherit"
+//               className={classes.imageTitle}
+//               border="0px solid white"
+//             >
+//               {image.title}
+//             </Typography>
+//           </span>
+//         </ButtonBase>
+//       ))}
+//     </div>
+//   )
+// }
