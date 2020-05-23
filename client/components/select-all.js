@@ -36,14 +36,13 @@ export class SelectAll extends Component {
   }
 
   render() {
-    console.log('CLICKED', this.state.clicked)
     return (
       <Button
         variant="contained"
         color={this.state.clicked ? 'primary' : 'default'}
         onClick={() => this.handleClick()}
       >
-        Select All
+        Select All Fields
       </Button>
     )
   }
