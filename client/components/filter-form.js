@@ -11,7 +11,7 @@ import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import {Paper, Chip, TextField, Grid} from '@material-ui/core'
+import {Paper, Chip, TextField, Grid, FormHelperText} from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import {
   MuiPickersUtilsProvider,
@@ -35,6 +35,7 @@ export default function FilterForm(props) {
   const [open, setOpen] = React.useState(false)
   const [operator, setOperator] = React.useState('')
   const [condition, setCondition] = React.useState('')
+  const [showRequired, setShowRequired] = React.useState(false)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -43,9 +44,11 @@ export default function FilterForm(props) {
   const handleSubmit = () => {
     if (operator !== '') {
       props.filterElement(operator, condition)
+      setOpen(false)
+      setShowRequired(false)
+    } else {
+      setShowRequired(true)
     }
-
-    setOpen(false)
   }
 
   const handleClose = () => {
@@ -70,6 +73,7 @@ export default function FilterForm(props) {
               setOperator={setOperator}
               dataType={props.dataType}
               field={props.field}
+              showRequired={showRequired}
             />
             <FilterFormInput
               setCondition={setCondition}
@@ -135,7 +139,7 @@ function FilterFormDataSelect(props) {
     props.dataType === 'int' ||
     props.dataType === 'int' ||
     props.dataType === 'float' ? (
-    <FormControl className={classes.formControl}>
+    <FormControl className={classes.formControl} error={props.showRequired}>
       <InputLabel id={`${props.field}-select-label`}>Filter</InputLabel>
       <Select
         name="operator"
@@ -152,9 +156,10 @@ function FilterFormDataSelect(props) {
         <MenuItem value="<=">at most</MenuItem>
         <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
       </Select>
+      {props.showRequired && <FormHelperText>Required</FormHelperText>}
     </FormControl>
   ) : props.dataType === 'text' ? (
-    <FormControl className={classes.formControl}>
+    <FormControl className={classes.formControl} error={props.showRequired}>
       <InputLabel id={`${props.field}-select-label`}>Filter</InputLabel>
       <Select
         name="operator"
@@ -170,9 +175,10 @@ function FilterFormDataSelect(props) {
         <MenuItem value="ends-with">ends with</MenuItem>
         <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
       </Select>
+      {props.showRequired && <FormHelperText>Required</FormHelperText>}
     </FormControl>
   ) : props.dataType === 'bool' || props.dataType === 'boolean' ? (
-    <FormControl className={classes.formControl}>
+    <FormControl className={classes.formControl} error={props.showRequired}>
       <InputLabel id={`${props.field}-select-label`}>Filter</InputLabel>
       <Select
         name="operator"
@@ -183,10 +189,11 @@ function FilterFormDataSelect(props) {
       >
         <MenuItem value="=">is</MenuItem>
       </Select>
+      {props.showRequired && <FormHelperText>Required</FormHelperText>}
     </FormControl>
   ) : (
     props.dataType === 'date' && (
-      <FormControl className={classes.formControl}>
+      <FormControl className={classes.formControl} error={props.showRequired}>
         <InputLabel id={`${props.field}-select-label`}>Filter</InputLabel>
         <Select
           name="operator"
@@ -203,6 +210,7 @@ function FilterFormDataSelect(props) {
           <MenuItem value="<=">up to</MenuItem>
           <MenuItem value="IS NOT NULL">Not Empty</MenuItem>
         </Select>
+        {props.showRequired && <FormHelperText>Required</FormHelperText>}
       </FormControl>
     )
   )
