@@ -67,3 +67,7 @@ nav a {
 }
 .direction-select {
 } */
+
+.MuiGridListTileBar-title {
+  font-size: 10px;
+}

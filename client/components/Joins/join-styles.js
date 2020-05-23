@@ -15,10 +15,10 @@ export const useStyles =
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-      backgroundColor: blue //theme.palette.background.paper
+      minWidth: 300,
+      width: '100%'
     },
+
     typography: {
       h3: {
         fontSize: '1rem',
@@ -46,50 +46,54 @@ export const useStyles =
     },
 
     list: {
-      width: 250
+      width: 120
     },
 
     fullList: {
       width: 'auto'
+    },
+    image: {
+      position: 'relative',
+      height: 200,
+      width: '100% !important' // Overrides inline-style
+      // height: 100,
     }
   }
-// ))
 
 export const tileData = [
   {
-    img: './left.png',
-    title: 'LEFT'
+    img: './left-3.png',
+    title: 'LEFT',
+    width: '30%'
   },
   {
-    img: './left.png',
-    title: 'LEFT OUTER'
+    img: './left-out-3.png',
+    title: 'LEFT OUTER',
+    width: '30%'
   },
   {
-    img: './left-out.png',
-    title: 'RIGHT'
+    img: './right-3.png',
+    title: 'RIGHT',
+    width: '30%'
   },
   {
-    img: './left.png',
-    title: 'RIGHT OUTER'
+    img: './right-out-3.png',
+    title: 'RIGHT OUTER',
+    width: '30%'
   },
   {
-    img: './left.png',
-    title: 'FULL'
+    img: './full-3.png',
+    title: 'FULL',
+    width: '30%'
   },
   {
-    img: './left.png',
-    title: 'FULL OUTER'
+    img: './full-out-3.png',
+    title: 'FULL OUTER',
+    width: '30%'
   },
   {
-    img: './left.png',
-    title: 'INNER'
+    img: './inner-3.png',
+    title: 'INNER',
+    width: '30%'
   }
-  // {
-  //   img: './left.png',
-  //   title: 'Image8'
-  // },
-  // {
-  //   img: './left.png',
-  //   title: 'Image9'
-  // }
 ]
