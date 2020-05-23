@@ -2,7 +2,7 @@ import React from 'react'
 import {Typography, Tooltip} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import JoinTooltips, {JoinTypeHints} from './join-tooltips'
+// import JoinTooltips, {JoinTypeHints} from './join-tooltips'
 
 export default function JoinTypes(props) {
   const useStyles = makeStyles(theme => ({
@@ -128,3 +128,13 @@ export default function JoinTypes(props) {
     </div>
   )
 }
+
+export const JoinTypeHints = [
+  'Left nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Left - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Right nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Right - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Full nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Full - OUTER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'INNER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs'
+]
