@@ -9,6 +9,9 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 
 const useStyles = makeStyles({
+  root: {
+    fontColor: 'white'
+  },
   list: {
     width: 250
   },
@@ -89,19 +92,17 @@ export default function JoinSteps() {
   )
 
   return (
-    <div>
-      <React.Fragment key="left">
-        <Button onClick={toggleDrawer('left', true)}>
-          {<HelpIcon fontSize="small" />}
-        </Button>
-        <Drawer
-          anchor="left"
-          open={state.left}
-          onClose={toggleDrawer('left', false)}
-        >
-          {list('left')}
-        </Drawer>
-      </React.Fragment>
-    </div>
+    <React.Fragment key="left">
+      <Button onClick={toggleDrawer('left', true)} fontColor="white">
+        <HelpIcon fontSize="small" style={{color: 'white'}} />
+      </Button>
+      <Drawer
+        anchor="left"
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+      >
+        {list('left')}
+      </Drawer>
+    </React.Fragment>
   )
 }

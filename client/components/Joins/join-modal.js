@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import {Grid, Typography, Button} from '@material-ui/core'
+import {Grid, Typography, Button, AppBar} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
 import {white} from '@material-ui/core/colors'
@@ -33,6 +33,7 @@ class JoinCopy extends React.Component {
       scroll: 'paper',
       joinCount: joinCounter.length,
       descriptionElementRef: null,
+      join: false,
       top: false,
       left: false,
       bottom: false,
@@ -68,7 +69,7 @@ class JoinCopy extends React.Component {
   }
 
   handleClickOpen() {
-    this.setState({open: true})
+    this.setState({open: true, join: true})
     // this.setState({join: true})
   }
 
@@ -86,6 +87,7 @@ class JoinCopy extends React.Component {
       this.props.removeJoinTable(this.props.data.tableName, 0, index)
     })
     joinCounter = [0]
+    this.setState({join: false})
   }
 
   handleAddJoin(event) {
@@ -115,11 +117,10 @@ class JoinCopy extends React.Component {
       <div>
         <Button
           onClick={() => this.handleClickOpen()}
-          // variant="contained"
-          variant="outlined"
-          color="primary"
+          variant={this.state.join ? 'contained' : 'outlined'}
+          color={this.state.join ? 'secondary' : 'secondary'}
         >
-          Join Data Tables
+          {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
 
         <Dialog
@@ -130,11 +131,19 @@ class JoinCopy extends React.Component {
           aria-describedby="scroll-dialog-description"
           fullWidth
         >
-          <DialogTitle id="scroll-dialog-title">
-            <Typography variant="h6">
-              Lets make your data tables talk to each other!
-            </Typography>
-          </DialogTitle>
+          <JoinHeader>
+            <DialogTitle id="scroll-dialog-title">
+              <Grid>
+                <Grid item>
+                  <Typography variant="h5">
+                    Lets make your data tables talk to each other! <JoinSteps />
+                  </Typography>
+                  {/* </Grid>
+              <Grid item> */}
+                </Grid>
+              </Grid>
+            </DialogTitle>
+          </JoinHeader>
 
           <DialogContent dividers={scroll === 'paper'}>
             <DialogContentText
@@ -142,7 +151,6 @@ class JoinCopy extends React.Component {
               ref={this.descriptionElementRef}
               tabIndex={-1}
             >
-              <JoinSteps />
               <Grid
                 container
                 // spacing={4}
@@ -244,3 +252,33 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinCopy)
+
+function JoinHeader(props) {
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      height: 50,
+      paddingLeft: 15,
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+    },
+    title: {
+      fontSize: 16
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <AppBar className={classes.root} position="static">
+      {props.children}
+    </AppBar>
+  )
+}
