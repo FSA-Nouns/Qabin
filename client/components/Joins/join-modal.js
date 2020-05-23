@@ -135,69 +135,71 @@ class JoinCopy extends React.Component {
             <DialogTitle id="scroll-dialog-title">
               <Grid>
                 <Grid item>
-                  <Typography variant="h5">
-                    Lets make your data tables talk to each other! <JoinSteps />
+                  <Typography variant="h4">
+                    Connect your Data! <JoinSteps />
                   </Typography>
-                  {/* </Grid>
-              <Grid item> */}
                 </Grid>
               </Grid>
             </DialogTitle>
           </JoinHeader>
 
-          <DialogContent dividers={scroll === 'paper'}>
+          <DialogContent
+            dividers={scroll === 'paper'}
+            style={{padding: '10px'}}
+          >
             <DialogContentText
               id="scroll-dialog-description"
               ref={this.descriptionElementRef}
               tabIndex={-1}
             >
-              <Grid
-                container
-                // spacing={4}
-              >
-                <Grid item xs={false} sm={12}>
-                  <Typography variant="h6">
-                    Lets learn some more about your data.
-                  </Typography>
+              <Grid item xs={false} sm={12}>
+                <Typography variant="h5" style={{padding: '10px'}}>
+                  Lets learn some more about your data.
+                </Typography>
+              </Grid>
 
-                  <Typography variant="body1">
+              {joinCounter.map((join, index) => (
+                <Grid item md={12} key={index}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    style={{padding: '10px'}}
+                  >
                     What other data table would you like to get data from?
                   </Typography>
+                  <Join
+                    data={this.props.data}
+                    index={index}
+                    clear={this.state.clear}
+                  />
+                </Grid>
+              ))}
 
-                  {joinCounter.map((join, index) => (
-                    <Grid item md={12} key={index}>
-                      <Join
-                        data={this.props.data}
-                        index={index}
-                        clear={this.state.clear}
-                      />
-                    </Grid>
-                  ))}
+              <Grid item padding="50px">
+                Need a more complex mojo?{' '}
+              </Grid>
 
-                  <Grid item padding="50px">
-                    Need a more complex mojo?{' '}
-                  </Grid>
+              <Typography variant="h2" margin="50px" />
 
-                  <Typography variant="h2" margin="50px" />
-                  {this.props.index >= 0 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      margin="100px"
-                      onClick={event => this.handleAddJoin(event)}
-                    >
-                      Connect more data!
-                    </Button>
-                  ) : (
-                    <Fragment>
-                      <Typography variant="h2" />
-                      <Button variant="contained" color="primary" disabled>
-                        Connect more data!
-                      </Button>
-                    </Fragment>
-                  )}
+              {this.props.index >= 0 ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  margin="100px"
+                  onClick={event => this.handleAddJoin(event)}
+                >
+                  Connect more data!
+                </Button>
+              ) : (
+                <Fragment>
+                  <Typography variant="h2" />
+                  <Button variant="contained" color="primary" disabled>
+                    Connect more data!
+                  </Button>
+                </Fragment>
+              )}
 
-                  {/* {this.state.joinCount > 1 ? (
+              {/* {this.state.joinCount > 1 ? (
                     <Button
                       variant="contained"
                       color="primary"
@@ -217,8 +219,8 @@ class JoinCopy extends React.Component {
                       </Button>
                     </Fragment>
                   )} */}
-                </Grid>
-              </Grid>
+              {/* </Grid>
+              </Grid> */}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

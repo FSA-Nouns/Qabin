@@ -13,7 +13,8 @@ const useStyles = makeStyles({
     fontColor: 'white'
   },
   list: {
-    width: 250
+    width: 250,
+    height: 500
   },
   fullList: {
     width: 'auto'
@@ -46,48 +47,60 @@ export default function JoinSteps() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <SimpleCard>
-        <Typography variant="subtitle">STEPS</Typography>
+      {/* <SimpleCard> */}
+      <Typography variant="h6" style={{padding: '20px'}}>
+        STEPS
+      </Typography>
 
-        <Divider />
+      <Divider />
 
-        <Typography variant="subtitle2">Step 1:</Typography>
-        <Typography variant="caption">
-          Select a table (lets call it Table 2) to connect data. This will help
-          analyse data across the connected tables on common data field.
-        </Typography>
+      <Typography variant="subtitle1" style={{padding: '10px'}}>
+        Step 1:
+      </Typography>
+      <Typography variant="caption" style={{padding: '10px'}}>
+        Select a table (lets call it Joined Table) to connect data. This will
+        help analyse data across the connected tables on common data field.
+      </Typography>
 
-        <Divider />
+      <Divider />
 
-        <Typography variant="subtitle2">Step 2:</Typography>
-        <Typography variant="caption">
-          Select column in existing table (lets call it Table 1) that has common
-          data with the Table 2.
-        </Typography>
+      <Typography variant="subtitle2" style={{padding: '10px'}}>
+        Step 2:
+      </Typography>
+      <Typography variant="caption" style={{padding: '10px', margin: '10px'}}>
+        Select column in existing table (lets call it Main Table) that has
+        common data with the Joined Table.
+      </Typography>
 
-        <Divider />
+      <Divider />
 
-        <Typography variant="subtitle2">Step 3:</Typography>
-        <Typography variant="caption">
-          Select column in Table 2 that has common data with the Table 1.
-        </Typography>
+      <Typography variant="subtitle2" style={{padding: '10px'}}>
+        Step 3:
+      </Typography>
+      <Typography variant="caption" style={{padding: '10px'}}>
+        Select column in Joined Table that has common data with the Main Table.
+      </Typography>
 
-        <Divider />
+      <Divider />
 
-        <Typography variant="subtitle2">Step 4:</Typography>
-        <Typography variant="caption">
-          Select the area on the venn diagram to column in Table 2 that has
-          common data with the Table 1.
-        </Typography>
+      <Typography variant="subtitle2" style={{padding: '10px'}}>
+        Step 4:
+      </Typography>
+      <Typography variant="caption" style={{padding: '10px'}}>
+        Select the area on the venn diagram to column in Joined Table that has
+        common data with the Main Table.
+      </Typography>
 
-        <Divider />
+      <Divider />
 
-        <Typography variant="subtitle2">Step 5:</Typography>
-        <Typography variant="caption">
-          Save and proceed to select the fields from each table to visualize
-          results.
-        </Typography>
-      </SimpleCard>
+      <Typography variant="subtitle2" style={{padding: '10px'}}>
+        Step 5:
+      </Typography>
+      <Typography variant="caption" style={{padding: '10px'}}>
+        Save and proceed to select the fields from each table to visualize
+        results.
+      </Typography>
+      {/* </SimpleCard> */}
     </div>
   )
 

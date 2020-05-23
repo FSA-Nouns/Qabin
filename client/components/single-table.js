@@ -5,8 +5,6 @@ import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 
 import JoinCopy from './Joins/join-modal'
-
-// import Join from './query-join'
 import SelectAll from './select-all'
 
 import AggregateSelector from './aggregate-selector'
