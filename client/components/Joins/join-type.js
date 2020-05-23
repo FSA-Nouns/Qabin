@@ -1,7 +1,8 @@
 import React from 'react'
-import {Typography} from '@material-ui/core'
+import {Typography, Tooltip} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
+import JoinTooltips, {JoinTypeHints} from './join-tooltips'
 
 export default function JoinTypes(props) {
   const useStyles = makeStyles(theme => ({
@@ -78,41 +79,51 @@ export default function JoinTypes(props) {
 
   return (
     <div className={classes.root}>
-      {props.tileData.map(image => (
-        <ButtonBase
-          focusRipple
-          key={image.title}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: image.width,
-            border:
-              image.title === props.joinType
-                ? '10px solid #00E676'
-                : '10px solid white',
-            opacity: image.title === props.joinType ? '100' : '0.9'
-          }}
-          onClick={() => props.handleJoinType(image.title, 1, props.index)}
+      {props.tileData.map((image, index) => (
+        <Tooltip
+          key={index}
+          m={0}
+          p={0}
+          item
+          xs={1}
+          title={JoinTypeHints[index]}
+          arrow
         >
-          <span
-            className={classes.imageSrc}
+          <ButtonBase
+            focusRipple
+            key={image.title}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
             style={{
-              backgroundImage: `url(${image.img})`
+              width: image.width,
+              border:
+                image.title === props.joinType
+                  ? '10px solid #00E676'
+                  : '10px solid white',
+              opacity: image.title === props.joinType ? '100' : '0.9'
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-              border="0px solid white"
-            >
-              {image.title}
-            </Typography>
-          </span>
-        </ButtonBase>
+            onClick={() => props.handleJoinType(image.title, 1, props.index)}
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${image.img})`
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+                border="0px solid white"
+              >
+                {image.title}
+              </Typography>
+            </span>
+          </ButtonBase>
+        </Tooltip>
       ))}
     </div>
   )
