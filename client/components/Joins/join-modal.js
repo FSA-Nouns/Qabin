@@ -117,8 +117,8 @@ class JoinCopy extends React.Component {
       <div>
         <Button
           onClick={() => this.handleClickOpen()}
-          variant={this.state.join ? 'contained' : 'outlined'}
-          color={this.state.join ? 'secondary' : 'secondary'}
+          variant="outlined"
+          color={this.state.join ? 'secondary' : 'white'}
         >
           {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
