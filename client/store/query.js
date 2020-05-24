@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable complexity */
 import axios from 'axios'
 
@@ -35,6 +36,8 @@ const GROUP_BY = 'GROUP_BY'
 
 const LIMIT_TO = 'LIMIT_TO'
 
+const CLEAR_LIMIT = 'CLEAR_LIMIT'
+
 const RESET = 'RESET'
 
 const checkArray = (arr1, arr2) => {
@@ -45,7 +48,6 @@ const checkArray = (arr1, arr2) => {
     return bool
   }, true)
 }
-
 
 export const selectAll = tableName => ({
   type: SELECT_ALL,
@@ -130,6 +132,11 @@ export const limitTo = (tableName, limit) => ({
   type: LIMIT_TO,
   tableName,
   limit
+})
+
+export const clearlimitTo = tableName => ({
+  type: CLEAR_LIMIT,
+  tableName
 })
 
 export const reset = tableName => ({
@@ -237,6 +244,10 @@ const query = (state = initialState, action) => {
       newState6[action.tableName].limit = [action.limit]
       return newState6
 
+    case CLEAR_LIMIT:
+      let newState06 = {...state}
+      newState06[action.tableName].limit = []
+      return newState06
     case RESET:
       let newState7 = {...state}
       newState7[action.tableName] = {
