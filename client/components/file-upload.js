@@ -29,8 +29,10 @@ class FileUpload extends React.Component {
       data.append('files[' + i + ']', file, file.name)
     }
 
-    this.props.addFiles(data, this.props.user)
-    this.setState({uploaded: true})
+    if (this.uploadInput.files.length) {
+      this.props.addFiles(data, this.props.user)
+      this.setState({uploaded: true})
+    }
   }
 
   render() {
@@ -38,6 +40,10 @@ class FileUpload extends React.Component {
       <form onSubmit={this.handleUploadFiles}>
         <Grid container direction="column" spacing={2}>
           <Typography variant="h5">Upload Tables (.csv)</Typography>
+          <Typography variant="body2">
+            Note: file name must not contain any 'spaces' or special characters
+            (aside from underlines) and should be unique.
+          </Typography>
           <Grid item>
             <input
               ref={ref => {
