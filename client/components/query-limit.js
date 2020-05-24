@@ -1,37 +1,43 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {limitTo, reset} from '../store/query'
+import {limitTo, reset, clearlimitTo} from '../store/query'
 import AutorenewIcon from '@material-ui/icons/Autorenew'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import {
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
   Grid,
   IconButton,
   Input,
   InputLabel,
-  Select
+  Select,
+  Typography
 } from '@material-ui/core'
+
+import CloseIcon from '@material-ui/icons/Close'
 
 class QueryLimit extends Component {
   constructor() {
     super()
+    this.state = {
+      limit: ''
+    }
     this.setLimit = this.setLimit.bind(this)
     this.resetQuery = this.resetQuery.bind(this)
+    this.clearlimit = this.clearlimit.bind(this)
   }
 
   setLimit(ev) {
     ev.preventDefault()
-    console.dir(ev.target.limit)
     this.props.limitTo(this.props.tableName, ev.target.limit.value)
+    this.setState({limit: ev.target.limit.value})
   }
 
+  clearlimit(tableName) {
+    this.props.clearlimitTo(tableName)
+    this.setState({limit: ''})
+  }
   resetQuery(ev) {
     ev.preventDefault()
     this.props.reset(this.props.tableName)
@@ -47,11 +53,12 @@ class QueryLimit extends Component {
         alignItems="center"
         wrap="nowrap"
       >
-        <Grid container direction="row" item xs={9}>
+        <Grid container direction="row" item xs={4}>
           <form onSubmit={this.setLimit}>
             <FormControl row>
               <InputLabel htmlFor={this.props.tableName}>Limit</InputLabel>
               <Input name="limit" id={this.props.tableName} />
+              <br />
               <Button
                 variant="contained"
                 color="primary"
@@ -63,6 +70,22 @@ class QueryLimit extends Component {
             </FormControl>
           </form>
         </Grid>
+
+        {this.state.limit ? (
+          <Grid item container direction row alignItems="center" xs={5}>
+            <Typography variant="body2">Limit: {this.state.limit}</Typography>
+            <IconButton
+              onClick={() => this.clearlimit(this.props.tableName)}
+              color="alert"
+              aria-label="clear limit"
+            >
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        ) : (
+          ''
+        )}
+
         <Grid
           container
           direction="row"
@@ -89,7 +112,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     limitTo: (tableName, limit) => dispatch(limitTo(tableName, limit)),
-    reset: tableName => dispatch(reset(tableName))
+    reset: tableName => dispatch(reset(tableName)),
+    clearlimitTo: tableName => dispatch(clearlimitTo(tableName))
   }
 }
 

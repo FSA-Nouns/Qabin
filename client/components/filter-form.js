@@ -22,7 +22,8 @@ import {
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    alignItems: 'baseline'
   },
   formControl: {
     margin: theme.spacing(1),
@@ -272,9 +273,9 @@ function DatePick(props) {
   const useStyles = makeStyles(theme => ({
     formControl: {
       width: 170,
-      height: 40,
-      marginTop: 12,
-      marginBottom: 8
+      height: 40
+      // marginTop: 12,
+      // marginBottom: 8
     },
     selectEmpty: {
       marginTop: theme.spacing(2)
