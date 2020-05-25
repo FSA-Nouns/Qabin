@@ -8,25 +8,29 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import {Grid, Typography, Button, AppBar, Tooltip} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
-import {white} from '@material-ui/core/colors'
-import clsx from 'clsx'
+// import {white} from '@material-ui/core/colors'
+// import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
+// import Drawer from '@material-ui/core/Drawer'
+// import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
-import ListItem from '@material-ui/core/ListItem'
+// import ListItem from '@material-ui/core/ListItem'
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
-import DownArrow from '@material-ui/icons/ArrowDownward'
-import LeftArrow from '@material-ui/icons/ArrowBack'
-import RightArrow from '@material-ui/icons/ArrowForward'
-import UpArrow from '@material-ui/icons/ArrowUpward'
+// import DownArrow from '@material-ui/icons/ArrowDownward'
+// import LeftArrow from '@material-ui/icons/ArrowBack'
+// import RightArrow from '@material-ui/icons/ArrowForward'
+// import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
 export const CompletingPreviousJoinHint = [
   'Please select a valid option for each connection before adding more connections.'
 ]
+
+export const AddingMoreJoinHint = [
+  "Doing so will connect your selections to the 'resultant data' from the last connection."
+]
 let joinCounter = [0],
-  joinCount = 0,
+  joinCount = [],
   display,
   table,
   joins
@@ -38,18 +42,13 @@ class JoinWindow extends React.Component {
       open: false,
       clear: false,
       scroll: 'paper',
-      // joinCount: joinCounter.length,
+      joinCount: '',
       descriptionElementRef: null,
       join: false
-      // top: false,
-      // left: false,
-      // bottom: false,
-      // right: false
     }
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.handleReset = this.handleReset(this)
-    // this.handleSave = this.handleSave.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleAddJoin = this.handleAddJoin.bind(this)
     // this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
@@ -62,33 +61,33 @@ class JoinWindow extends React.Component {
         descriptionElement.focus()
       }
     }
-    // console.log("this.props.queryBundle", this.props.queryBundle)
-    // console.log("this.props", this.props.queryBundle)
-  }
-
-  toggleDrawer(anchor, open) {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return
-    }
-    this.setState({...state, [anchor]: open})
   }
 
   handleClickOpen() {
     this.setState({open: true, join: true})
-    // this.setState({join: true})
   }
 
   handleClose() {
-    // this.props.removeJoinTable(this.props.data.tableName, 0, this.props.index)
-    this.setState({open: false})
+    //clears all the incomplete joins started by the user upon exiting
+    joinCount = []
+    joins.map((join, index) => {
+      Array.isArray(join) &&
+        join.map(element => (element === '' ? joinCount.push(index) : false))
+    })
+    joinCount.map(
+      joinId =>
+        joins[joinId]
+          ? this.props.removeJoinTable(this.props.data.tableName, 0, joinId)
+          : ''
+    )
+    table = this.props.data.tableName
+    joins = this.props.queryBundle[table].join
+    console.log(joins, 'Joins after cleanup')(
+      joins.length === 0
+        ? this.setState({join: false, open: false})
+        : this.setState({open: false})
+    )
   }
-
-  // handleSave() {
-  //   this.setState({open: false})
-  // }
 
   handleClear() {
     //clears all the information from joins array in store
@@ -126,7 +125,6 @@ class JoinWindow extends React.Component {
   //   this.setState({joinCount: joinCounter.length})
   // }
 
-  // eslint-disable-next-line complexity
   render() {
     console.log(this.props, 'this.props in ')
     table = this.props.data.tableName
@@ -181,7 +179,7 @@ class JoinWindow extends React.Component {
                 </Typography>
               </Grid>
 
-              {/*Renders all elements of a join mapping over the JoinCounter array incremented everytime a new join is initiated */}
+              {/*Renders all elements of a join mapping over the joins array in queryBundle incremented everytime a new join is initiated */}
 
               {this.state.clear ? (
                 <Grid item md={12}>
@@ -200,7 +198,6 @@ class JoinWindow extends React.Component {
                     joinType=""
                     column1=""
                     column2=""
-                    // clear={this.state.clear}
                   />
                 </Grid>
               ) : (
@@ -213,10 +210,6 @@ class JoinWindow extends React.Component {
                     >
                       What other data table would you like to get data from?
                     </Typography>
-                    {console.log('JOIN[0]arrayin map', join[0])}
-                    {console.log('JOIN[1]arrayin map', join[1])}
-                    {console.log('JOIN[2]arrayin map', join[2])}
-                    {console.log('JOIN[3]arrayin map', join[3])}
                     <Join
                       data={this.props.data}
                       index={index}
@@ -225,19 +218,29 @@ class JoinWindow extends React.Component {
                       joinType={join[1] === undefined ? '' : join[1]}
                       column1={join[2] === undefined ? '' : join[2]}
                       column2={join[3] === undefined ? '' : join[3]}
-                      // clear={this.state.clear}
                     />
                   </Grid>
                 ))
               )}
 
-              {/*Displays option to add more joins once all the elements of a previous join are selected*/}
+              <Divider style={{margin: '10px', height: '2px'}} />
+
+              {/*Displays option to add more joins once all the elements of a previous join are selected and initiates an empty join*/}
               {joins.length > 0 ? (
                 <Fragment>
-                  <Grid item padding="50px">
+                  <Grid item style={{margin: '10px'}}>
                     Need a more complex mojo?
+                    <Tooltip
+                      m={0}
+                      p={0}
+                      item
+                      xs={1}
+                      title={AddingMoreJoinHint[0]}
+                      arrow
+                    >
+                      <HelpIcon fontSize="small" />
+                    </Tooltip>
                   </Grid>
-                  {/*Initiates an empty join element connected to the main table*/}
                   <Button
                     variant="contained"
                     color="primary"
@@ -249,18 +252,22 @@ class JoinWindow extends React.Component {
                 </Fragment>
               ) : (
                 <Fragment>
-                  {/* <Tooltip
-                    m={0}
-                    p={0}
-                    item
-                    xs={1}
-                    title={CompletingPreviousJoinHint[0]}
-                    arrow
-                  > */}
+                  <Grid item style={{margin: '10px'}}>
+                    Need a more complex mojo?
+                    <Tooltip
+                      m={0}
+                      p={0}
+                      item
+                      xs={1}
+                      title={CompletingPreviousJoinHint[0]}
+                      arrow
+                    >
+                      <HelpIcon fontSize="small" />
+                    </Tooltip>
+                  </Grid>
                   <Button variant="contained" color="primary" disabled>
                     Connect more data!
                   </Button>
-                  {/* </Tooltip> */}
                 </Fragment>
               )}
 

@@ -144,15 +144,21 @@ class Join extends React.Component {
           <FormHelperText>Table to Join</FormHelperText>
         </FormControl>
 
-        {/*/////////////////*/}
         {this.state.table2 !== '' ? (
           <Fragment>
-            <Typography variant="body1">
+            <Divider style={{margin: '10px'}} />
+
+            <Typography variant="h6" style={{padding: '10px'}}>
               What kind of relation between your data tables would you like to
               explore?
             </Typography>
 
-            <Typography variant="caption" display="block" gutterBottom>
+            <Typography
+              gutterBottom
+              style={{padding: '10px'}}
+              variant="caption"
+              display="block"
+            >
               Hover over each type to learn more
             </Typography>
 
@@ -169,11 +175,10 @@ class Join extends React.Component {
 
         {this.state.joinType !== '' ? (
           <Fragment>
-            <Typography variant="body1">
+            <Divider style={{margin: '10px'}} />
+            <Typography style={{padding: '10px'}} variant="h6" display="block">
               Help us connect your data in the most relevant manner.
-            </Typography>
-
-            <Typography variant="body1">
+              <br />
               {`What data field in ${table1.slice(
                 table1.indexOf('_') + 1
               )} table
@@ -194,7 +199,8 @@ class Join extends React.Component {
 
         {this.state.column1 !== '' ? (
           <Fragment>
-            <Typography variant="body1">
+            <Divider style={{margin: '10px'}} />
+            <Typography style={{padding: '10px'}} variant="h6" display="block">
               {`What data field in ${table2.slice(
                 table2.indexOf('_') + 1
               )} table
@@ -216,8 +222,6 @@ class Join extends React.Component {
         ) : (
           ''
         )}
-
-        <Divider />
       </Fragment>
     )
   }
