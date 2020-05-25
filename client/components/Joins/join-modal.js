@@ -24,7 +24,7 @@ import {removeJoinTable, addJoinTable} from '../../store/query'
 
 let joinCounter = [0]
 
-class JoinCopy extends React.Component {
+class JoinWindow extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -253,7 +253,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinCopy)
+export default connect(mapStateToProps, mapDispatchToProps)(JoinWindow)
 
 function JoinHeader(props) {
   const useStyles = makeStyles({
