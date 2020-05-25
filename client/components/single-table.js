@@ -4,8 +4,7 @@ import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 
-
-import JoinCopy from './Joins/join-modal'
+import JoinWindow from './Joins/join-modal'
 
 import SelectAll from './select-all'
 
@@ -87,12 +86,9 @@ export default function SingleTable(props) {
             </Typography>
             <SelectAll table={props.tableData} tableName={props.tableName} />
 
+            {/*Joins Modal Entry point*/}
             <Grid item>
-              {props.location.pathname === '/queryBuilder' ? (
-                <JoinCopy data={props} index={0} />
-              ) : (
-                ''
-              )}
+              <JoinWindow data={props} />
             </Grid>
           </TableQueryHeader>
         </Grid>
