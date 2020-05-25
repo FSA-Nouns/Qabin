@@ -4,6 +4,7 @@ import history from '../history'
 const QUERIED_TABLES = 'QUERIED_TABLES'
 
 const queriedTables = tables => {
+  //consider renaming e.g. setResultTables
   return {
     type: QUERIED_TABLES,
     tables

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Pool = require('pg').Pool
-const queryParser = require('../services/queryParser')
+const {queryParser} = require('../services/queryParser')
 const isUserMiddleware = require('../auth/isUser')
 
 let pool
@@ -39,7 +39,7 @@ router.put('/:userId/query', async (req, res, next) => {
       rows.query = query
       allTables.push({[table]: rows})
     }
-    res.send(allTables)
+    res.status(201).send(allTables)
   } catch (err) {
     next(err)
   }
