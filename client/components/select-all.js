@@ -41,7 +41,7 @@ export class SelectAll extends Component {
         color={this.state.clicked ? 'primary' : 'default'}
         onClick={() => this.handleClick()}
       >
-        Select All
+        Select All Fields
       </Button>
     )
   }

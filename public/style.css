@@ -23,9 +23,10 @@ nav a {
   margin: 1em;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .logo {
@@ -66,3 +67,7 @@ form div {
 }
 .direction-select {
 } */
+
+.MuiGridListTileBar-title {
+  font-size: 10px;
+}

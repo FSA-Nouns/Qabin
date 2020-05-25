@@ -4,7 +4,8 @@ import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 
-import JoinCopy from './Joins/join-copy'
+import JoinCopy from './Joins/join-modal'
+
 import SelectAll from './select-all'
 
 import AggregateSelector from './aggregate-selector'
@@ -27,7 +28,8 @@ import {makeStyles} from '@material-ui/styles'
 export default function SingleTable(props) {
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
-      padding: 50,
+      padding: 15,
+      paddingRight: '1rem',
       paddingTop: 0
     },
     bottomSection: {
@@ -41,6 +43,15 @@ export default function SingleTable(props) {
     },
     outerGrid: {
       width: '100%'
+    },
+    firstCol: {
+      width: '40%'
+    },
+    middleCol: {
+      width: '20%'
+    },
+    lastCol: {
+      width: '40%'
     }
   }))
 
@@ -89,9 +100,15 @@ export default function SingleTable(props) {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Field Options</TableCell>
-                  <TableCell align="right">Filter Options</TableCell>
-                  <TableCell align="right">Active Filters</TableCell>
+                  <TableCell className={classes.firstCol}>
+                    Field Options
+                  </TableCell>
+                  <TableCell className={classes.middleCol}>
+                    Filter Options
+                  </TableCell>
+                  <TableCell className={classes.lastCol} align="right">
+                    Active Filters
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

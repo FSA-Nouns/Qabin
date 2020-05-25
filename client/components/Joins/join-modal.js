@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import {Grid, Typography, Button} from '@material-ui/core'
+import {Grid, Typography, Button, AppBar} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
 import {white} from '@material-ui/core/colors'
@@ -22,7 +22,8 @@ import RightArrow from '@material-ui/icons/ArrowForward'
 import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
-let joinCounter = [1]
+let joinCounter = [0]
+
 class JoinCopy extends React.Component {
   constructor(props) {
     super(props)
@@ -32,6 +33,7 @@ class JoinCopy extends React.Component {
       scroll: 'paper',
       joinCount: joinCounter.length,
       descriptionElementRef: null,
+      join: false,
       top: false,
       left: false,
       bottom: false,
@@ -39,10 +41,10 @@ class JoinCopy extends React.Component {
     }
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
-    this.handleSave = this.handleSave.bind(this)
+    // this.handleSave = this.handleSave.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleAddJoin = this.handleAddJoin.bind(this)
-    this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
+    // this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +54,8 @@ class JoinCopy extends React.Component {
         descriptionElement.focus()
       }
     }
+    // console.log("this.props.queryBundle", this.props.queryBundle)
+    // console.log("this.props", this.props.queryBundle)
   }
 
   toggleDrawer(anchor, open) {
@@ -65,29 +69,25 @@ class JoinCopy extends React.Component {
   }
 
   handleClickOpen() {
-    this.setState({open: true})
+    this.setState({open: true, join: true})
     // this.setState({join: true})
   }
 
   handleClose() {
-    this.props.removeJoinTable(this.props.data.tableName, 0, this.props.index)
-    // this.setState({open: false
-    //   , clear: false
-    // })
-    // this.setState({join: false})
+    // this.props.removeJoinTable(this.props.data.tableName, 0, this.props.index)
     this.setState({open: false})
   }
 
-  handleSave() {
-    this.setState({open: false})
-  }
+  // handleSave() {
+  //   this.setState({open: false})
+  // }
 
   handleClear() {
     joinCounter.map((join, index) => {
       this.props.removeJoinTable(this.props.data.tableName, 0, index)
     })
-
-    this.setState({clear: true})
+    joinCounter = [0]
+    this.setState({join: false})
   }
 
   handleAddJoin(event) {
@@ -99,25 +99,27 @@ class JoinCopy extends React.Component {
       0,
       this.props.index + joinCounter.length
     )
-    joinCounter.push(1)
+    let nextNum = joinCounter.length
+    joinCounter.push(nextNum + 1)
     // this.setState({joinCount: joinCounter.length})
   }
 
-  handleRemoveJoin() {
-    // joinCounter.pop()
-    // this.setState({joinCount: joinCounter.length})
-  }
+  // handleRemoveJoin() {
+  //   let joinId = this.joinCount - 1
+  //   joinCounter.pop()
+  //   this.props.removeJoinTable(this.props.data.tableName, 0, joinId)
+  //   this.setState({joinCount: joinCounter.length})
+  // }
 
   render() {
     return (
       <div>
         <Button
           onClick={() => this.handleClickOpen()}
-          // variant="contained"
-          variant="outlined"
-          color="primary"
+          variant={this.state.join ? 'contained' : 'outlined'}
+          color={this.state.join ? 'secondary' : 'secondary'}
         >
-          Join Data Tables
+          {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
 
         <Dialog
@@ -128,104 +130,107 @@ class JoinCopy extends React.Component {
           aria-describedby="scroll-dialog-description"
           fullWidth
         >
-          <DialogTitle id="scroll-dialog-title">
-            <Typography variant="h5">
-              Lets make your data tables talk to each other!
-            </Typography>
-          </DialogTitle>
+          <JoinHeader>
+            <DialogTitle id="scroll-dialog-title">
+              <Grid>
+                <Grid item>
+                  <Typography variant="h4">
+                    Connect your Data! <JoinSteps />
+                  </Typography>
+                </Grid>
+              </Grid>
+            </DialogTitle>
+          </JoinHeader>
 
-          <DialogContent dividers={scroll === 'paper'}>
+          <DialogContent
+            dividers={scroll === 'paper'}
+            style={{padding: '10px'}}
+          >
             <DialogContentText
               id="scroll-dialog-description"
               ref={this.descriptionElementRef}
               tabIndex={-1}
             >
-              <JoinSteps />
-              <Grid
-                container
-                // spacing={4}
-              >
-                <Grid item xs={false} sm={12}>
-                  <Typography variant="h5">
-                    Lets learn some more about your data.
-                  </Typography>
+              <Grid item xs={false} sm={12}>
+                <Typography variant="h5" style={{padding: '10px'}}>
+                  Lets learn some more about your data.
+                </Typography>
+              </Grid>
 
-                  <Typography variant="body1">
+              {joinCounter.map((join, index) => (
+                <Grid item md={12} key={index}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    style={{padding: '10px'}}
+                  >
                     What other data table would you like to get data from?
                   </Typography>
+                  <Join
+                    data={this.props.data}
+                    index={index}
+                    clear={this.state.clear}
+                  />
+                </Grid>
+              ))}
 
-                  {joinCounter.map((join, index) => (
-                    <Grid item md={6} key={index}>
-                      <Join
-                        data={this.props.data}
-                        index={index}
-                        clear={this.state.clear}
-                      />
-                    </Grid>
-                  ))}
+              <Grid item padding="50px">
+                Need a more complex mojo?{' '}
+              </Grid>
 
-                  <Grid item padding="50px">
-                    {' '}
-                    Need a more complex mojo?{' '}
-                  </Grid>
+              <Typography variant="h2" margin="50px" />
 
-                  <Typography variant="h2" margin="50px">
-                    {' '}
-                  </Typography>
-                  {this.props.index >= 0 ? (
+              {this.props.index >= 0 ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  margin="100px"
+                  onClick={event => this.handleAddJoin(event)}
+                >
+                  Connect more data!
+                </Button>
+              ) : (
+                <Fragment>
+                  <Typography variant="h2" />
+                  <Button variant="contained" color="primary" disabled>
+                    Connect more data!
+                  </Button>
+                </Fragment>
+              )}
+
+              {/* {this.state.joinCount > 1 ? (
                     <Button
                       variant="contained"
                       color="primary"
+                      padding="100px"
                       margin="100px"
-                      onClick={event => this.handleAddJoin(event)}
+                      onClick={() => this.handleRemoveJoin}
                     >
-                      Connect more data!
+                      Remove last connection!
                     </Button>
                   ) : (
                     <Fragment>
                       <Typography variant="h2" />
-                      <Button variant="contained" color="primary" disabled>
-                        Connect more data!
+                      <Button variant="contained" color="secondary"
+                      onClick={() => this.handleRemoveJoin}
+                      >
+                      Remove last connection!
                       </Button>
                     </Fragment>
-                  )}
-
-                  {/* <Grid item md={8}>
-                    <Join
-                      data={this.props.data}
-                      index={0}
-                      clear={this.state.clear}
-                    />
-                    {/* {console.log(
-                      'this.state.clear sent as props for index 0',
-                      this.state.clear
-                    )} */}
-                  {/* </Grid> */}
-
-                  {/* <Grid item md={8}>
-                    <Join
-                      data={this.props.data}
-                      index={1}
-                      clear={this.state.clear}
-                    />
-                    {console.log(
-                      'this.state.clear sent as props for index 1',
-                      this.state.clear
-                    )}
-                  </Grid> */}
-                </Grid>
-              </Grid>
+                  )} */}
+              {/* </Grid>
+              </Grid> */}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-            <Button onClick={this.handleSave} color="primary">
+            {/* <Button onClick={this.handleSave} color="primary">
               Save
-            </Button>
+            </Button> */}
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              Done
             </Button>
           </DialogActions>
         </Dialog>
@@ -244,9 +249,37 @@ const mapDispatchToProps = dispatch => {
       dispatch(addJoinTable(tableName, joinArray, index, joinId)),
     removeJoinTable: (tableName, index, joinId) =>
       dispatch(removeJoinTable(tableName, index, joinId))
-    // setJoinColumnElement: (tableName, joinArray, index, joinId) =>
-    //   dispatch(setJoinColumnElement(tableName, joinArray, index, joinId))
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinCopy)
+
+function JoinHeader(props) {
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      height: 50,
+      paddingLeft: 15,
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+    },
+    title: {
+      fontSize: 16
+    },
+    pos: {
+      marginBottom: 12
+    }
+  })
+
+  const classes = useStyles()
+
+  return (
+    <AppBar className={classes.root} position="static">
+      {props.children}
+    </AppBar>
+  )
+}
