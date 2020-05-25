@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import {Grid, Typography, Button, AppBar} from '@material-ui/core'
+import {Grid, Typography, Button, AppBar, Tooltip} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
 import {white} from '@material-ui/core/colors'
@@ -22,7 +22,14 @@ import RightArrow from '@material-ui/icons/ArrowForward'
 import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
-let joinCounter = [0]
+export const CompletingPreviousJoinHint = [
+  'Please select a valid option for each connection before adding more connections.'
+]
+let joinCounter = [0],
+  joinCount = 0,
+  display,
+  table,
+  joins
 
 class JoinWindow extends React.Component {
   constructor(props) {
@@ -31,16 +38,17 @@ class JoinWindow extends React.Component {
       open: false,
       clear: false,
       scroll: 'paper',
-      joinCount: joinCounter.length,
+      // joinCount: joinCounter.length,
       descriptionElementRef: null,
-      join: false,
-      top: false,
-      left: false,
-      bottom: false,
-      right: false
+      join: false
+      // top: false,
+      // left: false,
+      // bottom: false,
+      // right: false
     }
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleReset = this.handleReset(this)
     // this.handleSave = this.handleSave.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleAddJoin = this.handleAddJoin.bind(this)
@@ -65,7 +73,7 @@ class JoinWindow extends React.Component {
     ) {
       return
     }
-    setState({...state, [anchor]: open})
+    this.setState({...state, [anchor]: open})
   }
 
   handleClickOpen() {
@@ -83,25 +91,32 @@ class JoinWindow extends React.Component {
   // }
 
   handleClear() {
-    joinCounter.map((join, index) => {
+    //clears all the information from joins array in store
+    joins.map((join, index) => {
       this.props.removeJoinTable(this.props.data.tableName, 0, index)
     })
     joinCounter = [0]
+    this.props.removeJoinTable(this.props.data.tableName, 0, 0)
     this.setState({join: false})
+    this.setState({clear: true})
+  }
+
+  handleReset() {
+    this.setState({clear: false})
   }
 
   handleAddJoin(event) {
     event.preventDefault()
+    this.setState({clear: false})
     let joinArray = event.target.value
     this.props.addJoinTable(
       this.props.data.tableName,
       joinArray,
       0,
-      this.props.index + joinCounter.length
+      joinCounter.length
     )
-    let nextNum = joinCounter.length
-    joinCounter.push(nextNum + 1)
-    // this.setState({joinCount: joinCounter.length})
+    // increment the Join counter array to account for newly initiated join
+    joinCounter = [...joinCounter, 0](console.log(joinCounter, 'joinCounter'))
   }
 
   // handleRemoveJoin() {
@@ -111,18 +126,26 @@ class JoinWindow extends React.Component {
   //   this.setState({joinCount: joinCounter.length})
   // }
 
+  // eslint-disable-next-line complexity
   render() {
     console.log(this.props, 'this.props in ')
+    table = this.props.data.tableName
+    joins = this.props.queryBundle[table].join
+    console.log(joins, 'JOINS')
+    joins.length === 0 ? (display = joinCounter) : (display = joins)
+    console.log(display, 'DISPLAY')
     return (
       <div>
+        {/*Visible on query page (via Single-table) to enter the Joins Modal*/}
         <Button
           onClick={() => this.handleClickOpen()}
-          variant="outlined"
-          color={this.state.join ? 'secondary' : 'white'}
+          variant={this.state.join ? 'text' : 'outlined'}
+          color="secondary"
         >
           {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
 
+        {/*Joins Dialog Box*/}
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -158,8 +181,10 @@ class JoinWindow extends React.Component {
                 </Typography>
               </Grid>
 
-              {joinCounter.map((join, index) => (
-                <Grid item md={12} key={index}>
+              {/*Renders all elements of a join mapping over the JoinCounter array incremented everytime a new join is initiated */}
+
+              {this.state.clear ? (
+                <Grid item md={12}>
                   <Typography
                     variant="h6"
                     gutterBottom
@@ -169,33 +194,73 @@ class JoinWindow extends React.Component {
                   </Typography>
                   <Join
                     data={this.props.data}
-                    index={index}
-                    clear={this.state.clear}
+                    index={0}
+                    table1={table}
+                    table2=""
+                    joinType=""
+                    column1=""
+                    column2=""
+                    // clear={this.state.clear}
                   />
                 </Grid>
-              ))}
+              ) : (
+                display.map((join, index) => (
+                  <Grid item md={12} key={index}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      style={{padding: '10px'}}
+                    >
+                      What other data table would you like to get data from?
+                    </Typography>
+                    {console.log('JOIN[0]arrayin map', join[0])}
+                    {console.log('JOIN[1]arrayin map', join[1])}
+                    {console.log('JOIN[2]arrayin map', join[2])}
+                    {console.log('JOIN[3]arrayin map', join[3])}
+                    <Join
+                      data={this.props.data}
+                      index={index}
+                      table1={table}
+                      table2={join[0] === undefined ? '' : join[0]}
+                      joinType={join[1] === undefined ? '' : join[1]}
+                      column1={join[2] === undefined ? '' : join[2]}
+                      column2={join[3] === undefined ? '' : join[3]}
+                      // clear={this.state.clear}
+                    />
+                  </Grid>
+                ))
+              )}
 
-              <Grid item padding="50px">
-                Need a more complex mojo?{' '}
-              </Grid>
-
-              <Typography variant="h2" margin="50px" />
-
-              {this.props.index >= 0 ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  margin="100px"
-                  onClick={event => this.handleAddJoin(event)}
-                >
-                  Connect more data!
-                </Button>
+              {/*Displays option to add more joins once all the elements of a previous join are selected*/}
+              {joins.length > 0 ? (
+                <Fragment>
+                  <Grid item padding="50px">
+                    Need a more complex mojo?
+                  </Grid>
+                  {/*Initiates an empty join element connected to the main table*/}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    margin="100px"
+                    onClick={event => this.handleAddJoin(event)}
+                  >
+                    Connect more data!
+                  </Button>
+                </Fragment>
               ) : (
                 <Fragment>
-                  <Typography variant="h2" />
+                  {/* <Tooltip
+                    m={0}
+                    p={0}
+                    item
+                    xs={1}
+                    title={CompletingPreviousJoinHint[0]}
+                    arrow
+                  > */}
                   <Button variant="contained" color="primary" disabled>
                     Connect more data!
                   </Button>
+                  {/* </Tooltip> */}
                 </Fragment>
               )}
 

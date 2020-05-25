@@ -86,12 +86,9 @@ export default function SingleTable(props) {
             </Typography>
             <SelectAll table={props.tableData} tableName={props.tableName} />
 
+            {/*Joins Modal Entry point*/}
             <Grid item>
-              {props.location.pathname === '/queryBuilder' ? (
-                <JoinWindow data={props} index={0} />
-              ) : (
-                ''
-              )}
+              <JoinWindow data={props} />
             </Grid>
           </TableQueryHeader>
         </Grid>

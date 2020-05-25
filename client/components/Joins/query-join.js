@@ -20,6 +20,7 @@ import {makeStyles} from '@material-ui/styles'
 import {theme} from '../../theme'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import JoinTypes from './join-type'
+import {Column1, Column2} from './join-column1'
 // import {joinCounter} from './join-modal'
 
 // let joinType
@@ -28,11 +29,11 @@ class Join extends React.Component {
     super(props)
     this.state = {
       join: false,
-      joinType: '',
-      table1: '',
-      table2: '',
-      column1: '',
-      column2: '',
+      joinType: this.props.joinType,
+      table1: this.props.table1,
+      table2: this.props.table2,
+      column1: this.props.column1,
+      column2: this.props.column2,
       clear: false
     }
     // this.handleClear = this.handleClear.bind(this)
@@ -64,6 +65,7 @@ class Join extends React.Component {
   //   }
   // }
 
+  //Check if that table exists - YES: update selection, NO: add selection
   handleJoinTable(event, index, joinId) {
     event.preventDefault()
     let joinArray = event.target.value
@@ -86,8 +88,9 @@ class Join extends React.Component {
     if (this.state.join === true) {
       this.props.setJoinType(table, joinArray, index, joinId)
       this.setState({joinType: joinArray})
+    } else {
+      this.setState({joinType: ''})
     }
-    // console.log(joinArray, 'JoinArray')
   }
 
   handleColumnElement(table1, table2, event, index, joinId) {
@@ -125,7 +128,7 @@ class Join extends React.Component {
             defaultValue=""
             onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
-            <MenuItem value=""> Select Table to Connect </MenuItem>
+            {/* <MenuItem value=""> Select Table to Connect </MenuItem> */}
             {this.props.data.tableDatas
               .filter(
                 table => Object.keys(table)[0] !== this.props.data.tableName
@@ -142,102 +145,78 @@ class Join extends React.Component {
         </FormControl>
 
         {/*/////////////////*/}
-        <Typography variant="body1">
-          {''}
-          What kind of relation between your data tables would you like to
-          explore?
-        </Typography>
-        <Typography variant="caption" display="block" gutterBottom>
-          Click on ? icon to learn more about each type
-        </Typography>
-        {/*/////////////////*/}
+        {this.state.table2 !== '' ? (
+          <Fragment>
+            <Typography variant="body1">
+              What kind of relation between your data tables would you like to
+              explore?
+            </Typography>
 
-        <JoinTypes
-          handleJoinType={this.handleJoinType}
-          index={this.props.index}
-          tileData={tileData}
-          joinType={this.state.joinType}
-        />
+            <Typography variant="caption" display="block" gutterBottom>
+              Hover over each type to learn more
+            </Typography>
 
-        <Typography variant="body1">
-          Help us connect your data in the most relevant manner.
-        </Typography>
+            <JoinTypes
+              handleJoinType={this.handleJoinType}
+              index={this.props.index}
+              tileData={tileData}
+              joinType={this.state.joinType}
+            />
+          </Fragment>
+        ) : (
+          ''
+        )}
 
-        <Typography variant="body1">
-          {`What data field in ${table1.slice(table1.indexOf('_') + 1)}
-          is common with ${table2.slice(table2.indexOf('_') + 1)}?`}
-        </Typography>
+        {this.state.joinType !== '' ? (
+          <Fragment>
+            <Typography variant="body1">
+              Help us connect your data in the most relevant manner.
+            </Typography>
 
-        <FormControl spacing="1" fullWidth>
-          <InputLabel id="Column-Table-1" minWidth="500">
-            Field in Table 1
-          </InputLabel>
-          <Select
-            labelId="Column-Table-2"
-            id="Column-Table-1"
-            labelWidth="240"
-            defaultValue=""
-            onChange={event =>
-              this.handleColumnElement(
-                table1,
-                table1,
-                event,
-                2,
-                this.props.index
-              )
-            }
-          >
-            <MenuItem> Select Column 1 </MenuItem>
-            {this.props.data.tableDatas.map(table => {
-              if (table[table1] !== undefined) {
-                return Object.keys(table[table1].rows[0]).map(column => (
-                  <MenuItem key={column} value={column}>
-                    {column}
-                  </MenuItem>
-                ))
-              }
-            })}
-          </Select>
-          <FormHelperText>Table 1 Field</FormHelperText>
-        </FormControl>
+            <Typography variant="body1">
+              {`What data field in ${table1.slice(
+                table1.indexOf('_') + 1
+              )} table
+                is common with ${table2.slice(table2.indexOf('_') + 1)} table?`}
+            </Typography>
 
-        <Typography variant="body1">
-          {`What data field in ${table2.slice(table2.indexOf('_') + 1)}
-         is common with ${this.state.column1} from ${table1.slice(
-            table1.indexOf('_') + 1
-          )}?`}
-        </Typography>
+            <Column1
+              data={this.props.data}
+              index={this.props.index}
+              handleColumnElement={this.handleColumnElement}
+              column1={this.state.column1}
+              table1={this.state.table1}
+            />
+          </Fragment>
+        ) : (
+          ''
+        )}
 
-        <FormControl className="formControl" spacing="1" fullWidth>
-          <InputLabel id="Column-Table-2">Field in Table 2</InputLabel>
-          <Select
-            labelId="Column-Table-2"
-            id="Column-Table-2"
-            // value={event.target.value}
-            onChange={event =>
-              this.handleColumnElement(
-                table1,
-                table2,
-                event,
-                3,
-                this.props.index
-              )
-            }
-            defaultValue=""
-          >
-            <MenuItem>Select Column 2 </MenuItem>
-            {this.props.data.tableDatas.map(table => {
-              if (table[table2] !== undefined) {
-                return Object.keys(table[table2].rows[0]).map(column => (
-                  <MenuItem key={column} value={column}>
-                    {column}
-                  </MenuItem>
-                ))
-              }
-            })}
-          </Select>
-          <FormHelperText>Table 2 Field</FormHelperText>
-        </FormControl>
+        {this.state.column1 !== '' ? (
+          <Fragment>
+            <Typography variant="body1">
+              {`What data field in ${table2.slice(
+                table2.indexOf('_') + 1
+              )} table
+                is common with ${this.state.column1} from ${table1.slice(
+                table1.indexOf('_') + 1
+              )} table?`}
+            </Typography>
+
+            <Column2
+              data={this.props.data}
+              index={this.props.index}
+              handleColumnElement={this.handleColumnElement}
+              column1={this.state.column1}
+              column2={this.state.column2}
+              table1={this.state.table1}
+              table2={this.state.table2}
+            />
+          </Fragment>
+        ) : (
+          ''
+        )}
+
         <Divider />
       </Fragment>
     )
