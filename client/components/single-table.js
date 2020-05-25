@@ -5,13 +5,11 @@ import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
 
 import JoinCopy from './Joins/join-copy'
-
 import SelectAll from './select-all'
 
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
-  TextField,
   Table,
   TableBody,
   TableCell,

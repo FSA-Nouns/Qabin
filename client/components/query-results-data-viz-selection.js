@@ -1,12 +1,4 @@
-import {
-  Grid,
-  Card,
-  List,
-  ListItem,
-  Typography,
-  Button,
-  AppBar
-} from '@material-ui/core'
+import {Grid, Card, Button} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
 import React, {useState} from 'react'
@@ -42,7 +34,6 @@ export default function QueryResultsDataVizSelect(props) {
       </Button>
       <SimpleCard>
         {dataVizOptions.map(option => {
-          console.log(option, dataVizStyle)
           return (
             <Button
               className={classes.buttonLabel}

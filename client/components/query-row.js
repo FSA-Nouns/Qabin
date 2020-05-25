@@ -74,7 +74,6 @@ const parseCondition = (operator, value) => {
 
 const conditionalDict = (field, headers, filterArray) => {
   const dataType = headers[field]
-  console.log(dataType)
   const operator = parseOperator(filterArray, dataType)
   // const curatedField = (dataType === 'date') ? field.split('(')[1].slice(0, -1) : field;
   const condition = parseCondition(operator, filterArray[2])
@@ -201,7 +200,6 @@ class QueryRow extends Component {
         this.setState({checked: true})
       }
     }
-    console.log(prevProps.queryBundle[this.props.tableName].fields)
     if (
       this.props.queryBundle[this.props.tableName].selectAll === true &&
       this.state.checked === false
@@ -220,7 +218,6 @@ class QueryRow extends Component {
   }
 
   render() {
-    console.log('CHECKED ON Q-ROW', this.state.checked)
     return (
       <TableRow>
         <TableCell align="left" scope="row">

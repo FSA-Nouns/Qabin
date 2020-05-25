@@ -74,7 +74,6 @@ class Join extends React.Component {
 
   handleJoinType(title, index, joinId) {
     // event.preventDefault()
-    console.log('event in join type', title)
     let joinArray = title
     let table = this.props.data.tableName
     if (this.state.join === true) {
@@ -137,7 +136,7 @@ class Join extends React.Component {
         </FormControl>
 
         <Typography variant="body2">
-          {''}
+          
           What kind of relation between your data tables would you like to
           explore?
         </Typography>
