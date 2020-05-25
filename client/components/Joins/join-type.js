@@ -4,6 +4,16 @@ import {makeStyles} from '@material-ui/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
 // import JoinTooltips, {JoinTypeHints} from './join-tooltips'
 
+export const JoinTypeHints = [
+  'Left nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Left - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Right nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Right - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Full nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'Full - OUTER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
+  'INNER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs'
+]
+
 export default function JoinTypes(props) {
   const useStyles = makeStyles(theme => ({
     root: {
@@ -23,13 +33,13 @@ export default function JoinTypes(props) {
       '&:hover, &$focusVisible, &$onClick': {
         zIndex: 1,
         '& $imageBackdrop': {
-          opacity: 0
+          // opacity: '0'
         },
         '& $imageMarked': {
-          opacity: 0
+          // opacity: '0'
         },
         '& $imageTitle': {
-          border: '4px solid currentColor'
+          // border: '4px solid currentColor'
         }
       }
     },
@@ -100,7 +110,7 @@ export default function JoinTypes(props) {
                 image.title === props.joinType
                   ? '10px solid #00E676'
                   : '10px solid white',
-              opacity: image.title === props.joinType ? '100' : '0.9'
+              opacity: image.title === props.joinType ? '100' : '70'
             }}
             onClick={() => props.handleJoinType(image.title, 1, props.index)}
           >
@@ -128,13 +138,3 @@ export default function JoinTypes(props) {
     </div>
   )
 }
-
-export const JoinTypeHints = [
-  'Left nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Left - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Right nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Right - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Full nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Full - OUTER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'INNER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs'
-]
