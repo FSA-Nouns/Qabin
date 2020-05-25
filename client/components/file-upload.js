@@ -1,28 +1,28 @@
 import {connect} from 'react-redux'
 import React from 'react'
-import {addFiles, parseFiles, setFiles} from '../store/upload'
-import {Link} from 'react-router-dom'
-import history from '../history'
-import {Button, Grid, Typography, IconButton} from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded'
+import {addFiles, setFiles} from '../store/upload'
+import {Button, Grid, Typography} from '@material-ui/core'
 
 class FileUpload extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // React State boolean that's set to true on initial file upload
       uploaded: false
     }
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
+  // Set initial files property on Redux state to an empty array
   componentDidMount() {
     this.props.setFiles([])
   }
 
+  // File for uploading to database
   handleUploadFiles(ev) {
     ev.preventDefault()
 
+    // Instantiating formData element to append .csv file info and send to Redux then to database
     const data = new FormData()
     for (var i = 0; i < this.uploadInput.files.length; i++) {
       let file = this.uploadInput.files[i]
@@ -45,6 +45,7 @@ class FileUpload extends React.Component {
             (aside from underlines) and should be unique.
           </Typography>
           <Grid item>
+            {/* Providing input and corresponding ref for use in handleUploadFiles */}
             <input
               ref={ref => {
                 this.uploadInput = ref
@@ -70,8 +71,7 @@ class FileUpload extends React.Component {
 
 const mapStateToProps = state => ({
   files: state.files,
-  user: state.user,
-  tableNames: state.files.tableNames
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => {

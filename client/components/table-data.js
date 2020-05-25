@@ -16,6 +16,7 @@ import {
   Tooltip
 } from '@material-ui/core'
 
+// Tab Panel component used for rendering tabs for table selection
 function TabPanel(props) {
   const {children, value, index, ...other} = props
 
@@ -36,12 +37,14 @@ function TabPanel(props) {
   )
 }
 
+// Setting propTypes for table
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 }
 
+// Function to return styling for tabs
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -49,6 +52,7 @@ function a11yProps(index) {
   }
 }
 
+// List stylings
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -60,6 +64,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// Tooltips message array
 const tips = [
   "For all your general text purposes. Use for any names, titles, symbols, tickers, or any set of numbers that you won't perform operations on.",
   'Any numbers that do not contain decimals, i.e. whole numbers only.',
@@ -69,9 +74,12 @@ const tips = [
 ]
 
 export default function TableData(props) {
+  // Instantiating array of supported dataTypes
   const dataTypes = ['Text', 'Integer', 'Real', 'Boolean', 'Date']
+  // Using React hooks to support tabs UX
   const [selectedTable, setSelecedTable] = useState(0)
 
+  // Function to handle table selection change
   const handleChange = (event, newValue) => {
     setSelecedTable(newValue)
   }
@@ -82,6 +90,7 @@ export default function TableData(props) {
     <Grid item>
       <Grid container direction="column" alignItems="center" wrap="nowrap">
         {/* <Typography variant="h4">{props.tableName.slice(props.tableName.indexOf('_') + 1)}</Typography> */}
+        {/* AppBar componene for table selection */}
         <AppBar position="static">
           <Tabs
             value={selectedTable}
@@ -101,6 +110,7 @@ export default function TableData(props) {
             })}
           </Tabs>
         </AppBar>
+        {/* Mapping over each table to render panels for each tables corresponding tab component. */}
         {props.tableData.map((table, index) => {
           return (
             <TabPanel value={selectedTable} key={index} index={index}>
@@ -115,6 +125,7 @@ export default function TableData(props) {
                     wrap="nowrap"
                   >
                     <Grid item m={0} p={0} xs={2} />
+                    {/* Mapping over each dataType to render its corresponding Tooltip component. */}
                     {dataTypes.map((element, j) => {
                       return (
                         <Grid m={0} p={0} item xs={1} key={element}>
@@ -134,6 +145,7 @@ export default function TableData(props) {
                 </ListSubheader>
                 <ListItem key={index}>
                   <Grid container direction="column" wrap="nowrap">
+                    {/* Mapping over the headers of each column from the .csv file to render each data type selection row. */}
                     {Object.keys(table[Object.keys(table)[0]].rows[0]).map(
                       (element, i) => {
                         return (
@@ -143,7 +155,6 @@ export default function TableData(props) {
                                 tableName={Object.keys(table)[0]}
                                 key={i}
                                 element={element}
-                                index={index}
                               />
                             </Grid>
                           </Grid>

@@ -1,14 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Button} from '@material-ui/core'
-import {
-  selectAll,
-  unselectAll,
-  addFieldElement,
-  removeFieldElement
-} from '../store/query'
+import {selectAll, unselectAll, removeFieldElement} from '../store/query'
 
+// SelectAll React Class comp. provides a button that a user can click on
+// to select to query every column in a table.
 export class SelectAll extends Component {
+  // SelectAll comp. uses boolean clicked property on state based on what's on the store
   constructor(props) {
     super(props)
     this.state = {
@@ -16,6 +14,11 @@ export class SelectAll extends Component {
     }
   }
 
+  // On user's click of the Select All button, we check state.
+  // If state is false or undefined, we set the selectAll prop. on
+  // Redux to be true and set the local clicked state to true.
+  // Else, we set selectAll prop. to false, set local state to false,
+  // and remove queried field elements from the queryBundle on store.
   handleClick() {
     if (!this.state.clicked) {
       this.props.selectAll(this.props.tableName)
@@ -29,11 +32,15 @@ export class SelectAll extends Component {
     }
   }
 
+  // On update of component, we check if the selectAll prop. on the store
+  // matches the local clicked state, and if not, we set the local clicked state to match
+  // what's on the store.
   componentDidUpdate() {
     if (this.props.selectAllState !== this.state.clicked)
       this.setState({clicked: !this.state.clicked})
   }
 
+  // Rendering a button that performs the handleClick function upon user's click
   render() {
     return (
       <Button
@@ -54,8 +61,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   selectAll: tableName => dispatch(selectAll(tableName)),
   unselectAll: tableName => dispatch(unselectAll(tableName)),
-  addFieldElement: (tableName, field) =>
-    dispatch(addFieldElement(tableName, field)),
   removeFieldElement: (tableName, field) =>
     dispatch(removeFieldElement(tableName, field))
 })

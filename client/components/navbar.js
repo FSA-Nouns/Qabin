@@ -1,16 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {Grid, Card, List, ListItem, Typography, Button} from '@material-ui/core'
+import {Grid, Typography, Button} from '@material-ui/core'
 import ProgressionBar from './stepper'
 import {makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 
-import {grey} from '@material-ui/core/colors'
-
+// setting styles for different tags within nav-bar jsx
 const useStyles = makeStyles(() => ({
   authBox: {
     width: '100%'
@@ -30,6 +28,9 @@ const useStyles = makeStyles(() => ({
 const Navbar = props => {
   const classes = useStyles()
 
+  // Passed isLoggedIn from routes.js component returns a boolean
+  // used to determine whether to render login or sign up on navbar.
+  // Passed handleClick from mapDispatch below.
   const {handleClick, isLoggedIn} = props
   return (
     <Grid container alignItems="center" className={classes.root}>

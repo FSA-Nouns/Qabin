@@ -1,6 +1,7 @@
 import React from 'react'
 import {Grid, Typography} from '@material-ui/core'
 
+// Grid containing Typography elements describing steps for user
 export default function HomeSteps() {
   return (
     <Grid container direction="column">

@@ -1,19 +1,10 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {
-  Grid,
-  List,
-  ListItem,
-  Box,
-  Tabs,
-  Tab,
-  Card,
-  Typography,
-  AppBar
-} from '@material-ui/core'
+import {Grid, Box, Tabs, Tab, Card, Typography, AppBar} from '@material-ui/core'
 import StickyHeaderTable from './query-result-table'
 
+// Tab Panel component used for rendering tabs for table selection
 function TabPanel(props) {
   const {children, value, index, ...other} = props
 
@@ -34,6 +25,8 @@ function TabPanel(props) {
   )
 }
 
+// Function to return styling for tabs
+
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -41,26 +34,15 @@ function a11yProps(index) {
   }
 }
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    paddingTop: 0,
-    backgroundColor: theme.palette.background.paper,
-    position: 'relative',
-    overflow: 'auto',
-    maxHeight: 300
-  }
-}))
-
+// Setting propTypes for table
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 }
 
+// Function  that returns array of each column header
 const makeColumns = (tableName, tableData, tableResult) => {
-  let tableObj = tableData.find(table => Object.keys(table)[0] === tableName)
-  let headers = tableObj[tableName].headers
   return Object.keys(tableResult[tableName].rows[0]).reduce(
     (columns, header) => {
       let column = {
@@ -78,13 +60,13 @@ const makeColumns = (tableName, tableData, tableResult) => {
 }
 
 export default function TableExtract(props) {
+  // Using React hooks to support tabs UX
   const [selectedTable, setSelecedTable] = useState(0)
 
+  // Function to handle table selection change
   const handleChange = (event, newValue) => {
     setSelecedTable(newValue)
   }
-
-  const classes = useStyles()
 
   return (
     <Grid container direction="column" alignItems="center" wrap="nowrap">
@@ -107,6 +89,7 @@ export default function TableExtract(props) {
           })}
         </Tabs>
       </AppBar>
+      {/* Mapping over each uploaded table to render corresponding sample table. */}
       {props.tableData.map((table, index) => {
         let tableName = Object.keys(table)[0]
 
@@ -129,49 +112,5 @@ export default function TableExtract(props) {
         )
       })}
     </Grid>
-    // <div>
-    //   <h2>{props.tableName}</h2>
-    //   <table className="table-Extract">
-    //     <thead>
-    //       <tr>
-    //         {Object.keys(props.tableData[props.tableName].rows[0]).map(
-    //           (column, index) => <th key={index}>{column}</th>
-    //         )}
-    //       </tr>
-    //     </thead>
-
-    //     <tbody>
-    //       {props.tableData[props.tableName].rows.map((rows, index) => {
-    //         let data = props.tableData[props.tableName].rows[index]
-    //         let values = Object.values(rows)
-    //         return (
-    //           <tr key={index}>
-    //             {values.map((element, indexA) => {
-    //               return <td key={indexA}>{element}</td>
-    //             })}
-    //           </tr>
-    //         )
-    //       })}
-    //     </tbody>
-    //   </table>
-    // </div>
   )
-}
-
-function SimpleCard(props) {
-  const useStyles1 = makeStyles({
-    root: {
-      margin: 15
-    },
-    title: {
-      fontSize: 14
-    },
-    pos: {
-      marginBottom: 12
-    }
-  })
-
-  const classes = useStyles1()
-
-  return <Card className={classes.root}>{props.children}</Card>
 }

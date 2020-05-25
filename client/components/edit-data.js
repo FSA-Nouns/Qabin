@@ -3,15 +3,16 @@ import {connect} from 'react-redux'
 import {gotTables, addHeaderType} from '../store/editData'
 import TableExtract from './table-extract'
 import {makeStyles} from '@material-ui/core/styles'
-import SingleTable from './single-table'
 import TableData from './table-data'
 import {parseFilesWithDataType} from './../store/upload'
 import {Grid, Button, Card, Typography} from '@material-ui/core'
 
+// Function that returns boolean based on whether the fileName
+// matches the table name and is contained in props.
 const checkFileInFileNames = (tableName, fileNames, user) => {
   return fileNames.reduce((bool, file) => {
     let fileName = file.path.split('/') // to get the file name for the table name
-    fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
+    fileName = fileName[fileName.length - 1].split('.') //getting last leg of the path of the file name
     if (`user${user.id}_${fileName[0]}`.toLowerCase() === tableName) {
       bool = true
     }
@@ -20,10 +21,9 @@ const checkFileInFileNames = (tableName, fileNames, user) => {
   }, false)
 }
 
+// Component dedicated to use selection of data types for newly uploaded table
 export class EditData extends Component {
-  // constructor() {
-  //     super()
-  // }
+  // Obtain tables from Redux state on render
   componentDidMount() {
     this.props.gotTables(
       this.props.user.id,
@@ -33,12 +33,18 @@ export class EditData extends Component {
   }
 
   render() {
+    // Filtering out tables that were previously uploaded.
     const tables = this.props.tableData.filter(
       table => !table[Object.keys(table)[0]].old
     )
     return (
       <Grid container direction="row">
         <Grid item align="left" sm={3}>
+          {/* 
+            Card for submitting user-selected data-types and sending these 
+            data-types to parsing function and putting parsed tables onto database.
+            Also contains user guidelines.
+          */}
           <SimpleCard>
             <Button
               variant="contained"
@@ -85,6 +91,11 @@ export class EditData extends Component {
             </Grid>
           </SimpleCard>
         </Grid>
+        {/* 
+          Ensuring error isn't throw while rendering before tableData is put on state.
+          Section contains stateless TableData component that renders data-type
+          selection rows.
+         */}
         {this.props.tableData.length ? (
           <Grid item sm={9}>
             <Grid container direction="row" alignItems="flex-start">
@@ -103,6 +114,7 @@ export class EditData extends Component {
                 />
               </Grid>
               <Grid item xs={12} lg={12}>
+                {/* Rendering table sample returned from parser. */}
                 <TableExtract
                   tableData={this.props.tableData.filter(
                     table =>
@@ -146,7 +158,6 @@ function SimpleCard(props) {
 
 const mapStateToProps = state => ({
   user: state.user,
-  tableNames: state.files.tableNames,
   files: state.files,
   tableData: state.tableData
 })

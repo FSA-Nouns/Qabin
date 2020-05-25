@@ -8,18 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import {Grid, Typography, Button, AppBar} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
-import {white} from '@material-ui/core/colors'
-import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
-import ListItem from '@material-ui/core/ListItem'
-import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
-import DownArrow from '@material-ui/icons/ArrowDownward'
-import LeftArrow from '@material-ui/icons/ArrowBack'
-import RightArrow from '@material-ui/icons/ArrowForward'
-import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
 let joinCounter = [0]
@@ -54,8 +43,6 @@ class JoinCopy extends React.Component {
         descriptionElement.focus()
       }
     }
-    // console.log("this.props.queryBundle", this.props.queryBundle)
-    // console.log("this.props", this.props.queryBundle)
   }
 
   toggleDrawer(anchor, open) {

@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, FileUpload, EditData} from './components'
+import {Login, Signup, EditData} from './components'
 import {me} from './store'
 import QueryData from './components/query-data'
 import QueryResult from './components/query-result'
@@ -12,7 +12,7 @@ import {Grid} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 
 /**
- * COMPONENT
+ * Main browser URL and paired components set here
  */
 class Routes extends Component {
   componentDidMount() {

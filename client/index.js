@@ -9,6 +9,7 @@ import App from './app'
 // establishes socket connection
 import './socket'
 
+// providing Redux store and BrowserHistory
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

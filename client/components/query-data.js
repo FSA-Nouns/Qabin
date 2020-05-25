@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {gotTables} from '../store/editData'
 import SingleTable from './single-table'
 import {submitQuery} from '../store/result'
 import {clearAllSelected} from '../store/selectedTables'
@@ -14,6 +13,7 @@ import {Button, Grid, Card, Typography, Box} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {getUserTables} from '../store/tables'
 
+// Simple Card styling
 function SimpleCard(props) {
   const useStyles1 = makeStyles({
     root: {
@@ -33,6 +33,11 @@ function SimpleCard(props) {
   return <Card className={classes.root}>{props.children}</Card>
 }
 
+// Button styling and onClick action
+// On user click, we submit the query bundle via the submitQuery action.
+// submitQuery action sends a PUT request to parse the query bundle and submit
+// the query to the database via PostgreSQL Pool.
+// Button disabled until user selects tables.
 const SubmitButton = props => {
   const useStyles = makeStyles(() => ({
     root: {
@@ -62,15 +67,12 @@ const SubmitButton = props => {
 }
 
 export class QueryData extends Component {
-  constructor() {
-    super()
-    this.state = {
-      aggSelect: false,
-      groupSelect: false,
-      bothSelect: false
-    }
-  }
-
+  // Each time component renders check if tableNames are mapped to props.
+  // If not, tableNames are set on state
+  // Else we place retrieve the user's tables from the database.
+  // Finally, set all tables selectAll property on store to false via the
+  // unselectAll action and set selected tables on store to empty array via
+  // the clearTables action.
   componentDidMount() {
     if (this.props.tableName) {
       this.props.setTables(this.props.tableNames)
@@ -88,6 +90,7 @@ export class QueryData extends Component {
         <Grid container direction="row">
           <Grid item align="left" sm={3}>
             <Grid container direction="column">
+              {/* Query submit button */}
               <SubmitButton
                 selectedTables={this.props.selectedTables}
                 submitQuery={this.props.submitQuery}
@@ -95,6 +98,7 @@ export class QueryData extends Component {
                 user={this.props.user}
               />
               <Grid item>
+                {/* Card containing user guidelines */}
                 <SimpleCard>
                   <Grid container direction="column">
                     <Grid container direction="column">
@@ -124,9 +128,17 @@ export class QueryData extends Component {
             </Grid>
           </Grid>
           <Grid item sm={9}>
+            {/* 
+              Checking if user has selected tables; if so,
+               map over each selected table;
+               else, render "No Tables Selected"
+            */}
             {this.props.selectedTables.length > 0 ? (
+              // Mapping over each selected table, rendering SingleTable comp.
               this.props.selectedTables.map((table, index) => {
+                // Setting variable to reference corresponding table index on store
                 let tableIndex = this.props.files.tableNames.indexOf(table)
+                // Variable refering this table's data on store
                 let singleTableData = this.props.tableData[tableIndex]
                 return (
                   <Grid
@@ -140,7 +152,6 @@ export class QueryData extends Component {
                   >
                     <SingleTable
                       tableData={singleTableData[table]}
-                      tableDatas={this.props.tableData}
                       index={index}
                       tableName={Object.keys(singleTableData)[0]}
                       location={this.props.location}

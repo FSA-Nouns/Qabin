@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {addHeaderType} from '../store/editData'
 import {Button, Grid, Box} from '@material-ui/core'
-// import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab'
-import Crop75OutlinedIcon from '@material-ui/icons/Crop75Outlined'
 
+// Component used to render each data type selection row.
+// State is a string representing user's choice of data type
+// for a given column header.
 export class DataTypeRow extends Component {
   constructor(props) {
     super(props)
@@ -13,6 +14,9 @@ export class DataTypeRow extends Component {
     }
   }
 
+  // Each time this component renders we check the clickCheck property on the Redux store.
+  // If true, we set state to the value of the clickCheck property.
+  // If false, we automatically set the data type to 'text', corresponding to VARCHAR in SQL.
   componentDidMount() {
     if (this.props.clickCheck) {
       this.setState({clicked: this.props.clickCheck})
@@ -21,6 +25,7 @@ export class DataTypeRow extends Component {
     }
   }
 
+  // Setting the state to the clicked Button's value and overwriting the previous header type on the store.
   handleClick = value => {
     this.setState({
       clicked: value
@@ -31,6 +36,7 @@ export class DataTypeRow extends Component {
   // eslint-disable-next-line complexity
   render() {
     let elemName = ''
+    // Setting a variable holding the column header name we wish to render.
     if (this.props.element.includes('_')) {
       let elemArr = this.props.element.split('_')
       elemArr.forEach((el, i) => {
@@ -99,6 +105,7 @@ export class DataTypeRow extends Component {
           </Button>
         </Box>
         <Box p={2} mb={0} sm={1}>
+          {/* Button rendered for each data type. */}
           <Button
             style={{
               maxWidth: '80px',

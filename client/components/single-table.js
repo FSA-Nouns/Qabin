@@ -3,11 +3,8 @@ import QueryRow from './query-row'
 import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
-
 import JoinCopy from './Joins/join-modal'
-
 import SelectAll from './select-all'
-
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
@@ -25,7 +22,10 @@ import {
 
 import {makeStyles} from '@material-ui/styles'
 
+// SingleTable is a stateless React comp. for rendering each query table
+// for all user-selected tables.
 export default function SingleTable(props) {
+  // SingleTable comp. styling
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
       padding: 15,
@@ -79,12 +79,15 @@ export default function SingleTable(props) {
         md={6}
       >
         <Grid name="tablename and join buttons (lvl 3)" container item>
+          {/* Rendering TableQueryHeader comp. for each table on store */}
           <TableQueryHeader>
             <Typography variant="h6">
               {props.tableName.slice(props.tableName.indexOf('_') + 1)}
             </Typography>
+            {/* Rendering select-all button with functionality */}
             <SelectAll table={props.tableData} tableName={props.tableName} />
 
+            {/* Rendering Join button and functionality */}
             <Grid item>
               {props.location.pathname === '/queryBuilder' ? (
                 <JoinCopy data={props} index={0} />
