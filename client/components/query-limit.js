@@ -80,7 +80,7 @@ class QueryLimit extends Component {
             direction
             row
             alignItems="center"
-            justify="space-between"
+            justify="flex-end"
             xs={5}
           >
             <Typography variant="body2">Limit: {this.state.limit}</Typography>
