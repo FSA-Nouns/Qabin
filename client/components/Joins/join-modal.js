@@ -138,7 +138,7 @@ class JoinWindow extends React.Component {
         <Button
           onClick={() => this.handleClickOpen()}
           variant={this.state.join ? 'text' : 'outlined'}
-          color="secondary"
+          color={this.state.join ? 'secondary' : 'inherit'}
         >
           {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>

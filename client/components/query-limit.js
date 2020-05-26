@@ -60,12 +60,12 @@ class QueryLimit extends Component {
               <Input name="limit" id={this.props.tableName} />
               <br />
               <Button
-                variant="contained"
-                color="primary"
+                variant={this.state.limit !== '' ? 'outlined' : 'contained'}
+                color={this.state.limit !== '' ? 'secondary' : 'primary'}
                 size="small"
                 type="submit"
               >
-                Set Limit
+                {this.state.limit !== '' ? 'Limit Set' : 'Set Limit'}
               </Button>
             </FormControl>
           </form>
