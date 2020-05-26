@@ -147,21 +147,15 @@ SQL defaults to ASC/alphabetical order
 */
 
 function parseOrderBy(table, orderByArray) {
-  let query = ''
-  if (Object.keys(orderByArray[0]).length) {
-    query += ' ORDER BY'
-    query += orderByArray.reduce((string, value, index) => {
-      string += ` ${table}.` + `${Object.keys(value)}`.split(' ')[0]
-
-      if (Object.values(value)[0] !== '') {
-        string += ' ' + `${Object.values(value)}`.split(' ')[0]
-      }
-      if (index < orderByArray.length - 1) {
-        string += ','
-      }
-      return string
-    }, '')
-  }
+  let query = orderByArray.length ? ' ORDER BY' : ''
+  query += orderByArray.reduce((string, index) => {
+    string += ` ${table}.${Object.keys(index)[0]}`
+    string += Object.values(index) !== null ? ` ${Object.values(index)[0]}` : ''
+    if (index < orderByArray.length - 1) {
+      string += ','
+    }
+    return string
+  }, '')
   return query
 }
 
