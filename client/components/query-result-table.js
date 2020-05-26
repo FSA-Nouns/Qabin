@@ -17,8 +17,8 @@ import TableRow from '@material-ui/core/TableRow'
 // }
 
 const getDateValue = value => {
-  if (value.match(/\d{4}-\d{2}-\d{2}T/)) {
-    return value.match(/\d{4}-\d{2}-\d{2}/g)[0]
+  if (String(value).match(/\d{4}[-/]\d{2}[-/]\d{2}T/)) {
+    return value.match(/\d{4}[-/]\d{2}[-/]\d{2}/g)[0]
   }
   return value
 }
