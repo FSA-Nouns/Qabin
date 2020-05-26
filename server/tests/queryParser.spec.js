@@ -72,11 +72,7 @@ const queryBundle1 = {
   },
   user3_users: {}
 }
-// describe('queryParser', () => {
-//   it('Converts a querybundle object into a correctly ordered and formatted SQL query', () => {
-//     expect(queryParser(table, queryObj1, queryBundle1)).to.equal('')
-//   })
-// })
+
 describe('parseWhere', function() {
   it('Returns an empty string if no conditions are specified', () => {
     expect(parseWhere('example_table_name', [])).to.equal(' ')
