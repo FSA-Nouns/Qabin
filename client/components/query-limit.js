@@ -74,7 +74,15 @@ class QueryLimit extends Component {
         </Grid>
 
         {this.state.limit ? (
-          <Grid item container direction row alignItems="center" xs={5}>
+          <Grid
+            item
+            container
+            direction
+            row
+            alignItems="center"
+            justify="space-between"
+            xs={5}
+          >
             <Typography variant="body2">Limit: {this.state.limit}</Typography>
             <IconButton
               onClick={() => this.clearlimit(this.props.tableName)}

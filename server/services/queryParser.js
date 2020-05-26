@@ -161,9 +161,7 @@ function parseOrderBy(table, orderByArray) {
 
 // the limit parameter stores a 1-element array with the desired limit as it's value
 function parseLimit(limitArr) {
-  let query = limitArr.length
-    ? ` LIMIT ${Math.abs(parseInt(limitArr[0], 10))}`
-    : ''
+  let query = limitArr.length ? ` LIMIT ${limitArr[0]}` : ''
   return query
 }
 
