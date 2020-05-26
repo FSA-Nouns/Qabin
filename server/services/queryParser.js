@@ -43,9 +43,16 @@ function parseWhere(table, whereArr) {
         : `'${criteria[2]}'`
 
     if (index === whereArr.length - 1) {
-      string += `${table}.${field} ${operator} ${value}` //Why are we appending table.field?
+      string += field.includes('TRUNC(')
+        ? `TRUNC(${table}.${field.replace('TRUNC(', '')} ${operator} ${value}`
+        : `${table}.${field} ${operator} ${value}`
     } else {
-      string += `${table}.${field} ${operator} ${value} AND `
+      string += field.includes('TRUNC(')
+        ? `TRUNC(${table}.${field.replace(
+            'TRUNC(',
+            ''
+          )} ${operator} ${value} AND`
+        : `${table}.${field} ${operator} ${value} AND`
     }
     return string
   }, ' ')

@@ -9,6 +9,20 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 
+// const formateDate = (date) => {
+//   const dd = String(date.getDate()).padStart(2, '0')
+//   const mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+//   const yyyy = date.getFullYear()
+//   return mm + '/' + dd + '/' + yyyy
+// }
+
+const getDateValue = value => {
+  if (value.match(/\d{4}-\d{2}-\d{2}T/)) {
+    return value.match(/\d{4}-\d{2}-\d{2}/g)[0]
+  }
+  return value
+}
+
 // const columns = [
 //   { id: 'name', label: 'Name', minWidth: 170 },
 //   { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
@@ -103,7 +117,9 @@ export default function StickyHeadTable(props) {
                       <TableCell key={column.id} align={column.align}>
                         {column.format && typeof value === 'number'
                           ? column.format(value)
-                          : typeof value === 'boolean' ? `${value}` : value}
+                          : typeof value === 'boolean'
+                            ? `${value}`
+                            : getDateValue(value)}
                       </TableCell>
                     )
                   })}
