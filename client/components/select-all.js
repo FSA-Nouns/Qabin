@@ -20,7 +20,7 @@ export class SelectAll extends Component {
     if (!this.state.clicked) {
       this.props.selectAll(this.props.tableName)
       this.setState({clicked: true})
-      // Object.keys(this.props.table.headers).forEach((field) => this.props.addFieldElement(this.props.tableName, field))
+      
     } else {
       this.props.unselectAll(this.props.tableName)
       this.setState({clicked: false})
@@ -38,11 +38,11 @@ export class SelectAll extends Component {
   render() {
     return (
       <Button
-        variant="contained"
-        color={this.state.clicked ? 'primary' : 'default'}
+        variant={this.state.clicked ? 'outlined' : 'outlined'}
+        color={this.state.clicked ? 'secondary' : 'inherit'}
         onClick={() => this.handleClick()}
       >
-        Select All Fields
+        {this.state.clicked ? 'Unselect All Fields' : 'Select All Fields'}
       </Button>
     )
   }

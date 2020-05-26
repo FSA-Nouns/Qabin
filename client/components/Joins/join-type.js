@@ -2,16 +2,15 @@ import React from 'react'
 import {Typography, Tooltip} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
-// import JoinTooltips, {JoinTypeHints} from './join-tooltips'
 
 export const JoinTypeHints = [
-  'Left nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Left - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Right nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Right - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Full nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'Full - OUTER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
-  'INNER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs'
+  'Left - It includes all the data in the main table as well as common data in Joined Table',
+  'Left Outer - It includes only data in the main table that has no overlap data in Joined Table',
+  'Right  - It includes all the data in the Joined table as well as common data in Main Table',
+  'Right Outer - It includes only data in the Joined table that has no overlap data in Main Table',
+  'Full - It includes all the data in the Main table as well as all the data in Joined Table',
+  'Full OUTER - It includes only data which has no overlap in either the Main Table or the Joined table',
+  'INNER - It only includes overlap common data in Main and Joined Tables'
 ]
 
 export default function JoinTypes(props) {
@@ -27,20 +26,15 @@ export default function JoinTypes(props) {
       position: 'relative',
       height: 150,
       [theme.breakpoints.down('xs')]: {
-        width: '100% !important', // Overrides inline-style
+
+        width: '100% !important',
         height: 150
       },
       '&:hover, &$focusVisible, &$onClick': {
         zIndex: 1,
-        '& $imageBackdrop': {
-          // opacity: '0'
-        },
-        '& $imageMarked': {
-          // opacity: '0'
-        },
-        '& $imageTitle': {
-          // border: '4px solid currentColor'
-        }
+        '& $imageBackdrop': {},
+        '& $imageMarked': {},
+        '& $imageTitle': {}
       }
     },
     focusVisible: {},
@@ -80,8 +74,9 @@ export default function JoinTypes(props) {
       padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) +
         6}px`,
       color: 'black',
-      border: '0px solid white',
-      fontWeight: '400'
+      fontSize: '12px',
+      border: '0px solid white'
+      // font-weight: '400px'
     }
   }))
 

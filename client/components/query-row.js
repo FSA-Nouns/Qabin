@@ -99,7 +99,7 @@ const parseField = field => {
     return field
   }
 }
-
+//trunc( abc )
 const getOperator = operator => {
   if (
     operator === 'contains' ||
@@ -159,7 +159,7 @@ class QueryRow extends Component {
 
     let filterArray = [
       this.props.tableData.headers[this.props.field] === 'date'
-        ? `trunc(${this.props.field})`
+        ? `${this.props.field}`
         : this.props.field,
       operator,
       value

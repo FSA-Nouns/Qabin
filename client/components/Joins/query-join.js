@@ -12,18 +12,11 @@ import {
   setJoinColumnElement
 } from '../../store/query'
 import {Typography} from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
 import {useStyles, tileData} from './join-styles'
 import Divider from '@material-ui/core/Divider'
-import {makeStyles} from '@material-ui/styles'
-import {theme} from '../../theme'
-import ButtonBase from '@material-ui/core/ButtonBase'
 import JoinTypes from './join-type'
-import {Column1, Column2} from './join-column1'
-// import {joinCounter} from './join-modal'
+import {Column1, Column2} from './join-column'
 
-// let joinType
 class Join extends React.Component {
   constructor(props) {
     super(props)
@@ -33,10 +26,9 @@ class Join extends React.Component {
       table1: this.props.table1,
       table2: this.props.table2,
       column1: this.props.column1,
-      column2: this.props.column2,
-      clear: false
+      column2: this.props.column2
     }
-    // this.handleClear = this.handleClear.bind(this)
+
     this.handleJoinTable = this.handleJoinTable.bind(this)
     this.handleJoinType = this.handleJoinType.bind(this)
     this.handleColumnElement = this.handleColumnElement.bind(this)
@@ -48,22 +40,6 @@ class Join extends React.Component {
       table1: this.props.data.tableName
     })
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.clear !== this.props.clear) {
-  //     this.setState({
-  //       clear: nextProps.clear
-  //     })
-  //   } else {
-  //     this.setState({clear: false})
-  //   }
-  // }
-
-  // handleClear(table, index, joinId) {
-  //   event.preventDefault()
-  //   if (this.state.join === true && this.props.clear === true) {
-  //     this.props.removeJoinTable(table, index, joinId)
-  //   }
-  // }
 
   //Check if that table exists - YES: update selection, NO: add selection
   handleJoinTable(event, index, joinId) {
@@ -81,8 +57,7 @@ class Join extends React.Component {
   }
 
   handleJoinType(title, index, joinId) {
-    // event.preventDefault()
-    console.log('event in join type', title)
+    
     let joinArray = title
     let table = this.props.data.tableName
     if (this.state.join === true) {
@@ -128,7 +103,6 @@ class Join extends React.Component {
             defaultValue=""
             onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
-            {/* <MenuItem value=""> Select Table to Connect </MenuItem> */}
             {this.props.data.tableDatas
               .filter(
                 table => Object.keys(table)[0] !== this.props.data.tableName

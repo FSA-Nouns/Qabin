@@ -45,7 +45,7 @@ function parseWhere(table, whereArr) {
     if (index === whereArr.length - 1) {
       string += `${table}.${field} ${operator} ${value}`
     } else {
-      string += `${table}.${field} ${operator} ${value} AND `
+      string += `${table}.${field} ${operator} ${value} AND`
     }
     return string
   }, ' ')

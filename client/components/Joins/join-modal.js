@@ -8,18 +8,9 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import {Grid, Typography, Button, AppBar, Tooltip} from '@material-ui/core'
 import JoinSteps from './join-steps'
 import Join from './query-join'
-// import {white} from '@material-ui/core/colors'
-// import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
-// import Drawer from '@material-ui/core/Drawer'
-// import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
-// import ListItem from '@material-ui/core/ListItem'
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
-// import DownArrow from '@material-ui/icons/ArrowDownward'
-// import LeftArrow from '@material-ui/icons/ArrowBack'
-// import RightArrow from '@material-ui/icons/ArrowForward'
-// import UpArrow from '@material-ui/icons/ArrowUpward'
 import {removeJoinTable, addJoinTable} from '../../store/query'
 
 export const CompletingPreviousJoinHint = [
@@ -42,7 +33,6 @@ class JoinWindow extends React.Component {
       open: false,
       clear: false,
       scroll: 'paper',
-      joinCount: '',
       descriptionElementRef: null,
       join: false
     }
@@ -81,12 +71,12 @@ class JoinWindow extends React.Component {
           : ''
     )
     table = this.props.data.tableName
+
     joins = this.props.queryBundle[table].join
-    console.log(joins, 'Joins after cleanup')(
-      joins.length === 0
-        ? this.setState({join: false, open: false})
-        : this.setState({open: false})
-    )
+
+    joins.length === 0
+      ? this.setState({join: false, open: false})
+      : this.setState({open: false})
   }
 
   handleClear() {
@@ -137,8 +127,8 @@ class JoinWindow extends React.Component {
         {/*Visible on query page (via Single-table) to enter the Joins Modal*/}
         <Button
           onClick={() => this.handleClickOpen()}
-          variant={this.state.join ? 'text' : 'outlined'}
-          color="secondary"
+          variant={this.state.join ? 'outlined' : 'outlined'}
+          color={this.state.join ? 'secondary' : 'inherit'}
         >
           {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
@@ -291,17 +281,12 @@ class JoinWindow extends React.Component {
                       </Button>
                     </Fragment>
                   )} */}
-              {/* </Grid>
-              </Grid> */}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-            {/* <Button onClick={this.handleSave} color="primary">
-              Save
-            </Button> */}
             <Button onClick={this.handleClose} color="primary">
               Done
             </Button>
