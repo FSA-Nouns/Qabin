@@ -51,7 +51,7 @@ class AggregateSelector extends Component {
 
   toggleColor(aggType) {
     console.log(aggType, 'aggType')
-    if (!!this.state.aggType) {
+    if (!!this.state.aggType.length) {
       colorToggle[aggType] = false
     } else {
       colorToggle[aggType] = true
