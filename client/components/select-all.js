@@ -38,11 +38,11 @@ export class SelectAll extends Component {
   render() {
     return (
       <Button
-        variant="contained"
-        color={this.state.clicked ? 'primary' : 'default'}
+        variant={this.state.clicked ? 'outlined' : 'outlined'}
+        color={this.state.clicked ? 'secondary' : 'inherit'}
         onClick={() => this.handleClick()}
       >
-        Select All Fields
+        {this.state.clicked ? 'Unselect All Fields' : 'Select All Fields'}
       </Button>
     )
   }

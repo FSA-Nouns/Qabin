@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {limitTo, reset, clearlimitTo} from '../store/query'
 import AutorenewIcon from '@material-ui/icons/Autorenew'
 import DeleteIcon from '@material-ui/icons/Delete'
+import CancelIcon from '@material-ui/icons/Cancel'
+// import CloseIcon from '@material-ui/icons/Close';
 
 import {
   Button,
@@ -60,12 +62,12 @@ class QueryLimit extends Component {
               <Input name="limit" id={this.props.tableName} />
               <br />
               <Button
-                variant="contained"
-                color="primary"
+                variant={this.state.limit !== '' ? 'outlined' : 'contained'}
+                color={this.state.limit !== '' ? 'secondary' : 'primary'}
                 size="small"
                 type="submit"
               >
-                Set Limit
+                {this.state.limit !== '' ? 'Limit Set' : 'Set Limit'}
               </Button>
             </FormControl>
           </form>
@@ -79,7 +81,8 @@ class QueryLimit extends Component {
               color="alert"
               aria-label="clear limit"
             >
-              <CloseIcon />
+              {/* <CloseIcon /> */}
+              <CancelIcon />
             </IconButton>
           </Grid>
         ) : (

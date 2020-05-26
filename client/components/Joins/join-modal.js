@@ -137,8 +137,8 @@ class JoinWindow extends React.Component {
         {/*Visible on query page (via Single-table) to enter the Joins Modal*/}
         <Button
           onClick={() => this.handleClickOpen()}
-          variant={this.state.join ? 'text' : 'outlined'}
-          color="secondary"
+          variant={this.state.join ? 'outlined' : 'outlined'}
+          color={this.state.join ? 'secondary' : 'inherit'}
         >
           {this.state.join === true ? 'Connected data' : 'Connect data'}
         </Button>
