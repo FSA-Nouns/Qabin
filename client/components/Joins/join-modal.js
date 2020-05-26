@@ -70,7 +70,6 @@ class JoinWindow extends React.Component {
           ? this.props.removeJoinTable(this.props.data.tableName, 0, joinId)
           : ''
     )
-
     table = this.props.data.tableName
 
     joins = this.props.queryBundle[table].join
@@ -288,7 +287,6 @@ class JoinWindow extends React.Component {
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-
             <Button onClick={this.handleClose} color="primary">
               Done
             </Button>

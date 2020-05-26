@@ -21,18 +21,6 @@ const deletedTable = table => ({
   table
 })
 
-export const deleteUserTable = (user, table) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get(`/api/tables/${user.id}/delete/${table}`)
-
-      dispatch(deletedTable(table))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 export const getUserTables = user => {
   return async dispatch => {
     try {
@@ -40,6 +28,18 @@ export const getUserTables = user => {
 
       dispatch(getTables(data.userTableDatas))
       dispatch(setTables(data.userTablesNames))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const deleteUserTable = (user, table) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/tables/${user.id}/delete/${table}`)
+
+      dispatch(deletedTable(table))
     } catch (error) {
       console.log(error)
     }

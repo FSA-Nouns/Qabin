@@ -98,6 +98,7 @@ export default function JoinSteps() {
         Save and proceed to select the fields from each table to visualize
         results.
       </Typography>
+
     </div>
   )
 

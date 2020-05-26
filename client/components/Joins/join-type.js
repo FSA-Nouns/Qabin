@@ -26,6 +26,7 @@ export default function JoinTypes(props) {
       position: 'relative',
       height: 150,
       [theme.breakpoints.down('xs')]: {
+
         width: '100% !important',
         height: 150
       },

@@ -28,6 +28,7 @@ class Join extends React.Component {
       column1: this.props.column1,
       column2: this.props.column2
     }
+
     this.handleJoinTable = this.handleJoinTable.bind(this)
     this.handleJoinType = this.handleJoinType.bind(this)
     this.handleColumnElement = this.handleColumnElement.bind(this)
@@ -56,7 +57,7 @@ class Join extends React.Component {
   }
 
   handleJoinType(title, index, joinId) {
-    console.log('event in join type', title)
+    
     let joinArray = title
     let table = this.props.data.tableName
     if (this.state.join === true) {

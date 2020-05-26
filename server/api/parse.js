@@ -51,7 +51,7 @@ router.post('/:userId', isUserMiddleware, (req, res, next) => {
     let nameArr = []
     getFile.forEach(file => {
       let fileName = file.split('/') // to get the file name for the table name
-      fileName = fileName[fileName.length - 1].split('.') //gettting last leg of the path of the file name
+      fileName = fileName[fileName.length - 1].split('.') //getting last leg of the path of the file name
       // parse(`user${req.params.userId}_${fileName[0]}`, file) //use last leg of the file name to convert it into a table name in addition to the user.id identifier
       nameArr.push(`user${req.params.userId}_${fileName[0]}`.toLowerCase())
     })
@@ -61,7 +61,7 @@ router.post('/:userId', isUserMiddleware, (req, res, next) => {
   }
 })
 
-// was a GET route before switching to Phttps://github.com/bradtraversy/design-resources-for-developersUT for partial parse
+// was a GET route before switching to https://github.com/bradtraversy/design-resources-for-developersUT for partial parse
 router.put('/:userId/:tableNames', isUserMiddleware, async (req, res, next) => {
   try {
     const hold = () => {
