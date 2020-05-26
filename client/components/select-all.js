@@ -38,7 +38,7 @@ export class SelectAll extends Component {
   render() {
     return (
       <Button
-        variant={this.state.clicked ? 'text' : 'outlined'}
+        variant={this.state.clicked ? 'outlined' : 'outlined'}
         color={this.state.clicked ? 'secondary' : 'inherit'}
         onClick={() => this.handleClick()}
       >
