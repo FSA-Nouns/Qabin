@@ -1,30 +1,11 @@
-import React, {Fragment} from 'react'
-import {connect} from 'react-redux'
+import React from 'react'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import {
-  addJoinTable,
-  removeJoinTable,
-  setJoinType,
-  setJoinColumnElement
-} from '../../store/query'
-import {Typography} from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import {useStyles, tileData} from './join-styles'
-import Divider from '@material-ui/core/Divider'
-import {makeStyles} from '@material-ui/styles'
-import {theme} from '../../theme'
-import ButtonBase from '@material-ui/core/ButtonBase'
-import JoinTypes from './join-type'
-// import {joinCounter} from './join-modal'
 
-// let joinType
 export function Column1(props) {
-  console.log('props.column1', props.column1)
   return (
     <FormControl spacing="1" fullWidth>
       <InputLabel id="Column-Table-1" minWidth="500">
@@ -48,7 +29,6 @@ export function Column1(props) {
           )
         }
       >
-        {/* <MenuItem> Select Column 1 </MenuItem> */}
         {props.data.tableDatas.map(table => {
           if (table[props.table1] !== undefined) {
             return Object.keys(table[props.table1].rows[0]).map(column => (
@@ -75,7 +55,6 @@ export function Column2(props) {
       <Select
         labelId="Column-Table-2"
         id="Column-Table-2"
-        // value={event.target.value}
         onChange={event =>
           props.handleColumnElement(
             props.table1,
@@ -87,7 +66,6 @@ export function Column2(props) {
         }
         defaultValue={props.Column2}
       >
-        {/* <MenuItem>Select Column 2 </MenuItem> */}
         {props.data.tableDatas.map(table => {
           if (table[props.table2] !== undefined) {
             return Object.keys(table[props.table2].rows[0]).map(column => (

@@ -1,6 +1,5 @@
 import React from 'react'
 import {Typography} from '@material-ui/core'
-import {SimpleCard} from '../home'
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
 import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
@@ -47,7 +46,6 @@ export default function JoinSteps() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {/* <SimpleCard> */}
       <Typography variant="h6" style={{padding: '20px'}}>
         STEPS
       </Typography>
@@ -100,7 +98,6 @@ export default function JoinSteps() {
         Save and proceed to select the fields from each table to visualize
         results.
       </Typography>
-      {/* </SimpleCard> */}
     </div>
   )
 
