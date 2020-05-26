@@ -20,7 +20,7 @@ function queryParser(table, queryObj, queryBundle) {
     } else if (parameter === 'orderBy') {
       orderBy += parseOrderBy(table, queryObj[parameter])
     } else if (parameter === 'limit') {
-      limit += parseLimit(table, queryObj[parameter])
+      limit += parseLimit(queryObj[parameter])
     }
   })
   query += `${fields} ${appendJoinedFields(
@@ -161,7 +161,9 @@ function parseOrderBy(table, orderByArray) {
 
 // the limit parameter stores a 1-element array with the desired limit as it's value
 function parseLimit(limitArr) {
-  let query = limitArr.length ? ` LIMIT ${limitArr[0]}` : ''
+  let query = limitArr.length
+    ? ` LIMIT ${Math.abs(parseInt(limitArr[0], 10))}`
+    : ''
   return query
 }
 
