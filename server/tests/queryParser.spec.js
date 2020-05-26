@@ -14,40 +14,69 @@ const {
 const table = 'example_table_name'
 
 const queryObj1 = {
-  fields: ['age', 'units', 'products', 'SUM(total)'],
+  fields: [
+    'prouct_name',
+    'color',
+    'price',
+    'user_id',
+    'product_id',
+    'description'
+  ],
   where: [
     ['age', '<', '1'],
     ['units', '', 'IS NOT NULL'],
     ['product', 'LIKE', '%cat%']
   ],
-  groupBy: ['product', 'units', 'age'],
-  orderBy: [{age: 'DESC'}, {product: ''}],
+  join: [
+    'user3_orders',
+    'INNER',
+    'user3_products.user_id',
+    'user3_orders.user_id'
+  ],
   limit: ['5']
 }
 
 const queryBundle1 = {
-  user3_orders: {
-    fields: ['age', 'units', 'products', 'SUM(total)'],
+  user3_products: {
+    fields: [
+      'prouct_name',
+      'color',
+      'price',
+      'user_id',
+      'product_id',
+      'description'
+    ],
     where: [
       ['age', '<', '1'],
       ['units', '', 'IS NOT NULL'],
+      ['product', 'LIKE', '%cat%']
+    ],
+    join: [
+      'user3_orders',
+      '',
+      'user3_products.user_id',
+      'user3_orders.user_id'
+    ],
+    limit: ['5']
+  },
+  user3_orders: {
+    fields: ['product', 'total', 'user_id'],
+    where: [
+      ['total', '>', '1'],
+      ['user_id', '', 'IS NOT NULL'],
       ['product', 'LIKE', '%cat%']
     ],
     groupBy: ['product', 'units', 'age'],
     orderBy: [{age: 'DESC'}, {product: ''}],
     limit: ['5']
   },
-  user3_users: {},
-  user3_products: {}
+  user3_users: {}
 }
-
-const queryBundle2 = {user3_orders: {}, user3_users: {}, user3_products: {}}
-
-describe('queryParser', () => {
-  it('Converts a querybundle object into a correctly ordered and formatted SQL query', () => {
-    expect(queryParser(table, queryObj1, queryBundle1)).to.equal('')
-  })
-})
+// describe('queryParser', () => {
+//   it('Converts a querybundle object into a correctly ordered and formatted SQL query', () => {
+//     expect(queryParser(table, queryObj1, queryBundle1)).to.equal('')
+//   })
+// })
 describe('parseWhere', function() {
   it('Returns an empty string if no conditions are specified', () => {
     expect(parseWhere('example_table_name', [])).to.equal(' ')
@@ -94,8 +123,8 @@ describe('parseWhere', function() {
   })
 })
 describe('parseFields', function() {
-  it('Returns an empty string if no conditions are specified', () => {
-    expect(parseFields(table, [''])).to.equal('')
+  it('Returns the tablename appended with a period if no conditions are specified', () => {
+    expect(parseFields(table, [''])).to.equal(`${table}. `)
   })
   it('Parses out the fields to be selected, and pre-pends the tablename from which to select', () => {
     expect(parseFields(table, ['age', 'units', 'products', 'total'])).to.equal(
@@ -111,20 +140,49 @@ describe('parseFields', function() {
   })
 })
 describe('parseAggregate', function() {
-  it('Returns an empty string if no conditions are specified', () => {
-    expect(parseAggregate('')).to.equal('')
+  it('Re-arrange aggregate function strings to pre-pend table name to field, then alias', () => {
+    expect(parseAggregate('SUM(price)', table)).to.equal(
+      'SUM(example_table_name.price) AS sumOfprice'
+    )
+    expect(parseAggregate('COUNT(price)', table)).to.equal(
+      'COUNT(example_table_name.price) AS countOfprice'
+    )
+    expect(parseAggregate('AVG(price)', table)).to.equal(
+      'AVG(example_table_name.price) AS avgOfprice'
+    )
+    expect(parseAggregate('MIN(price)', table)).to.equal(
+      'MIN(example_table_name.price) AS minOfprice'
+    )
+    expect(parseAggregate('MAX(price)', table)).to.equal(
+      'MAX(example_table_name.price) AS maxOfprice'
+    )
   })
 })
 describe('parseJoin', function() {
-  it('Returns an empty string if no conditions are specified', () => {
-    expect(parseJoin('')).to.equal('')
+  it('Parses the join parameter for each join requested, and parses each join to specify the foreign table, primary key and foreign key', () => {
+    expect(
+      parseJoin(
+        table,
+        [
+          [
+            'user3_orders',
+            'INNER',
+            'user3_products.user_id',
+            'user3_orders.user_id'
+          ]
+        ],
+        queryBundle1
+      )
+    ).to.equal(
+      ' INNER JOIN user3_orders ON user3_products.user_id = user3_orders.user_id '
+    )
   })
 })
-describe('appendJoinedFields', function() {
-  it('Returns an empty string if no conditions are specified', () => {
-    expect(appendJoinedFields('')).to.equal('')
-  })
-})
+// describe('appendJoinedFields', function() {
+//   it('Returns an empty string if no conditions are specified', () => {
+//     expect(appendJoinedFields('')).to.equal('')
+//   })
+// })
 describe('parseGroupBy', function() {
   it('Returns an empty string if no conditions are specified', () => {
     expect(parseGroupBy(table, [])).to.equal('')

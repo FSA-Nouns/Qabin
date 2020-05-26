@@ -62,7 +62,6 @@ const tableReducer = (state = initialState, action) => {
         if (
           !uniques.find(tab => Object.keys(tab)[0] === Object.keys(table)[0])
         ) {
-          console.log('arepushing?')
           uniques.push(table)
         }
         return uniques

@@ -9,7 +9,7 @@ function SimpleCard(props) {
   const useStyles1 = makeStyles({
     root: {
       margin: 15,
-      padding: 5
+      padding: 15
     },
     title: {
       fontSize: 14
@@ -53,6 +53,9 @@ export class TableSelection extends Component {
             <Typography component="span" variant="h5" align="justify">
               Select Tables:
             </Typography>
+          </Grid>
+          <Grid>
+            <br />
           </Grid>
           <Grid item>
             <Grid container spacing={1} direction="row">

@@ -36,14 +36,20 @@ export class QueryResult extends Component {
             {this.props.resultTables.length ? (
               <ResultTabs
                 dataVizStyle={this.state.dataVizStyle}
-                resultTables={this.props.resultTables}
+                resultTables={this.props.resultTables.filter(table =>
+                  this.props.selectedTables.includes(Object.keys(table)[0])
+                )}
               />
             ) : (
               <Typography variant="h3">No tables to display</Typography>
             )}
           </Grid>
           <Grid item>
-            <QueryTabs resultTables={this.props.resultTables} />
+            <QueryTabs
+              resultTables={this.props.resultTables.filter(table =>
+                this.props.selectedTables.includes(Object.keys(table)[0])
+              )}
+            />
           </Grid>
         </Grid>
         {/* </div> */}
@@ -53,7 +59,8 @@ export class QueryResult extends Component {
 }
 
 const mapStateToProps = state => ({
-  resultTables: state.result
+  resultTables: state.result,
+  selectedTables: state.selectedTables
 })
 
 const mapDispatchToProps = {}

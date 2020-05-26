@@ -46,13 +46,11 @@ function getStepContent(stepIndex) {
 let stepsArr = ['/home', '/editData', '/queryBuilder', '/results']
 
 export default function ProgressionBar(props) {
-  console.log(props.location.pathname)
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(props.location.pathname)
   const steps = getSteps()
 
   React.useEffect(() => {
-    console.log('tested')
     if (props.location.pathname !== activeStep) {
       setActiveStep(props.location.pathname)
     }

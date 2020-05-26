@@ -95,12 +95,21 @@ function parseFields(table, fieldsArr) {
 //<---add reducer ann action creators to include the last leg of the select clauses.
 function parseJoin(table, joinArr, queryBundle) {
   let query = ''
+
   joinArr.map(join => {
     if (join.length !== 0) {
-      return (query += ` ${join[1]} JOIN ${join[0]} ON ${join[2]} = ${
-        join[3]
-      } `)
-    } else return 100
+      query += ` ${join[1]} JOIN ${join[0]} ON ${join[2]} = ${join[3]} `
+      if (`${join[1]}` === 'LEFT OUTER') {
+        query += `WHERE ${join[3]} IS NULL `
+      } else if (`${join[1]}` === 'RIGHT OUTER') {
+        query += `WHERE ${join[2]} IS NULL `
+      } else if (`${join[1]}` === 'FULL OUTER') {
+        query += `WHERE ${join[2]} or ${join[2]} IS NULL `
+      } else {
+        query += ''
+      }
+      return query
+    } else return ''
   })
   return joinArr.length !== 0 && query !== undefined ? query : ''
 }

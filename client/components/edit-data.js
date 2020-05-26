@@ -118,7 +118,7 @@ export class EditData extends Component {
             </Grid>
           </Grid>
         ) : (
-          <p>No tables to display</p>
+          <div>No tables to display</div>
         )}
       </Grid>
     )

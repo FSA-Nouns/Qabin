@@ -1,13 +1,29 @@
+import axios from 'axios'
+import AxiosMockAdapter from 'axios-mock-adapter'
 import Enzyme from 'enzyme'
 import Adapter, {shallow} from 'enzyme-adapter-react-16'
-import axios from 'axios'
-import sinon from 'sinon'
-import AxiosMockAdapter from 'axios-mock-adapter'
-import {tables, queryResultTables, mockResDataObj} from './testData'
+import {
+  table,
+  tables,
+  tableNames,
+  queryResultTables,
+  mockResDataObj,
+  fileNames,
+  filePaths,
+  newFileNames
+} from './testData.js'
 
+/**
+ * The enzyme adapter "adapts" its functions to the specific version of React
+ * you are using (in our current case, react 16). This is necessary as breaking
+ * changes in React's internal implementations (which enzyme utilizes) may be
+ * introduced with each major version.
+ */
 Enzyme.configure({adapter: new Adapter()})
 
 const mock = new AxiosMockAdapter(axios)
+const user = {id: 1}
+const userId = 1
 
 /*editData.js getTables thunk. Sends userId, files and filenames; 
 received tables (result of cvs parsing)
@@ -46,19 +62,3 @@ mock
     filepaths: filePaths
   })
   .reply(201, mockResDataObj)
-
-describe('SinglePuppy Component', () => {
-  let wrapper
-  let listAll = sinon.spy()
-  beforeEach('set up wrapper', () => {
-    wrapper = shallow(<SinglePuppy puppy={puppy} listAll={listAll} />)
-  })
-
-  it("displays the puppy's name, age, and photo", () => {
-    const img = wrapper.find('img')
-    expect(img.html()).to.include(puppy.image)
-    const text = wrapper.text()
-    expect(text).to.include(puppy.name)
-    expect(text).to.include(puppy.age)
-  })
-})

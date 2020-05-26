@@ -9,20 +9,31 @@ import {
   selectAll,
   unselectAll
 } from '../store/query'
+
+import FilterForm from './filter-form'
+
 import {
-  Grid,
   Checkbox,
   FormControlLabel,
-  TextField,
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
   Paper,
-  Chip
+  Chip,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  TextField,
+  Grid
 } from '@material-ui/core'
+import DateFnsUtils from '@date-io/date-fns'
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker
+} from '@material-ui/pickers'
+
+import {makeStyles} from '@material-ui/core/styles'
 
 let operatorDict = dataType => ({
   '>=': 'at least',
@@ -103,11 +114,11 @@ const getOperator = operator => {
   }
 }
 
-const getDateValue = (year, month, day, operator) => {
+const getDateValue = (operator, condition) => {
   if (operator === 'IS NOT NULL') {
     return 'IS NOT NULL'
   }
-  return `${year}-${month}-${day}`
+  return condition.match(/\d{4}-\d{2}-\d{2}/g)[0]
 }
 
 const getValue = (operator, value) => {
@@ -135,20 +146,16 @@ class QueryRow extends Component {
   }
 
   // eslint-disable-next-line complexity
-  filterElement(event) {
+  filterElement(op, cond) {
     event.preventDefault()
-    let operator = getOperator(event.target.operator.value)
+    console.dir(event.target)
+    let operator = getOperator(op)
 
     //if field is a data, build the data string, if its not, get the value of the field, changing accordingly to operator
     let value =
       this.props.tableData.headers[this.props.field] !== 'date'
-        ? getValue(event.target.operator.value, event.target.condition.value)
-        : getDateValue(
-            event.target.year.value,
-            event.target.month.value,
-            event.target.day.value,
-            event.target.operator.value
-          )
+        ? getValue(op, cond)
+        : getDateValue(op, cond)
 
     let filterArray = [
       this.props.tableData.headers[this.props.field] === 'date'
@@ -220,7 +227,6 @@ class QueryRow extends Component {
   }
 
   render() {
-    console.log('CHECKED ON Q-ROW', this.state.checked)
     return (
       <TableRow>
         <TableCell align="left" scope="row">
@@ -234,8 +240,9 @@ class QueryRow extends Component {
             label={this.props.field}
           />
         </TableCell>
-        <TableCell align="right">
+        <TableCell align="left">
           <FilterForm
+            field={this.props.field}
             filterElement={this.filterElement}
             dataType={this.props.tableData.headers[this.props.field]}
           />
@@ -291,81 +298,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryRow)
-
-function FilterForm(props) {
-  const [formOpen, toggleForm] = useState(false)
-
-  return (
-    <form className="filter-form" onSubmit={props.filterElement}>
-      <FilterFormDataSelect dataType={props.dataType} />
-      <FilterFormInput dataType={props.dataType} />
-      <button type="submit">Add</button>
-    </form>
-  )
-}
-// date upto from before after
-//component to display filter operators accordingly to dataType of the field
-function FilterFormDataSelect(props) {
-  return props.dataType === 'serial' ||
-    props.dataType === 'integer' ||
-    props.dataType === 'double precision' ||
-    props.dataType === 'int' ||
-    props.dataType === 'int' ||
-    props.dataType === 'float' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">equal to</option>
-      <option value="!=">not equal to</option>
-      <option value=">">greater than</option>
-      <option value=">=">at least</option>
-      <option value="<">less than</option>
-      <option value="<=">at most</option>
-      <option value="IS NOT NULL">Not Empty</option>
-    </select>
-  ) : props.dataType === 'text' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">equal to</option>
-      <option value="!=">not equal to</option>
-      <option value="contains">contains</option>
-      <option value="starts-with">starts with</option>
-      <option value="ends-with">ends with</option>
-      <option value="IS NOT NULL">Not Empty</option>
-    </select>
-  ) : props.dataType === 'bool' || props.dataType === 'boolean' ? (
-    <select name="operator">
-      <option value="null">Option</option>
-      <option value="=">IS</option>
-    </select>
-  ) : (
-    props.dataType === 'date' && (
-      <select name="operator">
-        <option value="null">Option</option>
-        <option value="=">equal to</option>
-        <option value="!=">not equal to</option>
-        <option value=">">after</option>
-        <option value=">=">from</option>
-        <option value="<">before</option>
-        <option value="<=">up to</option>
-        <option value="IS NOT NULL">Not Empty</option>
-      </select>
-    )
-  )
-}
-
-function FilterFormInput(props) {
-  return props.dataType === 'bool' ? (
-    <select name="condition">
-      <option value="true">TRUE</option>
-      <option value="false">FALSE</option>
-    </select>
-  ) : props.dataType === 'date' ? (
-    <Fragment>
-      <input name="year" placeholder="year - YYYY" />
-      <input name="month" placeholder="month - MM" />
-      <input name="day" placeholder="day - DD" />
-    </Fragment>
-  ) : (
-    <input name="condition" />
-  )
-}

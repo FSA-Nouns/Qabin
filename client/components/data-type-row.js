@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {addHeaderType} from '../store/editData'
 import {Button, Grid, Box} from '@material-ui/core'
-import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab'
+// import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab'
 import Crop75OutlinedIcon from '@material-ui/icons/Crop75Outlined'
 
 export class DataTypeRow extends Component {
@@ -41,7 +41,13 @@ export class DataTypeRow extends Component {
         this.props.element[0].toUpperCase() + this.props.element.slice(1)
     }
     return (
-      <Grid container direction="row" justify="center" wrap="nowrap">
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        wrap="nowrap"
+        disableGutters
+      >
         <Box
           width="10%"
           height="7%"
@@ -65,7 +71,8 @@ export class DataTypeRow extends Component {
               maxWidth: '80px',
               maxHeight: '45px',
               minWidth: '80px',
-              minHeight: '45px'
+              minHeight: '45px',
+              gutter: '0px'
             }}
             variant="contained"
             size="medium"

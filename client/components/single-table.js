@@ -3,8 +3,11 @@ import QueryRow from './query-row'
 import GroupBy from './query-group-by'
 import OrderBy from './query-order-by'
 import QueryLimit from './query-limit'
-import Join from './query-join'
+
+import JoinWindow from './Joins/join-modal'
+
 import SelectAll from './select-all'
+
 import AggregateSelector from './aggregate-selector'
 import {
   Grid,
@@ -26,7 +29,8 @@ import {makeStyles} from '@material-ui/styles'
 export default function SingleTable(props) {
   const useStyles = makeStyles(() => ({
     aggregateGrid: {
-      padding: 50,
+      padding: 15,
+      paddingRight: '1rem',
       paddingTop: 0
     },
     bottomSection: {
@@ -40,6 +44,15 @@ export default function SingleTable(props) {
     },
     outerGrid: {
       width: '100%'
+    },
+    firstCol: {
+      width: '40%'
+    },
+    middleCol: {
+      width: '20%'
+    },
+    lastCol: {
+      width: '40%'
     }
   }))
 
@@ -72,26 +85,28 @@ export default function SingleTable(props) {
               {props.tableName.slice(props.tableName.indexOf('_') + 1)}
             </Typography>
             <SelectAll table={props.tableData} tableName={props.tableName} />
-            {props.location.pathname === '/queryBuilder' ? (
-              <Join data={props} index={0} />
-            ) : (
-              ''
-            )}
-            {props.location.pathname === '/queryBuilder' ? (
-              <Join data={props} index={1} />
-            ) : (
-              ''
-            )}
+
+            {/*Joins Modal Entry point*/}
+            <Grid item>
+              <JoinWindow data={props} />
+            </Grid>
           </TableQueryHeader>
         </Grid>
+
         <Grid item name="Query table grid item" className={classes.outerGrid}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Field Options</TableCell>
-                  <TableCell align="right">Filter Options</TableCell>
-                  <TableCell align="right">Active Filters</TableCell>
+                  <TableCell className={classes.firstCol}>
+                    Field Options
+                  </TableCell>
+                  <TableCell className={classes.middleCol}>
+                    Filter Options
+                  </TableCell>
+                  <TableCell className={classes.lastCol} align="right">
+                    Active Filters
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
