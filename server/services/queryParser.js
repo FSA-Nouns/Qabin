@@ -3,7 +3,6 @@ function queryParser(table, queryObj, queryBundle) {
   let fields = ''
   let join = ''
   let where = ''
-  let appendedFields = ''
   let groupBy = ''
   let orderBy = ''
   let limit = ''

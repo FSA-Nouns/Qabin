@@ -2,8 +2,8 @@ import React from 'react'
 import {Typography, Tooltip} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
-// import JoinTooltips, {JoinTypeHints} from './join-tooltips'
 
+// Tooltip strings for each join type
 export const JoinTypeHints = [
   'Left nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
   'Left - Outer nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs',
@@ -14,6 +14,7 @@ export const JoinTypeHints = [
   'INNER nfnkfo;wnfo;wflfcfcmmvpmvdlkvldsmvdslkvldksnvlkdsnvlksdnvlsdknvldsnvldskvnsdlkvnsdlvnldsvnldsknvlsdkvndslvkndslnvdlskvnsdlkvndsklnvlsdknvs'
 ]
 
+// Styling classes for JoinTypes comp.
 export default function JoinTypes(props) {
   const useStyles = makeStyles(theme => ({
     root: {
@@ -89,7 +90,9 @@ export default function JoinTypes(props) {
 
   return (
     <div className={classes.root}>
+      {/* Mapping over each type of join */}
       {props.tileData.map((image, index) => (
+        // Tooltip comp. for each join type
         <Tooltip
           key={index}
           m={0}
@@ -99,6 +102,11 @@ export default function JoinTypes(props) {
           title={JoinTypeHints[index]}
           arrow
         >
+          {/* 
+            ButtonBase comp. renders a button with corresponding join-type
+            graphic and uses translucent Typography box to render join-type
+            title in.
+          */}
           <ButtonBase
             focusRipple
             key={image.title}

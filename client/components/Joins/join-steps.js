@@ -1,6 +1,5 @@
 import React from 'react'
 import {Typography} from '@material-ui/core'
-import {SimpleCard} from '../home'
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined'
 import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
@@ -8,6 +7,7 @@ import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 
+// Styles for use in JoinSteps comp.
 const useStyles = makeStyles({
   root: {
     fontColor: 'white'
@@ -21,6 +21,8 @@ const useStyles = makeStyles({
   }
 })
 
+// JoinSteps component renders analagous steps for JoinWindow comp,
+// accessed on user click on question mark icon in JoinWindow comp.
 export default function JoinSteps() {
   const classes = useStyles()
   const [state, setState] = React.useState({
@@ -100,7 +102,6 @@ export default function JoinSteps() {
         Save and proceed to select the fields from each table to visualize
         results.
       </Typography>
-      {/* </SimpleCard> */}
     </div>
   )
 

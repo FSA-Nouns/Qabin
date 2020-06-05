@@ -152,6 +152,7 @@ export class QueryData extends Component {
                   >
                     <SingleTable
                       tableData={singleTableData[table]}
+                      tableDatas={this.props.tableData}
                       index={index}
                       tableName={Object.keys(singleTableData)[0]}
                       location={this.props.location}

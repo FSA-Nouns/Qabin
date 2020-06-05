@@ -5,9 +5,11 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
+// Column1 stateless comp. renders column selection info
+// for table user initiates the join from.
 export function Column1(props) {
-  console.log('props.column1', props.column1)
   return (
+    // MUI FormControl comp. provides form input context for column selection
     <FormControl spacing="1" fullWidth>
       <InputLabel id="Column-Table-1" minWidth="500">
         {props.column1 === ''
@@ -15,6 +17,7 @@ export function Column1(props) {
           : props.column1.slice(props.column1.indexOf('.') + 1)}
       </InputLabel>
 
+      {/* MUI Select comp. renders select drop-down menu for different columns for initial join table */}
       <Select
         labelId="Column-Table-2"
         id="Column-Table-1"
@@ -30,7 +33,10 @@ export function Column1(props) {
           )
         }
       >
-        {/* <MenuItem> Select Column 1 </MenuItem> */}
+        {/* 
+          Mapping over columns available from initial table,
+          uses MUI MenuItem comp. for each column.
+        */}
         {props.data.tableDatas.map(table => {
           if (table[props.table1] !== undefined) {
             return Object.keys(table[props.table1].rows[0]).map(column => (
@@ -46,6 +52,8 @@ export function Column1(props) {
   )
 }
 
+// Column2 stateless comp. renders column selection info
+// for table user is trying to join to initial table
 export function Column2(props) {
   return (
     <FormControl className="formControl" spacing="1" fullWidth>
@@ -57,7 +65,6 @@ export function Column2(props) {
       <Select
         labelId="Column-Table-2"
         id="Column-Table-2"
-        // value={event.target.value}
         onChange={event =>
           props.handleColumnElement(
             props.table1,
@@ -69,7 +76,6 @@ export function Column2(props) {
         }
         defaultValue={props.Column2}
       >
-        {/* <MenuItem>Select Column 2 </MenuItem> */}
         {props.data.tableDatas.map(table => {
           if (table[props.table2] !== undefined) {
             return Object.keys(table[props.table2].rows[0]).map(column => (

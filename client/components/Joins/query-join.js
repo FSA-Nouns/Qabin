@@ -12,19 +12,21 @@ import {
   setJoinColumnElement
 } from '../../store/query'
 import {Typography} from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
 import {useStyles, tileData} from './join-styles'
 import Divider from '@material-ui/core/Divider'
-import {makeStyles} from '@material-ui/styles'
-import {theme} from '../../theme'
-import ButtonBase from '@material-ui/core/ButtonBase'
 import JoinTypes from './join-type'
 import {Column1, Column2} from './join-column1'
-// import {joinCounter} from './join-modal'
 
-// let joinType
+// Join comp. renders all JoinWindow comp. and handles all data exchange from
+// component to component/component to Redux
 class Join extends React.Component {
+  // State contains the following properties:
+  // join - boolean - true if join is set
+  // joinType - string - represents user-selected join type
+  // table1 - string - reference to table name on Redux store that user selected to perform join on
+  // table2 - string - reference to table name on Redux store that user selected to join on initial table
+  // column1 - string - reference to column from table1 that user would like to join on
+  // column12 - string - reference to column from table2 that user would like to join on
   constructor(props) {
     super(props)
     this.state = {
@@ -33,39 +35,23 @@ class Join extends React.Component {
       table1: this.props.table1,
       table2: this.props.table2,
       column1: this.props.column1,
-      column2: this.props.column2,
-      clear: false
+      column2: this.props.column2
     }
-    // this.handleClear = this.handleClear.bind(this)
     this.handleJoinTable = this.handleJoinTable.bind(this)
     this.handleJoinType = this.handleJoinType.bind(this)
     this.handleColumnElement = this.handleColumnElement.bind(this)
-    this.handleJoinInfo = this.handleJoinInfo.bind(this)
   }
 
+  // Each time component renders we set table1 to the table
+  // passed in via props
   componentDidMount() {
     this.setState({
       table1: this.props.data.tableName
     })
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.clear !== this.props.clear) {
-  //     this.setState({
-  //       clear: nextProps.clear
-  //     })
-  //   } else {
-  //     this.setState({clear: false})
-  //   }
-  // }
 
-  // handleClear(table, index, joinId) {
-  //   event.preventDefault()
-  //   if (this.state.join === true && this.props.clear === true) {
-  //     this.props.removeJoinTable(table, index, joinId)
-  //   }
-  // }
-
-  //Check if that table exists - YES: update selection, NO: add selection
+  //handleJoinTable checks if that table exists
+  // - YES: update selection, NO: add selection
   handleJoinTable(event, index, joinId) {
     event.preventDefault()
     let joinArray = event.target.value
@@ -80,8 +66,8 @@ class Join extends React.Component {
     }
   }
 
+  // handleJoinType handles user selection of join type from table1 to table2
   handleJoinType(title, index, joinId) {
-    // event.preventDefault()
     let joinArray = title
     let table = this.props.data.tableName
     if (this.state.join === true) {
@@ -92,15 +78,12 @@ class Join extends React.Component {
     }
   }
 
+  // handleColumnElement handles user selection of column for either table1 or table2
   handleColumnElement(table1, table2, event, index, joinId) {
     event.preventDefault()
     let joinArray = `${table2}.${event.target.value}`
     this.props.setJoinColumnElement(table1, joinArray, index, joinId)
     this.setState({[`column${index - 1}`]: `${event.target.value}`})
-  }
-
-  handleJoinInfo(event) {
-    event.preventDefault()
   }
 
   render() {
@@ -116,10 +99,12 @@ class Join extends React.Component {
       joinQuery !== '' && joinQuery !== undefined
         ? joinQuery.slice(joinQuery.indexOf('_') + 1)
         : 'Table'
-    const classes = useStyles
 
     return (
       <Fragment>
+        {/* 
+          MUI FormControl comp. provides form input context for table selection
+        */}
         <FormControl fullWidth align spacing={2}>
           <InputLabel id="Join-Table-1">{chosenTable}</InputLabel>
           <Select
@@ -127,7 +112,7 @@ class Join extends React.Component {
             defaultValue=""
             onChange={event => this.handleJoinTable(event, 0, this.props.index)}
           >
-            {/* <MenuItem value=""> Select Table to Connect </MenuItem> */}
+            {/* Mapping over each table, filtering those that match tableName prop., and rendering MenuItems for each of them */}
             {this.props.data.tableDatas
               .filter(
                 table => Object.keys(table)[0] !== this.props.data.tableName
@@ -143,6 +128,7 @@ class Join extends React.Component {
           <FormHelperText>Table to Join</FormHelperText>
         </FormControl>
 
+        {/* Check if user has selected table for table2 */}
         {this.state.table2 !== '' ? (
           <Fragment>
             <Divider style={{margin: '10px'}} />
@@ -161,6 +147,7 @@ class Join extends React.Component {
               Hover over each type to learn more
             </Typography>
 
+            {/* JoinTypes comp. handle user selection of join type between table1 and table2 */}
             <JoinTypes
               handleJoinType={this.handleJoinType}
               index={this.props.index}
@@ -172,6 +159,7 @@ class Join extends React.Component {
           ''
         )}
 
+        {/* Check if joinType selected */}
         {this.state.joinType !== '' ? (
           <Fragment>
             <Divider style={{margin: '10px'}} />
@@ -184,6 +172,7 @@ class Join extends React.Component {
                 is common with ${table2.slice(table2.indexOf('_') + 1)} table?`}
             </Typography>
 
+            {/* Rendering column1 comp. */}
             <Column1
               data={this.props.data}
               index={this.props.index}
@@ -196,6 +185,7 @@ class Join extends React.Component {
           ''
         )}
 
+        {/* Check if column1 selected */}
         {this.state.column1 !== '' ? (
           <Fragment>
             <Divider style={{margin: '10px'}} />
@@ -208,6 +198,7 @@ class Join extends React.Component {
               )} table?`}
             </Typography>
 
+            {/* Render column2 comp. to display column2 selection data */}
             <Column2
               data={this.props.data}
               index={this.props.index}

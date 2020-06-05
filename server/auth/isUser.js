@@ -1,6 +1,7 @@
 const {User} = require('../db/models')
 
 const isUserMiddleware = async (req, res, next) => {
+  console.log(req.user)
   const currentUser = await User.findOne({
     where: {id: req.params.userId}
   })

@@ -26,14 +26,23 @@ let joinCounter = [0],
   table,
   joins
 
+// JoinWindow class provides a window pop-up to guide user
+// through the table-joining process.
 class JoinWindow extends React.Component {
+  // State contains the following properties:
+  // open - boolean - true if pop-up window is open, false otherwise
+  // clear - boolean - true if all join data has been cleared by the user; set
+  // to false upon user adding a table to join
+  // scroll - string - used to identify scroll type for Dialog box
+  // descriptionElementRef - string - ref for descriptionElement
+  // join - boolean - true if JoinWindow comp. is open and stays true if user submits a join
+  // to query, otherwise, it is false
   constructor(props) {
     super(props)
     this.state = {
       open: false,
       clear: false,
       scroll: 'paper',
-      joinCount: '',
       descriptionElementRef: null,
       join: false
     }
@@ -42,9 +51,9 @@ class JoinWindow extends React.Component {
     this.handleReset = this.handleReset(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleAddJoin = this.handleAddJoin.bind(this)
-    // this.handleRemoveJoin = this.handleRemoveJoin.bind(this)
   }
 
+  // Upon component render,
   componentDidMount() {
     if (this.state.open) {
       let {current: descriptionElement} = this.state.descriptionElementRef
@@ -54,12 +63,13 @@ class JoinWindow extends React.Component {
     }
   }
 
+  // Upon opening component, we set open and join properties to true
   handleClickOpen() {
     this.setState({open: true, join: true})
   }
 
+  // Upon closing window, clears all the incomplete joins started by the user upon exiting
   handleClose() {
-    //clears all the incomplete joins started by the user upon exiting
     joinCount = []
     joins.map((join, index) => {
       Array.isArray(join) &&
@@ -72,16 +82,16 @@ class JoinWindow extends React.Component {
           : ''
     )
     table = this.props.data.tableName
-    joins = this.props.queryBundle[table].join
-    console.log(joins, 'Joins after cleanup')(
+    joins = this.props.queryBundle[table].join(
       joins.length === 0
         ? this.setState({join: false, open: false})
         : this.setState({open: false})
     )
   }
 
+  // Upon clear button clikc, we clear all the information from joins array in store
+  // and set join prop. on state to false and clear prop. on state to true
   handleClear() {
-    //clears all the information from joins array in store
     joins.map((join, index) => {
       this.props.removeJoinTable(this.props.data.tableName, 0, index)
     })
@@ -91,10 +101,14 @@ class JoinWindow extends React.Component {
     this.setState({clear: true})
   }
 
+  // On reset button click, we set clear prop. on state too false
   handleReset() {
     this.setState({clear: false})
   }
 
+  // Upon submitting a new join, this function sets the clear prop. on state
+  // to false. Then, we add the joining table to the Redux store and
+  // increment the Join counter array to account for newly initiated join.
   handleAddJoin(event) {
     event.preventDefault()
     this.setState({clear: false})
@@ -105,16 +119,8 @@ class JoinWindow extends React.Component {
       0,
       joinCounter.length
     )
-    // increment the Join counter array to account for newly initiated join
-    joinCounter = [...joinCounter, 0](console.log(joinCounter, 'joinCounter'))
+    joinCounter = [...joinCounter, 0]
   }
-
-  // handleRemoveJoin() {
-  //   let joinId = this.joinCount - 1
-  //   joinCounter.pop()
-  //   this.props.removeJoinTable(this.props.data.tableName, 0, joinId)
-  //   this.setState({joinCount: joinCounter.length})
-  // }
 
   render() {
     table = this.props.data.tableName
@@ -258,38 +264,12 @@ class JoinWindow extends React.Component {
                   </Button>
                 </Fragment>
               )}
-
-              {/* {this.state.joinCount > 1 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      padding="100px"
-                      margin="100px"
-                      onClick={() => this.handleRemoveJoin}
-                    >
-                      Remove last connection!
-                    </Button>
-                  ) : (
-                    <Fragment>
-                      <Typography variant="h2" />
-                      <Button variant="contained" color="secondary"
-                      onClick={() => this.handleRemoveJoin}
-                      >
-                      Remove last connection!
-                      </Button>
-                    </Fragment>
-                  )} */}
-              {/* </Grid>
-              </Grid> */}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClear} color="primary">
               Clear
             </Button>
-            {/* <Button onClick={this.handleSave} color="primary">
-              Save
-            </Button> */}
             <Button onClick={this.handleClose} color="primary">
               Done
             </Button>
@@ -315,6 +295,7 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinWindow)
 
+// JoinHeader component styles
 function JoinHeader(props) {
   const useStyles = makeStyles({
     root: {

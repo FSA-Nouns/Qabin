@@ -1,23 +1,16 @@
 import React, {Component, useState} from 'react'
 import {connect} from 'react-redux'
 import {removeFieldElement, addFieldElement} from '../store/query'
-
-
-
 import {
   Chip,
   Grid,
-  Button,
   Select,
   FormControl,
-  InputLabel,
   MenuItem,
-  IconButton,
-  Box
+  IconButton
 } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {makeStyles} from '@material-ui/styles'
-
 
 class AggregateSelector extends Component {
   constructor(props) {
@@ -95,89 +88,6 @@ class AggregateSelector extends Component {
               />
             )
           })}
-          {/* <Grid item>
-            <AggregateForm className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-            <form className="avg-filter-form" onSubmit={this.toggleAgg}>
-              <button type="submit" name="agg" value="AVG">
-                AVG
-              </button>
-              <select name="selector">
-                {numericFields.map((field, index) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </Grid>
-          <Grid item>
-            <form className="sum-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="SUM">
-                SUM
-              </button>
-              <select name="selector">
-                {numericFields.map((field, index) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </Grid>
-          <Grid item>
-            <form className="count-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="COUNT">
-                COUNT
-              </button>
-              <select name="selector">
-                {numericFields.map((field, index) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </Grid>
-          <Grid item>
-            <form className="min-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="MIN">
-                MIN
-              </button>
-              <select name="selector">
-                {numericFields.map((field, index) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </Grid>
-          <Grid item>
-            <form className="max-filter-form" onSubmit={this.toggleAgg}>
-              <button className="agg" type="submit" name="agg" value="MAX">
-                MAX
-              </button>
-              <select name="selector">
-                {numericFields.map((field, index) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </Grid> */}
         </Grid>
 
         <Grid

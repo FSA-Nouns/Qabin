@@ -1,14 +1,4 @@
-import React from 'react'
-import {red, blue} from '@material-ui/core/colors'
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  makeStyles
-} from '@material-ui/core/styles'
-
-// let theme = createMuiTheme();
-// theme = responsiveFontSizes(theme);
-
+// Setting styles for various items in JoinWindow and other Join-related comp.
 export const useStyles =
   // makeStyles(theme => (
   {
